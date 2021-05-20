@@ -1,0 +1,40 @@
+﻿{
+    "CodeGenerationMode": 0,
+    "ContextClassName": "PmDb",
+    "ContextNamespace": null,
+    "DefaultDacpacSchema": null,
+    "FilterSchemas": false,
+    "IncludeConnectionString": true,
+    "ModelNamespace": null,
+    "OutputContextPath": "",
+    "OutputPath": "Models",
+    "ProceduresReturnList": false,
+    "ProjectRootNamespace": "PluginManager.Data",
+    "Schemas": null,
+    "SelectedHandlebarsLanguage": 0,
+    "SelectedToBeGenerated": 0,
+    "Tables": [
+        {
+            "Name": "Folders",
+            "ObjectType": 0
+        },
+        {
+            "Name": "ZipFiles",
+            "ObjectType": 0
+        }
+    ],
+    "UiHint": "D:\\Projects\\WPF Projects\\PluginManager\\pmdb.sqlite",
+    "UseBoolPropertiesWithoutDefaultSql": false,
+    "UseDatabaseNames": false,
+    "UseDbContextSplitting": true,
+    "UseFluentApiOnly": false,
+    "UseHandleBars": false,
+    "UseInflector": true,
+    "UseLegacyPluralizer": true,
+    "UseNoConstructor": false,
+    "UseNoNavigations": false,
+    "UseNoObjectFilter": false,
+    "UseNodaTime": false,
+    "UseNullableReferences": false,
+    "UseSpatial": false
+}

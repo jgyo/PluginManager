@@ -1,0 +1,15 @@
+﻿<Window x:Class="PluginManager.Wpf.Windows.FolderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PluginManager.Wpf.Windows"
+        xmlns:views="clr-namespace:PluginManager.Wpf.Views"
+        xmlns:dt="clr-namespace:PluginManager.Core.ViewModels.DesignTime;assembly=PluginManager.Core"
+        d:DataContext="{d:DesignInstance Type=dt:FolderViewModelDesignTime, IsDesignTimeCreatable=True}"
+        mc:Ignorable="d"
+        Title="Folder Information" Height="450" Width="800">
+    <Grid>
+        <views:FolderView />
+    </Grid>
+</Window>
