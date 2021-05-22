@@ -65,6 +65,8 @@
         private void FolderView_Loaded(object sender, RoutedEventArgs e)
         {
             var win = Window.GetWindow(this);
+            if (win == null)
+                return;
             win.Closing += Win_Closing;
         }
 

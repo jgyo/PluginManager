@@ -7,6 +7,7 @@
         xmlns:views="clr-namespace:PluginManager.Wpf.Views"
         xmlns:dt="clr-namespace:PluginManager.Core.ViewModels.DesignTime;assembly=PluginManager.Core"
         d:DataContext="{d:DesignInstance Type=dt:FolderViewModelDesignTime, IsDesignTimeCreatable=True}"
+        Icon="..\Resources\Folder.ico"
         mc:Ignorable="d"
         Title="Folder Information" Height="450" Width="800">
     <Grid>

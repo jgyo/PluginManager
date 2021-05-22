@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PluginManager.Wpf" xmlns:views="clr-namespace:PluginManager.Wpf.Views"
+        Icon="Resources\plugin.ico"
         mc:Ignorable="d"
         Title="MSFS Folder Manager" Height="450" Width="800">
     <Grid>
