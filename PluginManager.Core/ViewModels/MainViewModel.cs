@@ -241,6 +241,20 @@
             OpenSetupRequested?.Invoke(this, new ViewModelEventArgs(suvm));
         }
 
+        public void ZipFileViewModelClosed(ZipFileViewModel zfvm)
+        {
+            // This event occurs when a FolderViewModel closes. The
+            // logic checks to see if it has been scheduled for deletion.
+            // If so, the view model is deleted from collection and the
+            // database.
+
+            if (zfvm?.DeleteScheduled == true)
+            {
+                ZipFileFolderCollection.Remove(zfvm);
+                DbCore.Delete(zfvm);
+            }
+        }
+
         /// <summary>
         /// Moves selected folders to the Community folder.
         /// </summary>
@@ -267,7 +281,7 @@
         /// <param name="e">The e<see cref="NotifyCollectionChangedEventArgs"/>.</param>
         private void SelectedZipFilesCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            RaisePropertyChanged("AreZipFilessSelected");
+            RaisePropertyChanged("AreZipFilesSelected");
             RaisePropertyChanged("IsOneZipFileSelected");
 
             if (IsOneZipFileSelected)

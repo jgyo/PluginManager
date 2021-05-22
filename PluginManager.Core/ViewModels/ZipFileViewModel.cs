@@ -197,6 +197,8 @@
             }
         }
 
+        public bool DeleteScheduled { get; internal set; }
+
         /// <summary>
         /// The GetModel.
         /// </summary>

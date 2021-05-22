@@ -23,7 +23,7 @@
             if (vm == null)
             {
                 vm = Locator.GetFolderViewModel();
-                vm.FolderId = 1001;
+                vm.FolderId = 101;
                 vm.FolderName = "Arphaxhad";
                 vm.InstallDate = DateTime.Now;
             }

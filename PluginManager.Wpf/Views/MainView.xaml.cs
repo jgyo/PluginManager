@@ -233,7 +233,11 @@
         /// <param name="e">The e<see cref="ViewModelEventArgs"/>.</param>
         private void Vm_EditZipFileRequested(object sender, ViewModelEventArgs e)
         {
-            throw new NotImplementedException();
+            var vm = e.ViewModel as ZipFileViewModel;
+            var win = new ZipFileWindow(vm);
+            win.ShowDialog();
+            var dc = Locator.MainViewModel;
+            dc.ZipFileViewModelClosed(vm);
         }
 
         /// <summary>

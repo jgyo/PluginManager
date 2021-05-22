@@ -5,6 +5,7 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:vm="clr-namespace:PluginManager.Core.ViewModels;assembly=PluginManager.Core"
              xmlns:dt="clr-namespace:PluginManager.Core.ViewModels.DesignTime;assembly=PluginManager.Core"
+             d:DataContext="{d:DesignInstance Type=vm:MainViewModel, IsDesignTimeCreatable=True}"
                   mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -205,7 +206,7 @@
                     <RowDefinition Height="3*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Folder Packages" FontSize="18" Margin="8,8,8,8" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Zip File Records" FontSize="18" Margin="8,8,8,8" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
                 <Button Style="{DynamicResource SetupButton}" Content="Setup" Grid.Column="1"
                 ToolTip="Setup program resources."
                 Command="{Binding OpenSetupCommand}"
@@ -266,7 +267,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
-                <GroupBox IsEnabled="{Binding AreZipFilesSelected}" Grid.Row="4" Header="Selected Items Options" Margin="8,8,0,8" BorderBrush ="{StaticResource GroupPanel.Static.BorderBrush}" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+                <GroupBox IsEnabled="{Binding AreZipFilesSelected}" Grid.Row="4" Header="Selected Zip File Record Options" Margin="8,8,0,8" BorderBrush ="{StaticResource GroupPanel.Static.BorderBrush}" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                     <Grid HorizontalAlignment="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -276,13 +277,16 @@
                         </Grid.ColumnDefinitions>
 
                         <Button Content="Install" Grid.Column="0" Margin="4" Width="100"
-                        ToolTip="Hide folders in selected items." />
+                                IsEnabled="{Binding IsOneZipFileSelected}"
+                                Command="{Binding }"
+                        ToolTip="Install the selected zip file." />
                         <Button  Content="Delete" Grid.Column="1" Margin="4" Width="100"
-                        ToolTip="Delete the selected folders." />
+                                 IsEnabled="{Binding AreZipFilesSelected}"
+                        ToolTip="Delete the selected zip file." />
                         <Button  Content="Edit" Grid.Column="2" Margin="4" Width="100"
-                        ToolTip="Edit the selected item." />
-                        <Button  Content="Open" Grid.Column="3" Margin="4" Width="100"
-                        ToolTip="Restore hidden folders in selected items." />
+                                 IsEnabled="{Binding IsOneZipFileSelected}"
+                                 Command="{Binding EditSelectedZipFileCommand}"
+                        ToolTip="Edit the selected zip file record." />
                     </Grid>
                 </GroupBox>
                     <Button Command="{Binding AddNewZipFileCommand}" Padding="16 8" Margin="0 0 8 0" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Add New"

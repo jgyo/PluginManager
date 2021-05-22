@@ -35,7 +35,7 @@
             <Label Grid.Row="0" Grid.Column="1" Content="{Binding PackageId, FallbackValue=100}" />
             <Label Grid.Row="1" Grid.Column="0" Content="Package Name" HorizontalAlignment="Right" />
             <Label Style="{DynamicResource NonEditBox}" Grid.Row="1" Grid.Column="1"
-                   Content="{Binding AddonName, FallbackValue='Folder Name'}"
+                   Content="{Binding Filename, FallbackValue='Folder Name'}"
                    ToolTip="Use the browse button beside &quot;Zip File Name&quot; to modify." VerticalAlignment="Stretch" />
             <Label Grid.Row="2" Grid.Column="0" Content="File Path" HorizontalAlignment="Right" />
             <Label Style="{DynamicResource NonEditBox}" Grid.Row="2" Grid.Column="1" Content="{Binding FilePath, FallbackValue='Folder Name'}" />
@@ -55,8 +55,9 @@
             <Label Grid.Row="7" Grid.Column="0" Content="File Size" HorizontalAlignment="Right" />
             <Label Style="{DynamicResource NonEditBox}" Grid.Row="7" Grid.Column="1" Content="{Binding FileSize}"  />
         </Grid>
-        <GroupBox Grid.Row="2" Header="Folder Options" HorizontalAlignment="Left" BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}" Margin="4,4,0,0">
+        <GroupBox Grid.Row="2" Header="Zip File Record Options" HorizontalAlignment="Left" BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}" Margin="4,4,0,0">
             <DockPanel LastChildFill="False">
+                <Button Content="Install" Width="100" Command="{Binding InstallCommand}" />
                 <Button Content="Delete" Width="100" Command="{Binding DeleteCommand}" />
             </DockPanel>
         </GroupBox>
