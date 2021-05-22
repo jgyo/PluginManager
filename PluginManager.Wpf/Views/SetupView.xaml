@@ -39,7 +39,7 @@
             <DockPanel LastChildFill="False" Margin="4">
                 <Button Command="{Binding AcceptChangesCommand}" Content="Okay" DockPanel.Dock="Right" Padding="16 8" IsEnabled="{Binding CanAcceptChanges}" />
             </DockPanel>
-            <TextBlock Text="{Binding IDataErrorInfo.Error}" />
+            <TextBlock Text="{Binding Error}" />
         </StackPanel>
     </Grid>
 </UserControl>

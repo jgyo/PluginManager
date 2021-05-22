@@ -22,6 +22,7 @@
             InitializeComponent();
 
             DataContextChanged += FolderView_DataContextChanged;
+            this.Loaded += FolderView_Loaded;
         }
 
         /// <summary>
@@ -36,6 +37,7 @@
                 vm.DeleteFolderRequested -= Vm_DeleteFolderRequested;
                 vm.HideFolderRequested -= Vm_HideFolderRequested;
                 vm.RestoreFolderRequested -= Vm_RestoreFolderRequested;
+                vm.DoneEditingRequested -= Vm_DoneEditingRequested;
             }
 
             vm = e.NewValue as FolderViewModel;
@@ -45,7 +47,25 @@
                 vm.DeleteFolderRequested += Vm_DeleteFolderRequested;
                 vm.HideFolderRequested += Vm_HideFolderRequested;
                 vm.RestoreFolderRequested += Vm_RestoreFolderRequested;
+                vm.DoneEditingRequested += Vm_DoneEditingRequested;
             }
+        }
+
+        private void Vm_DoneEditingRequested(object sender, EventArgs e)
+        {
+            var win = Window.GetWindow(this);
+            win.Close();
+        }
+
+        /// <summary>
+        /// Called once the control has been loaded into the window.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="RoutedEventArgs"/>.</param>
+        private void FolderView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var win = Window.GetWindow(this);
+            win.Closing += Win_Closing;
         }
 
         /// <summary>
@@ -67,7 +87,7 @@
                 FileOps.Delete(vm.FolderName, vm.IsHidden ? su.HiddenFilesFolder : su.CommunityFolder);
                 DbCore.Delete(vm);
 
-                var win = WpfHelper.FindWidow(this);
+                var win = Window.GetWindow(this);
                 Debug.Assert(win != null);
                 win.Close();
             }
@@ -118,6 +138,21 @@
                 FileOps.Restore(vm.FolderName, su.CommunityFolder, su.HiddenFilesFolder);
                 DbCore.Update(vm);
             }
+        }
+
+        /// <summary>
+        /// Cleans up event handlers when the window closes.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="System.ComponentModel.CancelEventArgs"/>.</param>
+        private void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var vm = DataContext as FolderViewModel;
+
+            vm.DeleteFolderRequested -= Vm_DeleteFolderRequested;
+            vm.HideFolderRequested -= Vm_HideFolderRequested;
+            vm.RestoreFolderRequested -= Vm_RestoreFolderRequested;
+            vm.DoneEditingRequested -= Vm_DoneEditingRequested;
         }
     }
 }

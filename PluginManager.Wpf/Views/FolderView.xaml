@@ -104,28 +104,25 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Id #" HorizontalAlignment="Right" />
-            <Label Grid.Row="0" Grid.Column="1" Content="{Binding Id, FallbackValue=100}" />
+            <Label Grid.Row="0" Grid.Column="1" Content="{Binding FolderId, FallbackValue=100}" />
             <Label Grid.Row="1" Grid.Column="0" Content="Folder Name" HorizontalAlignment="Right" />
-            <Label Margin="0,5,0,5" Padding="3,0,0,0" Grid.Row="1" Grid.Column="1"
-                   BorderBrush="{StaticResource TextBox.Static.Border}"
-                   BorderThickness="1" Content="{Binding FolderName, FallbackValue='Folder Name'}"
+            <Label Style="{DynamicResource NonEditBox}" Grid.Row="1" Grid.Column="1"
+                   Content="{Binding FolderName, FallbackValue='Folder Name'}"
                    ToolTip="Use the browse button beside &quot;Zip File Name&quot; to modify." />
-            <Label Grid.Row="2" Grid.Column="0" Content="Folder Name" HorizontalAlignment="Right" />
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FolderName, FallbackValue='Folder Name'}" />
-            <Label Grid.Row="3" Grid.Column="0"  Content="Version" HorizontalAlignment="Right" />
-            <TextBox Grid.Row="3" Grid.Column="1"  Text="{Binding Version, FallbackValue='Version'}" Width="150" HorizontalAlignment="Left" />
+            <Label Grid.Row="2" Grid.Column="0" Content="Install Date" HorizontalAlignment="Right" />
+            <Label Style="{DynamicResource NonEditBox}"  Grid.Row="2" Grid.Column="1" Content="{Binding InstallDate, FallbackValue='12/12/12 12:00:00'}" />
+            <Label Grid.Row="3" Grid.Column="0" Content="Hidden" HorizontalAlignment="Right" />
+            <Label Style="{DynamicResource NonEditBox}" Grid.Row="3" Grid.Column="1" Content="Yes" Foreground="Red" FontWeight="Bold" Visibility="{Binding IsHidden, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Label Style="{DynamicResource NonEditBox}" Grid.Row="3" Grid.Column="1" Content="No" Visibility="{Binding IsHidden, Converter={StaticResource BooleanToCollapsedConverter}}" />
             <Label Grid.Row="4" Grid.Column="0" Content="Zip File Name" />
-            <Label Margin="0,5,0,5" Padding="3,0,0,0" Grid.Row="4" Grid.Column="1"
-                    BorderBrush="{StaticResource TextBox.Static.Border}"
-                   BorderThickness="1" Content="{Binding PackageName, FallbackValue='Zip File Name'}"
-                   VerticalAlignment="Center"
-                    ToolTip="Use the browse button on the right to modify." />
-            <Button Grid.Row="4" Grid.Column="2" Content="Browse" VerticalAlignment="Center" />
-            <Label Grid.Row="5" Grid.Column="0" Content="Install Date" HorizontalAlignment="Right" />
-            <Label Grid.Row="5" Grid.Column="1" Content="{Binding InstallDate, FallbackValue='12/12/12 12:00:00'}" />
-            <Label Grid.Row="6" Grid.Column="0" Content="Hidden" HorizontalAlignment="Right" />
-            <Label Grid.Row="6" Grid.Column="1" Content="Yes" Foreground="Red" FontWeight="Bold" Visibility="{Binding IsHidden, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Label Grid.Row="6" Grid.Column="1" Content="No" Visibility="{Binding IsHidden, Converter={StaticResource BooleanToCollapsedConverter}}" />
+            <DockPanel Grid.Row="4" Grid.Column="1" >
+                <Button Content="Remove" Command="{Binding RemovePackageCommand}" IsEnabled="{Binding CanRemovePackage}" DockPanel.Dock="Right" Padding="4,4,4,4" Margin="8,0,0,0" />
+                <ComboBox ItemsSource="{Binding ZipFileFolderCollection}" SelectedItem="{Binding Package}" DisplayMemberPath="Filename" />
+            </DockPanel>
+            <Label Grid.Row="5" Grid.Column="0" Content="Plugin Name" HorizontalAlignment="Right" />
+            <Label Style="{DynamicResource NonEditBox}" Grid.Row="5" Grid.Column="1" Content="{Binding Package.AddonName, FallbackValue='Folder Name'}" />
+            <Label Grid.Row="6" Grid.Column="0" Content="Version" HorizontalAlignment="Right" />
+            <Label Style="{DynamicResource NonEditBox}" Grid.Row="6" Grid.Column="1"  Content="{Binding Package.Version, FallbackValue='Version'}" Width="150" HorizontalAlignment="Left" />
         </Grid>
         <GroupBox Grid.Row="2" Header="Folder Options" HorizontalAlignment="Left" BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}" Margin="4,4,0,0">
             <DockPanel LastChildFill="False">

@@ -1,5 +1,7 @@
 ﻿namespace PluginManager.Wpf.Views
 {
+    using Microsoft.Win32;
+    using Ookii.Dialogs.Wpf;
     using PluginManager.Core;
     using PluginManager.Core.EventHandlers;
     using PluginManager.Core.System;
@@ -43,6 +45,15 @@
         }
 
         /// <summary>
+        /// Converts a long path name into a simple folder name.
+        /// </summary>
+        /// <param name="folder">The v<see cref="string"/>.</param>
+        private static void ShortenName(ref string folder)
+        {
+            folder = Path.GetFileName(folder);
+        }
+
+        /// <summary>
         /// Handles the SelectionChanged event for folders.
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
@@ -82,16 +93,78 @@
                 vm.OpenSetupRequested += Vm_OpenSetupRequested;
                 vm.EditSelectedFolderRequested += Vm_EditSelectedFolderRequested;
                 vm.EditSelectedZipFileRequested += Vm_EditZipFileRequested;
+                vm.AddNewZipFileRequested += Vm_AddNewZipFileRequested;
             }
         }
 
         /// <summary>
-        /// Converts a long path name into a simple folder name.
+        /// The Vm_AddNewZipFileRequested.
         /// </summary>
-        /// <param name="folder">The v<see cref="string"/>.</param>
-        private static void ShortenName(ref string folder)
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
+        private void Vm_AddNewZipFileRequested(object sender, EventArgs e)
         {
-            folder = Path.GetFileName(folder);
+            var dia = new OpenFileDialog
+            {
+                AddExtension = false,
+                CheckFileExists = true,
+                Multiselect = true,
+                Title = "Find Zip Files to Add",
+                DereferenceLinks = true,
+                Filter = "zip files (*.zip, *.7z)|*.zip;*.7z|All files (*.*)|*.*",
+                FilterIndex = 1,
+                InitialDirectory = Locator.SetupViewModel.ZipFilesFolder
+            };
+            var result = dia.ShowDialog();
+
+            if (result == true)
+            {
+                var zipList = new List<ZipFileViewModel>();
+
+                foreach (var fullpath in dia.FileNames)
+                {
+                    var filename = Path.GetFileName(fullpath);
+                    var path = Path.GetDirectoryName(fullpath);
+                    var di = new FileInfo(fullpath);
+
+                    var zipFile = new ZipFileViewModel()
+                    {
+                        FileDate = di.CreationTime,
+                        Filename = filename,
+                        FilePath = path,
+                        AddedDate = DateTime.Now,
+                        FileSize = di.Length
+                    };
+
+                    zipList.Add(zipFile);
+                }
+
+                DbCore.Add(zipList);
+                string fileItems = "";
+                foreach (var item in zipList)
+                {
+                    Locator.MainViewModel.ZipFileFolderCollection.Add(item);
+                    fileItems += Environment.NewLine + item.Filename;
+                }
+
+                string message;
+                string title;
+
+                var isSingle = zipList.Count == 1;
+
+                if(isSingle)
+                {
+                    message = $"One zip file was added:\n{fileItems}";
+                    title = "Zip File Added";
+                }
+                else
+                {
+                    message = $"These {zipList.Count} zip files were added:\n{fileItems}";
+                    title = "Zip Files Added";
+                }
+
+                App.Inform(title, message);
+            }
         }
 
         /// <summary>
@@ -107,8 +180,7 @@
             var selectedToDelete = new List<FolderViewModel>();
             foreach (var item in vm.SelectedFoldersCollection)
             {
-                if (item.IsHidden == false)
-                    selectedToDelete.Add(item);
+                selectedToDelete.Add(item);
             }
 
             var folderNames = Environment.NewLine +
@@ -132,9 +204,11 @@
                 foreach (var item in selectedToDelete)
                 {
                     FileOps.Delete(item.FolderName, item.IsHidden ? hiddenFolder : communityFolder);
+                    vm.FolderCollection.Remove(item);
                 }
 
                 DbCore.Delete(selectedToDelete);
+
             }
         }
 
@@ -336,18 +410,20 @@
 
             foreach (var item in hiddenFolderNames)
             {
-                var folder = Locator.MainViewModel.FolderCollection.Where(m => m.FolderName == item).First();
-                if (folder.IsHidden)
+                var folder = Locator.MainViewModel.FolderCollection.Where(m => m.FolderName == item).FirstOrDefault();
+                if (folder == null || folder.IsHidden)
                     continue;
+
                 folder.IsHidden = true;
                 temp.Add(folder);
             }
 
             foreach (var item in communityFolderNames)
             {
-                var folder = Locator.MainViewModel.FolderCollection.Where(m => m.FolderName == item).First();
-                if (!folder.IsHidden)
+                var folder = Locator.MainViewModel.FolderCollection.Where(m => m.FolderName == item).FirstOrDefault();
+                if (folder == null || !folder.IsHidden)
                     continue;
+
                 folder.IsHidden = false;
                 temp.Add(folder);
             }

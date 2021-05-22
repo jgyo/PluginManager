@@ -23,23 +23,28 @@
         /// </summary>
         public MainViewModel()
         {
-            SelectedFoldersCollection.CollectionChanged += SelectedFoldersCollection_CollectionChanged;
+            SelectedFoldersCollection.CollectionChanged  += SelectedFoldersCollection_CollectionChanged;
             SelectedZipFilesCollection.CollectionChanged += SelectedZipFilesCollection_CollectionChanged;
 
-            DeleteSelectedFoldersCommand = new Command(DeleteSelectedFolders);
-            EditSelectedFolderCommand = new Command(EditSelectedFolder);
-            EditSelectedZipFileCommand = new Command(EditSelectedZipFile);
-            HideSelectedFoldersCommand = new Command(HideSelectedFolders);
-            OpenSetupCommand = new Command(OpenSetup);
+            DeleteSelectedFoldersCommand  = new Command(DeleteSelectedFolders);
+            EditSelectedFolderCommand     = new Command(EditSelectedFolder);
+            EditSelectedZipFileCommand    = new Command(EditSelectedZipFile);
+            HideSelectedFoldersCommand    = new Command(HideSelectedFolders);
+            OpenSetupCommand              = new Command(OpenSetup);
             RestoreSelectedFoldersCommand = new Command(RestoreSelectedFolders);
-            SynchronizeDataBaseCommand = new Command(SynchronizeDataBase);
+            SynchronizeDataBaseCommand    = new Command(SynchronizeDataBase);
+            AddNewZipFileCommand          = new Command(AddNewZipFile);
         }
+
+        /// <summary>
+        /// Defines the AddNewZipFileRequested event.
+        /// </summary>
+        public event EventHandler AddNewZipFileRequested;
 
         /// <summary>
         /// Defines the DeleteSelectedItemsRequested event.
         /// </summary>
         public event EventHandler DeleteSelectedItemsRequested;
-
         /// <summary>
         /// Defines the EditSelectedFolderRequested event.
         /// </summary>
@@ -69,6 +74,8 @@
         /// Defines the SynchronizeDataBaseRequested event.
         /// </summary>
         public event EventHandler SynchronizeDataBaseRequested;
+
+        public ICommand AddNewZipFileCommand { get; }
 
         /// <summary>
         /// Gets a value indicating whether folders are selected.
@@ -110,7 +117,6 @@
         /// Gets the HideSelectedFoldersCommand.
         /// </summary>
         public ICommand HideSelectedFoldersCommand { get; }
-
         /// <summary>
         /// Gets a value indicating whether on folder is selected.
         /// </summary>
@@ -180,8 +186,14 @@
             }
         }
 
-        // Deletes the selected folders from the Hidden or Community
-        // folders and the Folders database.
+        /// <summary>
+        /// Adds a new zip file to the zip files collection.
+        /// </summary>
+        private void AddNewZipFile()
+        {
+            AddNewZipFileRequested?.Invoke(this, EventArgs.Empty);
+        }
+
         /// <summary>
         /// Deletes the selected folders from the Hidden or Community
         /// folders and the Folders database.
@@ -212,7 +224,6 @@
 
             EditSelectedZipFileRequested?.Invoke(this, new ViewModelEventArgs(vm));
         }
-
         /// <summary>
         /// Moves selected folders to the Hidden folder.
         /// </summary>

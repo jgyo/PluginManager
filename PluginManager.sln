@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.Wpf", "PluginManager.Wpf\PluginManager.Wpf.csproj", "{888F018A-A9D0-44A5-9BA7-978DD1917CC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBuilder", "DataBuilder\DataBuilder.csproj", "{7DC5286E-4170-4C62-8E61-DB92AE098070}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBuilder", "DataBuilder\DataBuilder.csproj", "{7DC5286E-4170-4C62-8E61-DB92AE098070}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

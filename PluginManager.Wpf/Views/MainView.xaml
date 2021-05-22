@@ -193,16 +193,12 @@
                         ToolTip="Edit the selected item." />
                     </Grid>
                 </GroupBox>
-                <Button Command="{Binding SynchronizeDataBaseCommand}" Padding="16 8" Margin="605,0,0,0" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Content="Synchronize"
+                <Button Command="{Binding SynchronizeDataBaseCommand}" Padding="16 8" Margin="8" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Content="Synchronize"
                 ToolTip="Synchronize database with existing install folders." />
             </Grid>
         </TabItem>
         <TabItem Header="Packages">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="35*" />
-                    <ColumnDefinition Width="759*" />
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="4*" />
@@ -221,12 +217,12 @@
                   AutoGenerateColumns="False" CanUserAddRows="False" Grid.ColumnSpan="2">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding PackageId}" IsReadOnly="True" />
-                        <DataGridTextColumn Header="Package Name" Binding="{Binding Filename}" IsReadOnly="False" />
+                        <DataGridTextColumn Header="Package Name" Binding="{Binding Filename}" IsReadOnly="True" />
                         <DataGridTextColumn Header="Product Name" Binding="{Binding AddonName}" IsReadOnly="False" />
                         <DataGridTextColumn Header="Version" Binding="{Binding Version}" IsReadOnly="False" />
                         <DataGridTextColumn Header="File Date" Binding="{Binding FileDate}" IsReadOnly="True" />
                         <DataGridTextColumn Header="Added Date" Binding="{Binding AddedDate}" IsReadOnly="True" />
-                        <DataGridTextColumn Header="File Path" Binding="{Binding FilePath}" IsReadOnly="False" />
+                        <DataGridTextColumn Header="File Path" Binding="{Binding FilePath}" IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
                 <GridSplitter Grid.Row="2" Grid.ColumnSpan="2" Height="5" Margin="8 0" Background="LightGray" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
@@ -289,10 +285,8 @@
                         ToolTip="Restore hidden folders in selected items." />
                     </Grid>
                 </GroupBox>
-                <!--
-                    <Button Command="{Binding SynchronizeDataBaseCommand}" Padding="16 8" Margin="0 0 8 0" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Synchronize"
-                ToolTip="Synchronize database with existing install folders." />
-                -->
+                    <Button Command="{Binding AddNewZipFileCommand}" Padding="16 8" Margin="0 0 8 0" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Add New"
+                ToolTip="Browse to and add a new zip file." />
             </Grid>
         </TabItem>
     </TabControl>

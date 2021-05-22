@@ -31,7 +31,7 @@
             {
                 try
                 {
-                    Directory.Delete(path);
+                    Directory.Delete(path, true);
                     log.Info($"{folderName} successfully deleted.");
                 }
                 catch (Exception e)
@@ -59,6 +59,7 @@
             try
             {
                 var fullname = Path.Combine(communityFolder, folderName);
+                hiddenFolder = Path.Combine(hiddenFolder, folderName);
                 Directory.Move(fullname, hiddenFolder);
             }
             catch (Exception e)
@@ -85,6 +86,7 @@
             try
             {
                 var fullname = Path.Combine(hiddenFolder, folderName);
+                communityFolder = Path.Combine(communityFolder, folderName);
                 Directory.Move(fullname, communityFolder);
             }
             catch (Exception e)

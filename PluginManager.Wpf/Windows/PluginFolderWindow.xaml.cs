@@ -1,7 +1,10 @@
 ﻿namespace PluginManager.Wpf.Windows
 {
+    using PluginManager.Core;
     using PluginManager.Core.ViewModels;
     using System;
+    using System.ComponentModel;
+    using System.Diagnostics;
     using System.Windows;
 
     /// <summary>
@@ -25,6 +28,19 @@
                 vm.InstallDate = DateTime.Now;
             }
             this.DataContext = vm;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            var vm = this.DataContext as FolderViewModel;
+            Debug.Assert(vm != null);
+
+            if(!vm.DeleteScheduled)
+            {
+                DbCore.Update(vm);
+            }
+
+            base.OnClosing(e);
         }
     }
 }

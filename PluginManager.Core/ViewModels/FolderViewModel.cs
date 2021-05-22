@@ -1,6 +1,7 @@
 ﻿namespace PluginManager.Core.ViewModels
 {
     using global::System;
+    using global::System.Collections.Generic;
     using global::System.Linq;
     using global::System.Windows.Input;
     using PluginManager.Core.Commands;
@@ -62,11 +63,24 @@
         public event EventHandler RestoreFolderRequested;
 
         /// <summary>
+        /// Gets the ZipFileFolderCollection.
+        /// </summary>
+        public static IEnumerable<ZipFileViewModel> ZipFileFolderCollection => Locator.MainViewModel.ZipFileFolderCollection.OrderBy(m => m.Filename.ToLower());
+
+        /// <summary>
         /// Gets a value indicating whether CanHide.
         /// </summary>
         public bool CanHide
         {
             get { return !IsHidden; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether CanRemovePackage.
+        /// </summary>
+        public bool CanRemovePackage
+        {
+            get { return Package != null; }
         }
 
         /// <summary>
@@ -145,7 +159,12 @@
         public ZipFileViewModel Package
         {
             get { return package; }
-            set { SetProperty(ref package, value); }
+            set
+            {
+                SetProperty(ref package, value);
+                PackageId = package?.PackageId;
+                RaisePropertyChanged("CanRemovePackage");
+            }
         }
 
         /// <summary>
@@ -154,8 +173,28 @@
         public long? PackageId
         {
             get { return packageId; }
-            set { SetProperty(ref packageId, value); }
+            set
+            {
+                var updatePackage = packageId != value;
+                SetProperty(ref packageId, value);
+                if (updatePackage)
+                {
+                    if (packageId == null)
+                    {
+                        Package = null;
+                        return;
+                    }
+
+                    var thePackage = Locator.MainViewModel.ZipFileFolderCollection.Where(m => m.PackageId == packageId).SingleOrDefault();
+                    Package = thePackage;
+                }
+            }
         }
+
+        /// <summary>
+        /// Gets the RemovePackageCommand.
+        /// </summary>
+        public ICommand RemovePackageCommand => new Command(RemovePackage);
 
         /// <summary>
         /// Gets the RestoreCommand.
@@ -163,21 +202,16 @@
         public ICommand RestoreCommand => new Command(Restore);
 
         /// <summary>
-        /// Gets or sets the PackageId.
-        /// </summary>
-        long? IFolderViewModel.PackageId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        /// <summary>
         /// The GetModel.
         /// </summary>
         /// <param name="folder">The folder<see cref="Folder"/>.</param>
         public void GetModel(Folder folder)
         {
-            FolderId = folder.FolderId;
+            FolderId    = folder.FolderId;
             InstallDate = folder.InstallDate;
-            FolderName = folder.FolderName;
-            IsHidden = folder.IsHidden;
-            PackageId = folder.PackageId;
+            FolderName  = folder.FolderName;
+            IsHidden    = folder.IsHidden;
+            PackageId   = folder.PackageId;
 
             Package = Locator.MainViewModel.ZipFileFolderCollection
                 .Where(m => m.PackageId == PackageId)
@@ -197,7 +231,6 @@
         /// </summary>
         private void DoneEditing()
         {
-            DbCore.Update(this);
             DoneEditingRequested?.Invoke(this, EventArgs.Empty);
         }
 
@@ -207,6 +240,14 @@
         private void Hide()
         {
             HideFolderRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// The RemovePackage.
+        /// </summary>
+        private void RemovePackage()
+        {
+            Package = null;
         }
 
         /// <summary>

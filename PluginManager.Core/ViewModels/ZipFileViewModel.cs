@@ -2,6 +2,8 @@
 {
     using global::System;
     using global::System.Collections.Generic;
+    using global::System.Windows.Input;
+    using PluginManager.Core.Commands;
     using PluginManager.Data.Models;
 
     /// <summary>
@@ -50,6 +52,21 @@
         private string version;
 
         /// <summary>
+        /// Defines the BrowseZipFileRequested.
+        /// </summary>
+        public event EventHandler BrowseZipFileRequested;
+
+        /// <summary>
+        /// Defines the DeleteZipFileRequested.
+        /// </summary>
+        public event EventHandler DeleteZipFileRequested;
+
+        /// <summary>
+        /// Defines the DoneEditingRequested.
+        /// </summary>
+        public event EventHandler DoneEditingRequested;
+
+        /// <summary>
         /// Gets or sets the AddedDate.
         /// </summary>
         public DateTime AddedDate
@@ -61,7 +78,6 @@
             }
         }
 
-        // 100 Characters
         /// <summary>
         /// Gets or sets the AddonName.
         /// </summary>
@@ -75,6 +91,24 @@
         }
 
         /// <summary>
+        /// Gets the BrowseZipFileCommand
+        /// Defines the BrowseZipFileCommand..
+        /// </summary>
+        public ICommand BrowseZipFileCommand => new Command(BrowseZipFile);
+
+        /// <summary>
+        /// Gets the DeleteZipFileCommand
+        /// Defines the DeleteZipFileCommand..
+        /// </summary>
+        public ICommand DeleteZipFileCommand => new Command(DeleteZipFile);
+
+        /// <summary>
+        /// Gets the DoneEditingCommand
+        /// Defines the DoneEditingCommand..
+        /// </summary>
+        public ICommand DoneEditingCommand => new Command(DoneEditing);
+
+        /// <summary>
         /// Gets or sets the FileDate.
         /// </summary>
         public DateTime FileDate
@@ -86,7 +120,6 @@
             }
         }
 
-        // 100 Characters
         /// <summary>
         /// Gets or sets the Filename.
         /// </summary>
@@ -99,7 +132,6 @@
             }
         }
 
-        // 256 characters
         /// <summary>
         /// Gets or sets the FilePath.
         /// </summary>
@@ -153,7 +185,6 @@
             }
         }
 
-        // 32 Characters
         /// <summary>
         /// Gets or sets the Version.
         /// </summary>
@@ -174,12 +205,36 @@
         {
             PackageId = zipFile.PackageId;
             AddedDate = zipFile.AddedDate;
-            FilePath = zipFile.FilePath;
-            Filename = zipFile.Filename;
-            FileDate = zipFile.FileDate;
-            FileSize = zipFile.FileSize;
+            FilePath  = zipFile.FilePath;
+            Filename  = zipFile.Filename;
+            FileDate  = zipFile.FileDate;
+            FileSize  = zipFile.FileSize;
             AddonName = zipFile.AddonName;
-            Version = zipFile.Version;
+            Version   = zipFile.Version;
+        }
+
+        /// <summary>
+        /// The BrowseZipFile.
+        /// </summary>
+        private void BrowseZipFile()
+        {
+            BrowseZipFileRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// The DeleteZipFile.
+        /// </summary>
+        private void DeleteZipFile()
+        {
+            DeleteZipFileRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// The DoneEditing.
+        /// </summary>
+        private void DoneEditing()
+        {
+            DoneEditingRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

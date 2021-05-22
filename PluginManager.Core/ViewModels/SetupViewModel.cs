@@ -11,6 +11,8 @@
     using PluginManager.Core.EventHandlers;
     using PluginManager.Core.Logging;
 
+
+
     public class SetupViewModel : ViewModel, IDataErrorInfo
     {
         private bool canAcceptChanges = false;

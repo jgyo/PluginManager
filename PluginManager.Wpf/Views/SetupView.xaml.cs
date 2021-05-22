@@ -31,17 +31,19 @@
                 this.DataContext = Locator.SetupViewModel;
                 Initialize(Locator.SetupViewModel);
             }
+
+            this.Loaded += SetupView_Loaded;
         }
 
-        // #SavesSetup
-        /// <summary>
-        /// Handles the AcceptChangesRequested event.
-        /// </summary>
-        /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="ViewModelEventArgs"/>.</param>
-        private void Setup_AcceptChangesRequested(object sender, ViewModelEventArgs e)
+        private void SetupView_Loaded(object sender, RoutedEventArgs e)
         {
-            var setup = e.ViewModel as SetupViewModel;
+            var win = Window.GetWindow(this);
+            win.Closing += Win_Closing;
+        }
+
+        private void Win_Closing(object sender, CancelEventArgs e)
+        {
+            var setup = DataContext as SetupViewModel;
             Debug.Assert(setup != null);
 
             AppSettings.Default.CommunityFolder = setup.CommunityFolder;
@@ -59,7 +61,16 @@
 
             setup.AcceptChangesRequested -= Setup_AcceptChangesRequested;
             setup.BrowseForFolderRequested -= Setup_BrowseForFolderRequested;
+        }
 
+        // #SavesSetup
+        /// <summary>
+        /// Handles the AcceptChangesRequested event.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="ViewModelEventArgs"/>.</param>
+        private void Setup_AcceptChangesRequested(object sender, ViewModelEventArgs e)
+        {
             var window = Window.GetWindow(this);
             window.Close();
         }
