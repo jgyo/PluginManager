@@ -5,6 +5,8 @@
     using PluginManager.Core.ViewModels;
     using System;
     using System.Drawing;
+    using System.IO;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -36,6 +38,7 @@
         /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void Vm_BrowseZipFileRequested(object sender, EventArgs e)
         {
+            // #ToDo
             throw new NotImplementedException();
         }
 
@@ -46,21 +49,49 @@
         /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void Vm_DeleteZipFileRequested(object sender, EventArgs e)
         {
+            var a = Assembly.GetExecutingAssembly();
+            var st = a.GetManifestResourceStream("PluginManager.Wpf.Resources.qmark.ico");
+            var qmark = new Icon(st);
 
             var win = new TaskDialog()
             {
                 WindowTitle = "Delete Requested",
                 MainIcon = TaskDialogIcon.Custom,
-                CustomMainIcon = Icon.ExtractAssociatedIcon("./Resources/question_mark_256.ico")
+                CustomMainIcon = qmark
             };
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete zip file." });
+
+            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete the zip file." });
             win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete the database record." });
             win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Delete both record and file.", Checked = true });
             win.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
             win.Buttons.Add(new TaskDialogButton(ButtonType.Ok));
             win.Content = "What do you want to delete?";
 
-            win.ShowDialog();
+            var result = win.ShowDialog();
+
+            if (result == null || result.ButtonType == ButtonType.Cancel)
+                return;
+
+            // #Complete
+
+            var option = win.RadioButtons[0].Checked ? 1 : win.RadioButtons[1].Checked ? 2 : 3;
+            switch (option)
+            {
+                case 1:
+                    System.Windows.Forms.MessageBox.Show("You selected to delete the zip file only.");
+                    break;
+                case 2:
+                    System.Windows.Forms.MessageBox.Show("You selected to delete the database record only.");
+                    break;
+                case 3:
+                    System.Windows.Forms.MessageBox.Show("You selected to delete both the zip file and the database record.");
+                    break;
+                default:
+                    throw new ArgumentException("Invalid radio button.");
+            }
+
+
+
         }
 
         /// <summary>
@@ -85,7 +116,7 @@
             var vm = DataContext as ZipFileViewModel;
             vm.BrowseZipFileRequested -= Vm_BrowseZipFileRequested;
             vm.DeleteZipFileRequested -= Vm_DeleteZipFileRequested;
-            vm.DoneEditingRequested -= Vm_DoneEditingRequested;
+            vm.DoneEditingRequested   -= Vm_DoneEditingRequested;
         }
 
         /// <summary>
@@ -99,7 +130,7 @@
             {
                 vm.BrowseZipFileRequested -= Vm_BrowseZipFileRequested;
                 vm.DeleteZipFileRequested -= Vm_DeleteZipFileRequested;
-                vm.DoneEditingRequested -= Vm_DoneEditingRequested;
+                vm.DoneEditingRequested   -= Vm_DoneEditingRequested;
             }
 
             vm = e.NewValue as ZipFileViewModel;
@@ -108,7 +139,7 @@
             {
                 vm.BrowseZipFileRequested += Vm_BrowseZipFileRequested;
                 vm.DeleteZipFileRequested += Vm_DeleteZipFileRequested;
-                vm.DoneEditingRequested += Vm_DoneEditingRequested;
+                vm.DoneEditingRequested   += Vm_DoneEditingRequested;
             }
 
             viewModel = DataContext as ZipFileViewModel;

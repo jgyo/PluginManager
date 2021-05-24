@@ -57,8 +57,8 @@
         </Grid>
         <GroupBox Grid.Row="2" Header="Zip File Record Options" HorizontalAlignment="Left" BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}" Margin="4,4,0,0">
             <DockPanel LastChildFill="False">
-                <Button Content="Install" Width="100" Command="{Binding InstallCommand}" />
-                <Button Content="Delete" Width="100" Command="{Binding DeleteCommand}" />
+                <Button Content="Install" Width="100" Command="{Binding InstallZipFileCommand}" />
+                <Button Content="Delete" Width="100" Command="{Binding DeleteZipFileCommand}" />
             </DockPanel>
         </GroupBox>
         <Button Content="Done" Grid.Row="2" Padding="16 8" Command="{Binding DoneEditingCommand}" HorizontalAlignment="Right" />

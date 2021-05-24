@@ -12,8 +12,10 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Windows.Controls;
 
     /// <summary>
@@ -86,15 +88,80 @@
         {
             if (vm != null)
             {
-                vm.DeleteSelectedItemsRequested += Vm_DeleteSelectedItemsRequested;
-                vm.HideSelectedItemsRequested += Vm_HideSelectedItemsRequested;
-                vm.RestoreSelectedItemsRequested += Vm_RestoreSelectedItemsRequested;
-                vm.SynchronizeDataBaseRequested += Vm_SynchronizeDataBaseRequested;
-                vm.OpenSetupRequested += Vm_OpenSetupRequested;
-                vm.EditSelectedFolderRequested += Vm_EditSelectedFolderRequested;
-                vm.EditSelectedZipFileRequested += Vm_EditZipFileRequested;
-                vm.AddNewZipFileRequested += Vm_AddNewZipFileRequested;
+                vm.DeleteSelectedFoldersRequested  += Vm_DeleteSelectedFoldersRequested;
+                vm.HideSelectedFoldersRequested      += Vm_HideSelectedFoldersRequested;
+                vm.RestoreSelectedItemsRequested   += Vm_RestoreSelectedFoldersRequested;
+                vm.SynchronizeDataBaseRequested    += Vm_SynchronizeDataBaseRequested;
+                vm.OpenSetupRequested              += Vm_OpenSetupRequested;
+                vm.EditSelectedFolderRequested     += Vm_EditSelectedFolderRequested;
+
+                vm.EditSelectedZipFileRequested    += Vm_EditZipFileRequested;
+                vm.AddNewZipFileRequested          += Vm_AddNewZipFileRequested;
+                vm.DeleteSelectedZipFilesRequested += Vm_DeleteSelectedZipFilesRequested;
+                vm.InstallSelectedZipFileRequested += Vm_InstallSelectedZipFileRequested;
             }
+        }
+
+        private void Vm_InstallSelectedZipFileRequested(object sender, EventArgs e)
+        {
+            // #ToDo
+            var vm = DataContext as MainViewModel;
+            Debug.Assert(vm != null);
+            Debug.Assert(vm.SelectedZipFilesCollection.Count == 1);
+            var zfr = vm.SelectedZipFilesCollection[0];
+            Debug.Assert(zfr != null);
+
+
+
+        }
+
+        private void Vm_DeleteSelectedZipFilesRequested(object sender, EventArgs e)
+        {
+            var vm = DataContext as MainViewModel;
+            var count = vm.SelectedZipFilesCollection.Count;
+
+            var message = $"You have {count} zip file(s) selected and have initiated the delete function. What do you want to do?";
+            var a = Assembly.GetExecutingAssembly();
+            var st = a.GetManifestResourceStream("PluginManager.Wpf.Resources.qmark.ico");
+            var qmark = new Icon(st);
+
+            var win = new TaskDialog()
+            {
+                WindowTitle = "Delete Requested",
+                MainIcon = TaskDialogIcon.Custom,
+                Content = message,
+                CustomMainIcon = qmark
+            };
+
+            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete zip files." });
+            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete database records." });
+            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Delete both records and files.", Checked = true });
+            win.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
+            win.Buttons.Add(new TaskDialogButton(ButtonType.Ok));
+
+            var result = win.ShowDialog();
+
+            if (result == null || result.ButtonType == ButtonType.Cancel)
+                return;
+
+            // #Complete
+
+            var option = win.RadioButtons[0].Checked ? 1 : win.RadioButtons[1].Checked ? 2 : 3;
+            switch (option)
+            {
+                case 1:
+                    System.Windows.Forms.MessageBox.Show("You selected to delete the zip file only.");
+                    break;
+                case 2:
+                    System.Windows.Forms.MessageBox.Show("You selected to delete the database record only.");
+                    break;
+                case 3:
+                    System.Windows.Forms.MessageBox.Show("You selected to delete both the zip file and the database record.");
+                    break;
+                default:
+                    throw new ArgumentException("Invalid radio button.");
+            }
+
         }
 
         /// <summary>
@@ -172,7 +239,7 @@
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
         /// <param name="e">The e<see cref="EventArgs"/>.</param>
-        private void Vm_DeleteSelectedItemsRequested(object sender, EventArgs e)
+        private void Vm_DeleteSelectedFoldersRequested(object sender, EventArgs e)
         {
             Debug.Assert(sender is MainViewModel);
             var vm = sender as MainViewModel;
@@ -245,7 +312,7 @@
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
         /// <param name="e">The e<see cref="EventArgs"/>.</param>
-        private void Vm_HideSelectedItemsRequested(object sender, EventArgs e)
+        private void Vm_HideSelectedFoldersRequested(object sender, EventArgs e)
         {
             Debug.Assert(sender is MainViewModel);
             var vm = sender as MainViewModel;
@@ -314,7 +381,7 @@
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
         /// <param name="e">The e<see cref="EventArgs"/>.</param>
-        private void Vm_RestoreSelectedItemsRequested(object sender, EventArgs e)
+        private void Vm_RestoreSelectedFoldersRequested(object sender, EventArgs e)
         {
             Debug.Assert(sender is MainViewModel);
             var vm = sender as MainViewModel;

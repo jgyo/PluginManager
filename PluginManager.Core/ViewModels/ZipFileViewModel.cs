@@ -96,12 +96,13 @@
         /// </summary>
         public ICommand BrowseZipFileCommand => new Command(BrowseZipFile);
 
+        public bool DeleteScheduled { get; internal set; }
+
         /// <summary>
         /// Gets the DeleteZipFileCommand
         /// Defines the DeleteZipFileCommand..
         /// </summary>
         public ICommand DeleteZipFileCommand => new Command(DeleteZipFile);
-
         /// <summary>
         /// Gets the DoneEditingCommand
         /// Defines the DoneEditingCommand..
@@ -173,6 +174,8 @@
             }
         }
 
+        public ICommand InstallZipFileCommand => new Command(InstallZipFile);
+
         /// <summary>
         /// Gets or sets the PackageId.
         /// </summary>
@@ -197,8 +200,6 @@
             }
         }
 
-        public bool DeleteScheduled { get; internal set; }
-
         /// <summary>
         /// The GetModel.
         /// </summary>
@@ -207,12 +208,12 @@
         {
             PackageId = zipFile.PackageId;
             AddedDate = zipFile.AddedDate;
-            FilePath  = zipFile.FilePath;
-            Filename  = zipFile.Filename;
-            FileDate  = zipFile.FileDate;
-            FileSize  = zipFile.FileSize;
+            FilePath = zipFile.FilePath;
+            Filename = zipFile.Filename;
+            FileDate = zipFile.FileDate;
+            FileSize = zipFile.FileSize;
             AddonName = zipFile.AddonName;
-            Version   = zipFile.Version;
+            Version = zipFile.Version;
         }
 
         /// <summary>
@@ -237,6 +238,11 @@
         private void DoneEditing()
         {
             DoneEditingRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void InstallZipFile()
+        {
+            // #ToDo
         }
     }
 }

@@ -26,14 +26,18 @@
             SelectedFoldersCollection.CollectionChanged  += SelectedFoldersCollection_CollectionChanged;
             SelectedZipFilesCollection.CollectionChanged += SelectedZipFilesCollection_CollectionChanged;
 
-            DeleteSelectedFoldersCommand  = new Command(DeleteSelectedFolders);
-            EditSelectedFolderCommand     = new Command(EditSelectedFolder);
-            EditSelectedZipFileCommand    = new Command(EditSelectedZipFile);
-            HideSelectedFoldersCommand    = new Command(HideSelectedFolders);
-            OpenSetupCommand              = new Command(OpenSetup);
-            RestoreSelectedFoldersCommand = new Command(RestoreSelectedFolders);
-            SynchronizeDataBaseCommand    = new Command(SynchronizeDataBase);
-            AddNewZipFileCommand          = new Command(AddNewZipFile);
+            OpenSetupCommand               = new Command(OpenSetup);
+
+            DeleteSelectedFoldersCommand   = new Command(DeleteSelectedFolders);
+            EditSelectedFolderCommand      = new Command(EditSelectedFolder);
+            HideSelectedFoldersCommand     = new Command(HideSelectedFolders);
+            RestoreSelectedFoldersCommand  = new Command(RestoreSelectedFolders);
+            SynchronizeDataBaseCommand     = new Command(SynchronizeDataBase);
+
+            InstallSelectedZipFilesCommand = new Command(InstallSelectedZipFile);
+            DeleteSelectedZipFileCommand   = new Command(DeleteSelectedZipFiles);
+            EditSelectedZipFileCommand     = new Command(EditSelectedZipFile);
+            AddNewZipFileCommand           = new Command(AddNewZipFile);
         }
 
         /// <summary>
@@ -44,7 +48,10 @@
         /// <summary>
         /// Defines the DeleteSelectedItemsRequested event.
         /// </summary>
-        public event EventHandler DeleteSelectedItemsRequested;
+        public event EventHandler DeleteSelectedFoldersRequested;
+
+        public event EventHandler DeleteSelectedZipFilesRequested;
+
         /// <summary>
         /// Defines the EditSelectedFolderRequested event.
         /// </summary>
@@ -58,7 +65,7 @@
         /// <summary>
         /// Defines the HideSelectedItemsRequested event.
         /// </summary>
-        public event EventHandler HideSelectedItemsRequested;
+        public event EventHandler HideSelectedFoldersRequested;
 
         /// <summary>
         /// Defines the OpenSetupRequested event.
@@ -69,6 +76,8 @@
         /// Defines the RestoreSelectedItemsRequested event.
         /// </summary>
         public event EventHandler RestoreSelectedItemsRequested;
+
+        public event EventHandler InstallSelectedZipFileRequested;
 
         /// <summary>
         /// Defines the SynchronizeDataBaseRequested event.
@@ -98,6 +107,8 @@
         /// </summary>
         public ICommand DeleteSelectedFoldersCommand { get; }
 
+        public ICommand DeleteSelectedZipFileCommand { get; }
+
         /// <summary>
         /// Gets the EditSelectedFolderCommand.
         /// </summary>
@@ -111,12 +122,15 @@
         /// <summary>
         /// Gets the FolderCollection.
         /// </summary>
-        public ObservableCollection<FolderViewModel> FolderCollection { get; private set; } = new Lazy<ObservableCollection<FolderViewModel>>(() => new ObservableCollection<FolderViewModel>()).Value;
+        public ObservableCollection<FolderViewModel> FolderCollection { get; } = new Lazy<ObservableCollection<FolderViewModel>>(() => new ObservableCollection<FolderViewModel>()).Value;
 
         /// <summary>
         /// Gets the HideSelectedFoldersCommand.
         /// </summary>
         public ICommand HideSelectedFoldersCommand { get; }
+
+        public ICommand InstallSelectedZipFilesCommand { get; }
+
         /// <summary>
         /// Gets a value indicating whether on folder is selected.
         /// </summary>
@@ -146,7 +160,7 @@
         /// <summary>
         /// Gets the SelectedFoldersCollection.
         /// </summary>
-        public ObservableCollection<FolderViewModel> SelectedFoldersCollection { get; private set; } = new Lazy<ObservableCollection<FolderViewModel>>(() => new ObservableCollection<FolderViewModel>()).Value;
+        public ObservableCollection<FolderViewModel> SelectedFoldersCollection { get; } = new Lazy<ObservableCollection<FolderViewModel>>(() => new ObservableCollection<FolderViewModel>()).Value;
 
         /// <summary>
         /// Gets the SelectedZipFile.
@@ -156,7 +170,7 @@
         /// <summary>
         /// Gets the SelectedZipFilesCollection.
         /// </summary>
-        public ObservableCollection<ZipFileViewModel> SelectedZipFilesCollection { get; private set; } = new Lazy<ObservableCollection<ZipFileViewModel>>(() => new ObservableCollection<ZipFileViewModel>()).Value;
+        public ObservableCollection<ZipFileViewModel> SelectedZipFilesCollection { get; } = new Lazy<ObservableCollection<ZipFileViewModel>>(() => new ObservableCollection<ZipFileViewModel>()).Value;
 
         /// <summary>
         /// Gets the SynchronizeDataBaseCommand.
@@ -166,7 +180,7 @@
         /// <summary>
         /// Gets the ZipFileFolderCollection.
         /// </summary>
-        public ObservableCollection<ZipFileViewModel> ZipFileFolderCollection { get; private set; } = new Lazy<ObservableCollection<ZipFileViewModel>>(() => new ObservableCollection<ZipFileViewModel>()).Value;
+        public ObservableCollection<ZipFileViewModel> ZipFileFolderCollection { get; } = new Lazy<ObservableCollection<ZipFileViewModel>>(() => new ObservableCollection<ZipFileViewModel>()).Value;
 
         /// <summary>
         /// Closes the folder view model.
@@ -186,6 +200,20 @@
             }
         }
 
+        public void ZipFileViewModelClosed(ZipFileViewModel zfvm)
+        {
+            // This event occurs when a FolderViewModel closes. The
+            // logic checks to see if it has been scheduled for deletion.
+            // If so, the view model is deleted from collection and the
+            // database.
+
+            if (zfvm?.DeleteScheduled == true)
+            {
+                ZipFileFolderCollection.Remove(zfvm);
+                DbCore.Delete(zfvm);
+            }
+        }
+
         /// <summary>
         /// Adds a new zip file to the zip files collection.
         /// </summary>
@@ -200,7 +228,15 @@
         /// </summary>
         private void DeleteSelectedFolders()
         {
-            DeleteSelectedItemsRequested?.Invoke(this, EventArgs.Empty);
+            DeleteSelectedFoldersRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Deletes one or more zip files and/or records.
+        /// </summary>
+        private void DeleteSelectedZipFiles()
+        {
+            DeleteSelectedZipFilesRequested?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -224,14 +260,19 @@
 
             EditSelectedZipFileRequested?.Invoke(this, new ViewModelEventArgs(vm));
         }
+
         /// <summary>
         /// Moves selected folders to the Hidden folder.
         /// </summary>
         private void HideSelectedFolders()
         {
-            HideSelectedItemsRequested?.Invoke(this, EventArgs.Empty);
+            HideSelectedFoldersRequested?.Invoke(this, EventArgs.Empty);
         }
 
+        private void InstallSelectedZipFile()
+        {
+            InstallSelectedZipFileRequested?.Invoke(this, EventArgs.Empty);
+        }
         /// <summary>
         /// Opens the setup window.
         /// </summary>
@@ -240,21 +281,6 @@
             var suvm = Locator.SetupViewModel;
             OpenSetupRequested?.Invoke(this, new ViewModelEventArgs(suvm));
         }
-
-        public void ZipFileViewModelClosed(ZipFileViewModel zfvm)
-        {
-            // This event occurs when a FolderViewModel closes. The
-            // logic checks to see if it has been scheduled for deletion.
-            // If so, the view model is deleted from collection and the
-            // database.
-
-            if (zfvm?.DeleteScheduled == true)
-            {
-                ZipFileFolderCollection.Remove(zfvm);
-                DbCore.Delete(zfvm);
-            }
-        }
-
         /// <summary>
         /// Moves selected folders to the Community folder.
         /// </summary>

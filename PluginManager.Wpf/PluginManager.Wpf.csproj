@@ -9,7 +9,7 @@
   <ItemGroup>
     <None Remove="Resources\folder.ico" />
     <None Remove="Resources\plugin.ico" />
-    <None Remove="Resources\question-mark-256.ico" />
+    <None Remove="Resources\qmark.ico" />
     <None Remove="Resources\setup.ico" />
     <None Remove="Resources\zip-file.ico" />
   </ItemGroup>
@@ -26,7 +26,7 @@
   <ItemGroup>
     <Resource Include="Resources\folder.ico" />
     <Resource Include="Resources\plugin.ico" />
-    <Resource Include="Resources\question-mark-256.ico" />
+    <EmbeddedResource Include="Resources\qmark.ico" />
     <Resource Include="Resources\setup.ico" />
     <Resource Include="Resources\zip-file.ico" />
   </ItemGroup>
