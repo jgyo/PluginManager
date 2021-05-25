@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\folder-directory-file-arrow-upload-up-document-512.png" />
     <None Remove="Resources\folder.ico" />
     <None Remove="Resources\plugin.ico" />
     <None Remove="Resources\qmark.ico" />
@@ -26,6 +27,7 @@
   <ItemGroup>
     <Resource Include="Resources\folder.ico" />
     <Resource Include="Resources\plugin.ico" />
+    <EmbeddedResource Include="Resources\folder-directory-file-arrow-upload-up-document-512.png" />
     <EmbeddedResource Include="Resources\qmark.ico" />
     <Resource Include="Resources\setup.ico" />
     <Resource Include="Resources\zip-file.ico" />

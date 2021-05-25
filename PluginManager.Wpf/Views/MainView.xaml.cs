@@ -89,7 +89,7 @@
             if (vm != null)
             {
                 vm.DeleteSelectedFoldersRequested  += Vm_DeleteSelectedFoldersRequested;
-                vm.HideSelectedFoldersRequested      += Vm_HideSelectedFoldersRequested;
+                vm.HideSelectedFoldersRequested    += Vm_HideSelectedFoldersRequested;
                 vm.RestoreSelectedItemsRequested   += Vm_RestoreSelectedFoldersRequested;
                 vm.SynchronizeDataBaseRequested    += Vm_SynchronizeDataBaseRequested;
                 vm.OpenSetupRequested              += Vm_OpenSetupRequested;

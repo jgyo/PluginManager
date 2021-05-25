@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="PluginManager.Wpf.Views.ZipArchiveView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PluginManager.Core.ViewModels;assembly=PluginManager.Core"
+             d:DataContext="{d:DesignInstance Type=vm:ZipArchiveViewModel, IsDesignTimeCreatable=False}"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Package:" />
+            <Label Content="{Binding FileName, FallbackValue='ZipFileName.zip'}" />
+            <Label Content="Path:" />
+            <Label Content="{Binding Path, FallbackValue='D:\\downloads'}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+            <Button HorizontalAlignment="Left" Margin="5,0,5,0" Padding="0,0,0,0">
+                <Image Source="\Resources\folder-directory-file-arrow-upload-up-document-512.png" Width="16" />
+            </Button>
+            <Label Content="Directory:" />
+            <Label Content="{Binding SelectedDirectory.FullName, FallbackValue='\{Root\}'}" />
+        </StackPanel>
+        <DataGrid Grid.Row="2" Grid.Column="0" AutoGenerateColumns="True" ItemsSource="{Binding SelectedDirectory.Entries}">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Install" Binding="{Binding WillInstall}" IsReadOnly="False" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Width="16" Height="16" Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}" Source="\Resources\open-file-folder-emoji.png" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding Filename}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Length" Binding="{Binding AddonName}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Comressed Length" Binding="{Binding Version}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Last Written" Binding="{Binding FileDate}" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
