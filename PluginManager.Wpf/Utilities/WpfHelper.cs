@@ -23,15 +23,5 @@
 
             return FindAncestor<T>(parentObject);
         }
-
-        /// <summary>
-        /// Finds the parent window of the specified child.
-        /// </summary>
-        /// <param name="child">The child<see cref="DependencyObject"/>.</param>
-        /// <returns>The <see cref="Window"/>.</returns>
-        internal static Window FindWidow(DependencyObject child)
-        {
-            return FindAncestor<Window>(child);
-        }
     }
 }

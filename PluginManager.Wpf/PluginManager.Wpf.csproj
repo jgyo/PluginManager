@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Remove="Resources\folder-directory-file-arrow-upload-up-document-512.png" />
     <None Remove="Resources\folder.ico" />
+    <None Remove="Resources\open-file-folder-emoji.png" />
     <None Remove="Resources\plugin.ico" />
     <None Remove="Resources\qmark.ico" />
     <None Remove="Resources\setup.ico" />
@@ -26,8 +27,9 @@
 
   <ItemGroup>
     <Resource Include="Resources\folder.ico" />
+    <Resource Include="Resources\open-file-folder-emoji.png" />
     <Resource Include="Resources\plugin.ico" />
-    <EmbeddedResource Include="Resources\folder-directory-file-arrow-upload-up-document-512.png" />
+    <Resource Include="Resources\folder-directory-file-arrow-upload-up-document-512.png" />
     <EmbeddedResource Include="Resources\qmark.ico" />
     <Resource Include="Resources\setup.ico" />
     <Resource Include="Resources\zip-file.ico" />

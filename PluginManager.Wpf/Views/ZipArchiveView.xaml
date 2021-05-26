@@ -7,7 +7,7 @@
              d:DataContext="{d:DesignInstance Type=vm:ZipArchiveViewModel, IsDesignTimeCreatable=False}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -15,19 +15,25 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Label Content="Package:" />
-            <Label Content="{Binding FileName, FallbackValue='ZipFileName.zip'}" />
-            <Label Content="Path:" />
-            <Label Content="{Binding Path, FallbackValue='D:\\downloads'}" />
+            <Label Content="Package:" Margin="4,4,0,4"  />
+            <Label Content="{Binding FileName, FallbackValue='ZipFileName.zip'}" Margin="0,4,0,4" />
+            <Label Content="Path:" Margin="0,4,0,4" />
+            <Label Content="{Binding Path, FallbackValue='D:\\downloads'}" Margin="0,4,0,4" />
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-            <Button HorizontalAlignment="Left" Margin="5,0,5,0" Padding="0,0,0,0">
-                <Image Source="\Resources\folder-directory-file-arrow-upload-up-document-512.png" Width="16" />
+            <Button HorizontalAlignment="Left" Margin="4,0,4,0" Padding="0,0,0,0" Click="UpButtonClick">
+                <Image Source="\Resources\folder-directory-file-arrow-upload-up-document-512.png" Width="16" Height="16" />
             </Button>
             <Label Content="Directory:" />
             <Label Content="{Binding SelectedDirectory.FullName, FallbackValue='\{Root\}'}" />
         </StackPanel>
-        <DataGrid Grid.Row="2" Grid.Column="0" AutoGenerateColumns="True" ItemsSource="{Binding SelectedDirectory.Entries}">
+        <DataGrid Grid.Row="2" Grid.Column="0"
+                  IsReadOnly="False"
+                  SelectionUnit="FullRow"
+                  Margin="4"
+                  SelectionMode="Single" 
+                  AutoGenerateColumns="False" 
+                  ItemsSource="{Binding SelectedDirectory.Entries}" MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Install" Binding="{Binding WillInstall}" IsReadOnly="False" />
                 <DataGridTemplateColumn>
@@ -37,11 +43,17 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Name" Binding="{Binding Filename}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Length" Binding="{Binding AddonName}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Comressed Length" Binding="{Binding Version}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Last Written" Binding="{Binding FileDate}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Length" Binding="{Binding Length}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Comressed Length" Binding="{Binding CompressedLength}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Last Written" Binding="{Binding LastWriteTime}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
+        <DockPanel Margin="4" LastChildFill="False" Grid.Row="3" Grid.Column="0">
+            <GroupBox Header="Checked Items Option" BorderThickness="1" BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}">
+                <Button Content="Install" Click="InstallButtonClick" />
+            </GroupBox>
+            <Button Content="Done" DockPanel.Dock="Right" Padding="16 8" Margin="4,4,4,4" Click="DoneButtonClick" />
+        </DockPanel>
     </Grid>
 </UserControl>

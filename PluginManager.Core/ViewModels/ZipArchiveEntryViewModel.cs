@@ -26,7 +26,10 @@
         {
             Archive = archive;
             Parent = parent;
-            Parent.Entries.Add(this);
+            if (parent == null)
+                archive.Entries.Add(this);
+            else
+                Parent.Entries.Add(this);
             Name = name;
         }
 
@@ -42,22 +45,25 @@
         {
             get
             {
-                if (Entry != null)
+                if (Entry != null && Entry.CompressedLength != 0)
                     return Entry.CompressedLength;
 
-                return Entries.Select(v => v.CompressedLength).Aggregate((m, t) => m + t);
+                if (Entries.Count == 0)
+                    return 0;
+
+                return Entries.Select(v => v.CompressedLength).Aggregate(0L, (t, n) => t + n);
             }
         }
 
         /// <summary>
         /// Gets the Entries.
         /// </summary>
-        public ObservableCollection<ZipArchiveEntryViewModel> Entries { get; }
+        public ObservableCollection<ZipArchiveEntryViewModel> Entries { get; } = new ObservableCollection<ZipArchiveEntryViewModel>();
 
         /// <summary>
         /// Gets the Entry.
         /// </summary>
-        public ZipArchiveEntry Entry { get; private set; }
+        public ZipArchiveEntry Entry { get; set; }
 
         /// <summary>
         /// Gets the FullName.
@@ -91,7 +97,10 @@
                 if (Entry != null)
                     return Entry.LastWriteTime;
 
-                return Entries.Select(m => m.LastWriteTime).Aggregate((m, t) => m > t ? m : t);
+                if (Entries.Count == 0)
+                    return DateTimeOffset.MinValue;
+
+                return Entries.Select(m => m.LastWriteTime).Aggregate(DateTimeOffset.MinValue, (m, t) => m > t ? m : t);
             }
         }
 
@@ -102,10 +111,13 @@
         {
             get
             {
-                if (Entry != null)
+                if (Entry != null && Entry.Length != 0)
                     return Entry.Length;
-                else
-                    return Entries.Select(v => v.Length).Aggregate((m, t) => m + t);
+
+                if (Entries.Count == 0)
+                    return 0;
+
+                return Entries.Select(v => v.Length).Aggregate(0L, (m, t) => m + t);
             }
         }
 
@@ -124,7 +136,7 @@
         /// </summary>
         public string RelativePath
         {
-            get { return Parent == null ? "" : Parent.FullName; }
+            get { return Parent == null ? "" : Parent.FullName + "\\"; }
         }
 
         /// <summary>
@@ -143,7 +155,7 @@
         /// <param name="entry">The entry<see cref="ZipArchiveEntry"/>.</param>
         /// <param name="fullName">The fullName<see cref="string"/>.</param>
         /// <param name="pathParts">The pathParts<see cref="List{string}"/>.</param>
-        internal void SaveBranchAndNode(ZipArchiveViewModel zipArchiveViewModel, ZipArchiveEntry entry, string fullName, List<string> pathParts)
+        internal void SaveBranchAndNode(ZipArchiveEntry entry, string fullName, List<string> pathParts)
         {
             ZipArchiveEntryViewModel parent = this;
 
@@ -151,18 +163,18 @@
             if (vm == null)
             {
                 vm = new ZipArchiveEntryViewModel(Archive, pathParts[0], parent);
-                Entries.Add(vm);
+                // Entries.Add(vm);
             }
 
             pathParts.RemoveAt(0);
             if (pathParts.Count == 0)
             {
-                this.Entry = entry;
+                vm.Entry = entry;
                 return;
             }
 
-            fullName = $"{vm.FullName}\\{pathParts[0]}";
-            vm.SaveBranchAndNode(Archive, entry, fullName, pathParts);
+            fullName = $"{vm.FullName}/{pathParts[0]}";
+            vm.SaveBranchAndNode(entry, fullName, pathParts);
         }
     }
 }

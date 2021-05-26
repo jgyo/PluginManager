@@ -48,7 +48,7 @@ namespace PluginManager.Core.ViewModels
         /// <summary>
         /// Gets the Entries.
         /// </summary>
-        public ObservableCollection<ZipArchiveEntryViewModel> Entries { get; }
+        public ObservableCollection<ZipArchiveEntryViewModel> Entries { get; } = new ObservableCollection<ZipArchiveEntryViewModel>();
 
         /// <summary>
         /// Gets the FileName.
@@ -60,7 +60,7 @@ namespace PluginManager.Core.ViewModels
         /// </summary>
         public string FullPath
         {
-            get { return global::System.IO.Path.Combine(Path, FullPath); }
+            get { return global::System.IO.Path.Combine(Path, FileName); }
         }
 
         /// <summary>
@@ -82,15 +82,18 @@ namespace PluginManager.Core.ViewModels
             if (vm == null)
             {
                 vm = new ZipArchiveEntryViewModel(this, pathParts[0], parent);
-                Entries.Add(vm);
+                //Entries.Add(vm);
             }
 
             pathParts.RemoveAt(0);
             if (pathParts.Count == 0)
+            {
+                vm.Entry = entry;
                 return;
+            }
 
-            fullName = $"{vm.FullName}\\{pathParts[0]}";
-            vm.SaveBranchAndNode(this, entry, fullName, pathParts);
+            fullName = $"{vm.FullName}/{pathParts[0]}";
+            vm.SaveBranchAndNode(entry, fullName, pathParts);
         }
     }
 }

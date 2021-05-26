@@ -4,6 +4,8 @@
     using PluginManager.Core;
     using PluginManager.Core.Logging;
     using PluginManager.Core.ViewModels;
+    using PluginManager.Wpf.ViewModels;
+    using PluginManager.Wpf.Windows;
     using System.Windows;
 
     /// <summary>
@@ -52,6 +54,20 @@
             td.Buttons.Add(new TaskDialogButton("Yes") { ButtonType = ButtonType.Yes });
             td.Buttons.Add(new TaskDialogButton("No") { ButtonType = ButtonType.No });
             return td.ShowDialog().ButtonType == ButtonType.Yes;
+        }
+
+        public static WaitWindow WaitDialog(string description)
+        {
+            return new WaitWindow()
+            {
+                DataContext = new WaitWindowViewModel()
+                {
+                    WindowTitle= "Working",
+                    Text = "Please wait.",
+                    Description = description,
+                    IsIndeterminate = true
+                }
+            };
         }
 
         /// <summary>

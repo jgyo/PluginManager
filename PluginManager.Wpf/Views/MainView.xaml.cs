@@ -4,6 +4,7 @@
     using Ookii.Dialogs.Wpf;
     using PluginManager.Core;
     using PluginManager.Core.EventHandlers;
+    using PluginManager.Core.Logging;
     using PluginManager.Core.System;
     using PluginManager.Core.ViewModels;
     using PluginManager.Core.ViewModels.DesignTime;
@@ -111,7 +112,17 @@
             var zfr = vm.SelectedZipFilesCollection[0];
             Debug.Assert(zfr != null);
 
-
+            try
+            {
+                var win = new ZipArchiveWindow(zfr);
+                win.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                App.Inform("Exception Encountered", "An exception occured while trying to open the file.");
+                var log = LogProvider.Instance.GetLogFor<MainView>();
+                log.DebugException($"Unable to open {zfr.Filename}", ex);
+            }
 
         }
 
