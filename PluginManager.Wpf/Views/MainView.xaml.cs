@@ -17,6 +17,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Windows;
     using System.Windows.Controls;
 
     /// <summary>
@@ -54,6 +55,34 @@
         private static void ShortenName(ref string folder)
         {
             folder = Path.GetFileName(folder);
+        }
+
+        /// <summary>
+        /// The DeleteRecord.
+        /// </summary>
+        /// <param name="item">The item<see cref="ZipFileViewModel"/>.</param>
+        private void DeleteRecord(ZipFileViewModel item)
+        {
+            DbCore.Delete(item);
+            Locator.MainViewModel.ZipFileFolderCollection.Remove(item);
+        }
+
+        /// <summary>
+        /// The DeleteZipFile.
+        /// </summary>
+        /// <param name="item">The item<see cref="ZipFileViewModel"/>.</param>
+        /// <returns>The <see cref="bool"/>.</returns>
+        private bool DeleteZipFile(ZipFileViewModel item)
+        {
+            try
+            {
+                File.Delete(Path.Combine(item.FilePath, item.Filename));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -101,77 +130,6 @@
                 vm.DeleteSelectedZipFilesRequested += Vm_DeleteSelectedZipFilesRequested;
                 vm.OpenZipArchiveRequested         += Vm_OpenZipArchiveRequested;
             }
-        }
-
-        private void Vm_OpenZipArchiveRequested(object sender, EventArgs e)
-        {
-            var vm = DataContext as MainViewModel;
-            Debug.Assert(vm != null);
-            Debug.Assert(vm.SelectedZipFilesCollection.Count == 1);
-            var zfr = vm.SelectedZipFilesCollection[0];
-            Debug.Assert(zfr != null);
-
-            try
-            {
-                var win = new ZipArchiveWindow(zfr);
-                win.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                App.Inform("Exception Encountered", "An exception occured while trying to open the file.");
-                var log = LogProvider.Instance.GetLogFor<MainView>();
-                log.DebugException($"Unable to open {zfr.Filename}", ex);
-            }
-
-        }
-
-        private void Vm_DeleteSelectedZipFilesRequested(object sender, EventArgs e)
-        {
-            var vm = DataContext as MainViewModel;
-            var count = vm.SelectedZipFilesCollection.Count;
-
-            var message = $"You have {count} zip file(s) selected and have initiated the delete function. What do you want to do?";
-            var a = Assembly.GetExecutingAssembly();
-            var st = a.GetManifestResourceStream("PluginManager.Wpf.Resources.qmark.ico");
-            var qmark = new Icon(st);
-
-            var win = new TaskDialog()
-            {
-                WindowTitle = "Delete Requested",
-                MainIcon = TaskDialogIcon.Custom,
-                Content = message,
-                CustomMainIcon = qmark
-            };
-
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete zip files." });
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete database records." });
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Delete both records and files.", Checked = true });
-            win.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
-            win.Buttons.Add(new TaskDialogButton(ButtonType.Ok));
-
-            var result = win.ShowDialog();
-
-            if (result == null || result.ButtonType == ButtonType.Cancel)
-                return;
-
-            // #Complete
-
-            var option = win.RadioButtons[0].Checked ? 1 : win.RadioButtons[1].Checked ? 2 : 3;
-            switch (option)
-            {
-                case 1:
-                    System.Windows.Forms.MessageBox.Show("You selected to delete the zip file only.");
-                    break;
-                case 2:
-                    System.Windows.Forms.MessageBox.Show("You selected to delete the database record only.");
-                    break;
-                case 3:
-                    System.Windows.Forms.MessageBox.Show("You selected to delete both the zip file and the database record.");
-                    break;
-                default:
-                    throw new ArgumentException("Invalid radio button.");
-            }
-
         }
 
         /// <summary>
@@ -229,7 +187,7 @@
 
                 var isSingle = zipList.Count == 1;
 
-                if(isSingle)
+                if (isSingle)
                 {
                     message = $"One zip file was added:\n{fileItems}";
                     title = "Zip File Added";
@@ -286,6 +244,68 @@
 
                 DbCore.Delete(selectedToDelete);
 
+            }
+        }
+
+        /// <summary>
+        /// The Vm_DeleteSelectedZipFilesRequested.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
+        private void Vm_DeleteSelectedZipFilesRequested(object sender, EventArgs e)
+        {
+            var vm = DataContext as MainViewModel;
+            var count = vm.SelectedZipFilesCollection.Count;
+
+            var message = $"You have {count} zip file(s) selected and have initiated the delete function. What do you want to do?";
+            var a = Assembly.GetExecutingAssembly();
+            var st = a.GetManifestResourceStream("PluginManager.Wpf.Resources.qmark.ico");
+            var qmark = new Icon(st);
+
+            var win = new TaskDialog()
+            {
+                WindowTitle = "Delete Requested",
+                MainIcon = TaskDialogIcon.Custom,
+                Content = message,
+                CustomMainIcon = qmark
+            };
+
+            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete zip files." });
+            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete database records." });
+            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Delete both records and files.", Checked = true });
+            win.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
+            win.Buttons.Add(new TaskDialogButton(ButtonType.Ok));
+
+            var result = win.ShowDialog();
+
+            if (result == null || result.ButtonType == ButtonType.Cancel)
+                return;
+
+            // #Switch
+            var option = win.RadioButtons[0].Checked ? 1 : win.RadioButtons[1].Checked ? 2 : 3;
+            foreach (var item in vm.SelectedZipFilesCollection)
+            {
+                switch (option)
+                {
+                    case 1:
+                        if (!DeleteZipFile(item))
+                            MessageBox.Show($"Unable to delete {item.Filename}.", "Exception");
+                        break;
+                    case 2:
+                        DeleteRecord(item);
+                        break;
+                    case 3:
+                        if (!DeleteZipFile(item))
+                        {
+                            var dr = MessageBox.Show($"Unable to delete {item.Filename}. Do you want to delete the record anyway?", "Exception", MessageBoxButton.YesNo);
+                            if (dr != MessageBoxResult.Yes)
+                                continue;
+                        }
+                        DeleteRecord(item);
+                        break;
+                    default:
+                        throw new ArgumentException("Invalid radio button.");
+                }
             }
         }
 
@@ -384,6 +404,32 @@
         {
             var win = new SetupWindow();
             win.ShowDialog();
+        }
+
+        /// <summary>
+        /// The Vm_OpenZipArchiveRequested.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
+        private void Vm_OpenZipArchiveRequested(object sender, EventArgs e)
+        {
+            var vm = DataContext as MainViewModel;
+            Debug.Assert(vm != null);
+            Debug.Assert(vm.SelectedZipFilesCollection.Count == 1);
+            var zfr = vm.SelectedZipFilesCollection[0];
+            Debug.Assert(zfr != null);
+
+            try
+            {
+                var win = new ZipArchiveWindow(zfr);
+                win.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                App.Inform("Exception Encountered", "An exception occured while trying to open the file.");
+                var log = LogProvider.Instance.GetLogFor<MainView>();
+                log.DebugException($"Unable to open {zfr.Filename}", ex);
+            }
         }
 
         /// <summary>

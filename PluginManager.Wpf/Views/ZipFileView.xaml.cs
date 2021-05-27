@@ -36,6 +36,35 @@
         }
 
         /// <summary>
+        /// The DeleteRecord.
+        /// </summary>
+        /// <param name="item">The item<see cref="ZipFileViewModel"/>.</param>
+        private void DeleteRecord(ZipFileViewModel item)
+        {
+            DbCore.Delete(item);
+            Locator.MainViewModel.ZipFileFolderCollection.Remove(item);
+            Window.GetWindow(this).Close();
+        }
+
+        /// <summary>
+        /// The DeleteZipFile.
+        /// </summary>
+        /// <param name="item">The item<see cref="ZipFileViewModel"/>.</param>
+        /// <returns>The <see cref="bool"/>.</returns>
+        private bool DeleteZipFile(ZipFileViewModel item)
+        {
+            try
+            {
+                File.Delete(Path.Combine(item.FilePath, item.Filename));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// The Vm_BrowseZipFileRequested.
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
@@ -63,14 +92,14 @@
             var path = Path.GetDirectoryName(fullpath);
             var fi = new FileInfo(fullpath);
 
-            if(vm.Filename != filename || vm.FileDate != fi.CreationTime)
+            if (vm.Filename != filename || vm.FileDate != fi.CreationTime)
             {
                 vm.FileDate = fi.CreationTime;
                 vm.AddedDate = DateTime.Now;
                 vm.Filename = filename;
                 vm.FileSize = fi.Length;
-            }            
-            
+            }
+
             vm.FilePath = path;
 
             DbCore.Update(vm);
@@ -107,25 +136,31 @@
                 return;
 
             // #Complete
+            var vm = sender as ZipFileViewModel;
+            Debug.Assert(vm != null);
 
             var option = win.RadioButtons[0].Checked ? 1 : win.RadioButtons[1].Checked ? 2 : 3;
             switch (option)
             {
                 case 1:
-                    System.Windows.Forms.MessageBox.Show("You selected to delete the zip file only.");
+                    if (!DeleteZipFile(vm))
+                        MessageBox.Show($"Unable to delete {vm.Filename}.", "Exception");
                     break;
                 case 2:
-                    System.Windows.Forms.MessageBox.Show("You selected to delete the database record only.");
+                    DeleteRecord(vm);
                     break;
                 case 3:
-                    System.Windows.Forms.MessageBox.Show("You selected to delete both the zip file and the database record.");
+                    if (!DeleteZipFile(vm))
+                    {
+                        var dr = MessageBox.Show($"Unable to delete {vm.Filename}. Do you want to delete the record anyway?", "Exception", MessageBoxButton.YesNo);
+                        if (dr != MessageBoxResult.Yes)
+                            return;
+                    }
+                    DeleteRecord(vm);
                     break;
                 default:
                     throw new ArgumentException("Invalid radio button.");
             }
-
-
-
         }
 
         /// <summary>
@@ -186,9 +221,9 @@
         {
             if (e.OldValue is ZipFileViewModel vm)
             {
-                vm.BrowseZipFileRequested  -= Vm_BrowseZipFileRequested;
-                vm.DeleteZipFileRequested  -= Vm_DeleteZipFileRequested;
-                vm.DoneEditingRequested    -= Vm_DoneEditingRequested;
+                vm.BrowseZipFileRequested -= Vm_BrowseZipFileRequested;
+                vm.DeleteZipFileRequested -= Vm_DeleteZipFileRequested;
+                vm.DoneEditingRequested -= Vm_DoneEditingRequested;
                 vm.OpenZipArchiveRequested -= Vm_OpenZipArchiveRequested;
             }
 
@@ -196,9 +231,9 @@
 
             if (vm != null)
             {
-                vm.BrowseZipFileRequested  += Vm_BrowseZipFileRequested;
-                vm.DeleteZipFileRequested  += Vm_DeleteZipFileRequested;
-                vm.DoneEditingRequested    += Vm_DoneEditingRequested;
+                vm.BrowseZipFileRequested += Vm_BrowseZipFileRequested;
+                vm.DeleteZipFileRequested += Vm_DeleteZipFileRequested;
+                vm.DoneEditingRequested += Vm_DoneEditingRequested;
                 vm.OpenZipArchiveRequested += Vm_OpenZipArchiveRequested;
             }
 
