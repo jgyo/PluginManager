@@ -139,8 +139,8 @@
             <DockPanel LastChildFill="False">
                 <Button
                     Width="100"
-                    Command="{Binding InstallZipFileCommand}"
-                    Content="Install" />
+                    Command="{Binding OpenZipArchiveCommand}"
+                    Content="Open" />
                 <Button
                     Width="100"
                     Command="{Binding DeleteZipFileCommand}"

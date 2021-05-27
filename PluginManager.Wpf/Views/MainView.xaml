@@ -461,10 +461,10 @@
                             Grid.Column="0"
                             Width="100"
                             Margin="4"
-                            Command="{Binding InstallSelectedZipFilesCommand}"
-                            Content="Install"
+                            Command="{Binding OpenZipArchiveCommand}"
+                            Content="Open"
                             IsEnabled="{Binding IsOneZipFileSelected}"
-                            ToolTip="Install the selected zip file." />
+                            ToolTip="Open the selected zip file." />
                         <Button
                             Grid.Column="1"
                             Width="100"

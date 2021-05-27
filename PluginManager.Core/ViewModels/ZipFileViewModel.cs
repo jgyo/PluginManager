@@ -174,7 +174,7 @@
             }
         }
 
-        public ICommand InstallZipFileCommand => new Command(InstallZipFile);
+        public ICommand OpenZipArchiveCommand => new Command(OpenZipArchive);
 
         /// <summary>
         /// Gets or sets the PackageId.
@@ -240,9 +240,9 @@
             DoneEditingRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void InstallZipFile()
+        private void OpenZipArchive()
         {
-            // #ToDo
+            // #OpenZipArchive
         }
     }
 }

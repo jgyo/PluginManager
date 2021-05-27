@@ -99,13 +99,12 @@
                 vm.EditSelectedZipFileRequested    += Vm_EditZipFileRequested;
                 vm.AddNewZipFileRequested          += Vm_AddNewZipFileRequested;
                 vm.DeleteSelectedZipFilesRequested += Vm_DeleteSelectedZipFilesRequested;
-                vm.InstallSelectedZipFileRequested += Vm_InstallSelectedZipFileRequested;
+                vm.OpenZipArchiveRequested         += Vm_OpenZipArchiveRequested;
             }
         }
 
-        private void Vm_InstallSelectedZipFileRequested(object sender, EventArgs e)
+        private void Vm_OpenZipArchiveRequested(object sender, EventArgs e)
         {
-            // #ToDo
             var vm = DataContext as MainViewModel;
             Debug.Assert(vm != null);
             Debug.Assert(vm.SelectedZipFilesCollection.Count == 1);

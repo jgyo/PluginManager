@@ -34,7 +34,7 @@
             RestoreSelectedFoldersCommand  = new Command(RestoreSelectedFolders);
             SynchronizeDataBaseCommand     = new Command(SynchronizeDataBase);
 
-            InstallSelectedZipFilesCommand = new Command(InstallSelectedZipFile);
+            OpenZipArchiveCommand          = new Command(OpenZipArchive);
             DeleteSelectedZipFileCommand   = new Command(DeleteSelectedZipFiles);
             EditSelectedZipFileCommand     = new Command(EditSelectedZipFile);
             AddNewZipFileCommand           = new Command(AddNewZipFile);
@@ -77,7 +77,7 @@
         /// </summary>
         public event EventHandler RestoreSelectedItemsRequested;
 
-        public event EventHandler InstallSelectedZipFileRequested;
+        public event EventHandler OpenZipArchiveRequested;
 
         /// <summary>
         /// Defines the SynchronizeDataBaseRequested event.
@@ -129,7 +129,7 @@
         /// </summary>
         public ICommand HideSelectedFoldersCommand { get; }
 
-        public ICommand InstallSelectedZipFilesCommand { get; }
+        public ICommand OpenZipArchiveCommand { get; }
 
         /// <summary>
         /// Gets a value indicating whether on folder is selected.
@@ -269,9 +269,9 @@
             HideSelectedFoldersRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void InstallSelectedZipFile()
+        private void OpenZipArchive()
         {
-            InstallSelectedZipFileRequested?.Invoke(this, EventArgs.Empty);
+            OpenZipArchiveRequested?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
         /// Opens the setup window.
