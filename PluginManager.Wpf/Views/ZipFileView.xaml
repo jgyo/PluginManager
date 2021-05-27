@@ -74,7 +74,7 @@
                 Grid.Row="2"
                 Grid.Column="1"
                 Content="{Binding FilePath, FallbackValue='Folder Name'}"
-                Style="{DynamicResource NonEditBox}" 
+                Style="{DynamicResource NonEditBox}"
                 ToolTip="Use the browse button beside &quot;Package Name&quot; to modify." />
             <Label
                 Grid.Row="3"
@@ -109,7 +109,7 @@
                 VerticalAlignment="Center"
                 Content="{Binding FileDate, FallbackValue='Zip File Name'}"
                 Style="{DynamicResource NonEditBox}"
-                ToolTip="File date of the selected zip file."/>
+                ToolTip="File date of the selected zip file." />
             <Label
                 Grid.Row="6"
                 Grid.Column="0"
@@ -120,7 +120,7 @@
                 Grid.Column="1"
                 Content="{Binding AddedDate, FallbackValue='12/12/12 12:00:00'}"
                 Style="{DynamicResource NonEditBox}"
-                ToolTip="Date the selected zip file was added to the database."/>
+                ToolTip="Date the selected zip file was added to the database." />
             <Label
                 Grid.Row="7"
                 Grid.Column="0"
@@ -131,7 +131,7 @@
                 Grid.Column="1"
                 Style="{DynamicResource NonEditBox}"
                 ToolTip="File size of the selected zip file.">
-                <!-- Must explicitly add a TextBlock for StringFormat to work. -->
+                <!--  Must explicitly add a TextBlock for StringFormat to work.  -->
                 <TextBlock Text="{Binding FileSize, StringFormat='\{0:n0\}'}" />
             </Label>
         </Grid>
@@ -145,13 +145,13 @@
                 <Button
                     Width="100"
                     Command="{Binding OpenZipArchiveCommand}"
-                    ToolTip="Open this zip file."
-                    Content="Open" />
+                    Content="Open"
+                    ToolTip="Open this zip file." />
                 <Button
                     Width="100"
                     Command="{Binding DeleteZipFileCommand}"
-                    ToolTip="Delete this zip file or record."
-                    Content="Delete" />
+                    Content="Delete"
+                    ToolTip="Delete this zip file or record." />
             </DockPanel>
         </GroupBox>
         <Button
@@ -159,7 +159,7 @@
             Padding="16,8"
             HorizontalAlignment="Right"
             Command="{Binding DoneEditingCommand}"
-            ToolTip="Close this window."
-            Content="Done" />
+            Content="Done"
+            ToolTip="Close this window." />
     </Grid>
 </UserControl>
