@@ -188,7 +188,7 @@
                 Multiselect = true,
                 Title = "Find Zip Files to Add",
                 DereferenceLinks = true,
-                Filter = "zip files (*.zip, *.7z)|*.zip;*.7z|All files (*.*)|*.*",
+                Filter = "Zip files (*.zip, *.7z)|*.zip;*.7z|Exe files (*.exe)|*.exe|All files (*.*)|*.*",
                 FilterIndex = 1,
                 InitialDirectory = Locator.SetupViewModel.ZipFilesFolder
             };

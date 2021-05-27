@@ -1,5 +1,6 @@
 ﻿namespace PluginManager.Wpf.Views
 {
+    using Microsoft.Win32;
     using Ookii.Dialogs.Wpf;
     using PluginManager.Core;
     using PluginManager.Core.Logging;
@@ -41,8 +42,38 @@
         /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void Vm_BrowseZipFileRequested(object sender, EventArgs e)
         {
-            // #ToDo
-            throw new NotImplementedException();
+            var vm = sender as ZipFileViewModel;
+            Debug.Assert(vm != null);
+
+            var dia = new OpenFileDialog
+            {
+                AddExtension = false,
+                CheckFileExists = true,
+                Multiselect = false,
+                Title = "Find a Plugin Package to Add",
+                DereferenceLinks = true,
+                Filter = "Zip files (*.zip, *.7z)|*.zip;*.7z|Exe files (*.exe)|*.exe|All files (*.*)|*.*",
+                FilterIndex = 1,
+                InitialDirectory = Locator.SetupViewModel.ZipFilesFolder
+            };
+            var result = dia.ShowDialog();
+
+            var fullpath = dia.FileName;
+            var filename = Path.GetFileName(fullpath);
+            var path = Path.GetDirectoryName(fullpath);
+            var fi = new FileInfo(fullpath);
+
+            if(vm.Filename != filename || vm.FileDate != fi.CreationTime)
+            {
+                vm.FileDate = fi.CreationTime;
+                vm.AddedDate = DateTime.Now;
+                vm.Filename = filename;
+                vm.FileSize = fi.Length;
+            }            
+            
+            vm.FilePath = path;
+
+            DbCore.Update(vm);
         }
 
         /// <summary>
@@ -110,19 +141,10 @@
         }
 
         /// <summary>
-        /// Event handler cleanup.
+        /// The Vm_OpenZipArchiveRequested.
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/>.</param>
-        /// <param name="e">The e<see cref="System.ComponentModel.CancelEventArgs"/>.</param>
-        private void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            var vm = DataContext as ZipFileViewModel;
-            vm.BrowseZipFileRequested  -= Vm_BrowseZipFileRequested;
-            vm.DeleteZipFileRequested  -= Vm_DeleteZipFileRequested;
-            vm.DoneEditingRequested    -= Vm_DoneEditingRequested;
-            vm.OpenZipArchiveRequested -= Vm_OpenZipArchiveRequested;
-        }
-
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
         private void Vm_OpenZipArchiveRequested(object sender, EventArgs e)
         {
             var zfr = sender as ZipFileViewModel;
@@ -139,6 +161,20 @@
                 var log = LogProvider.Instance.GetLogFor<ZipFileView>();
                 log.DebugException($"Unable to open {zfr.Filename}", ex);
             }
+        }
+
+        /// <summary>
+        /// Event handler cleanup.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="System.ComponentModel.CancelEventArgs"/>.</param>
+        private void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var vm = DataContext as ZipFileViewModel;
+            vm.BrowseZipFileRequested -= Vm_BrowseZipFileRequested;
+            vm.DeleteZipFileRequested -= Vm_DeleteZipFileRequested;
+            vm.DoneEditingRequested -= Vm_DoneEditingRequested;
+            vm.OpenZipArchiveRequested -= Vm_OpenZipArchiveRequested;
         }
 
         /// <summary>

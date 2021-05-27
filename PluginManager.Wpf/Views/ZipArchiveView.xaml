@@ -10,7 +10,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid Margin="8">
+    <Grid Margin="8,0,8,8">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -18,10 +18,17 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Label Margin="4,4,0,4" Content="Package:" />
-            <Label Margin="0,4,0,4" Content="{Binding FileName, FallbackValue='ZipFileName.zip'}" />
-            <Label Margin="0,4,0,4" Content="Path:" />
-            <Label Margin="0,4,0,4" Content="{Binding Path, FallbackValue='D:\\downloads'}" />
+            <Label
+                Margin="4,0,0,4"
+                Padding="5 5 0 5"
+                Content="Package:"
+                FontWeight="Bold" />
+            <Label
+                Margin="0,0,0,4"
+                Content="{Binding FileName, FallbackValue='ZipFileName.zip'}"
+                FontWeight="Bold" />
+            <Label Margin="8,0,0,4" Padding="5 5 0 5" Content="Path:" />
+            <Label Margin="0,0,0,4" Content="{Binding Path, FallbackValue='D:\\downloads'}" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
