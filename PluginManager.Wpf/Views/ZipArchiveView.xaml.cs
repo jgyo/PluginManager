@@ -1,4 +1,5 @@
-﻿using PluginManager.Core.ViewModels;
+﻿using PluginManager.Core.Utilities;
+using PluginManager.Core.ViewModels;
 using PluginManager.Wpf.Utilities;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace PluginManager.Wpf.Views
                 return;
 
             var temp = grid.SelectedItem as ZipArchiveEntryViewModel;
-            if (temp.Entries?.Count == 0)
+            if (temp.SortedEntries?.Count == 0)
                 return;
 
             var vm = DataContext as ZipArchiveViewModel;
@@ -76,7 +77,7 @@ namespace PluginManager.Wpf.Views
 
             var installFolder = Locator.SetupViewModel.CommunityFolder;
 
-            var wd = App.WaitDialog("Your selected contents are being installed.");
+            // var wd = App.WaitDialog("Your selected contents are being installed.");
 
             if (vm.AreAnyCheckedEntriesInstalled(installFolder))
             {

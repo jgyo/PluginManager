@@ -22,15 +22,16 @@
         /// <param name="archive">The archive<see cref="ZipArchiveViewModel"/>.</param>
         /// <param name="name">The name<see cref="string"/>.</param>
         /// <param name="parent">The parent<see cref="ZipArchiveEntryViewModel"/>.</param>
-        public ZipArchiveEntryViewModel(ZipArchiveViewModel archive, string name, ZipArchiveEntryViewModel parent = null)
+        public ZipArchiveEntryViewModel(ZipArchiveViewModel archive, string name, bool isDirectory, ZipArchiveEntryViewModel parent = null)
         {
             Archive = archive;
             Parent = parent;
-            if (parent == null)
-                archive.Entries.Add(this);
-            else
-                Parent.Entries.Add(this);
             Name = name;
+            var sortingName = isDirectory ? $"_{Name}" : name;
+            if (parent == null)
+                archive.SortedEntries.Add(sortingName, this);
+            else
+                Parent.SortedEntries.Add(sortingName, this);
         }
 
         /// <summary>
@@ -48,17 +49,17 @@
                 if (Entry != null && Entry.CompressedLength != 0)
                     return Entry.CompressedLength;
 
-                if (Entries.Count == 0)
+                if (SortedEntries.Count == 0)
                     return 0;
 
-                return Entries.Select(v => v.CompressedLength).Aggregate(0L, (t, n) => t + n);
+                return SortedEntries.Values.Select(v => v.CompressedLength).Aggregate(0L, (t, n) => t + n);
             }
         }
 
         /// <summary>
         /// Gets the Entries.
         /// </summary>
-        public ObservableCollection<ZipArchiveEntryViewModel> Entries { get; } = new ObservableCollection<ZipArchiveEntryViewModel>();
+        public SortedList<string, ZipArchiveEntryViewModel> SortedEntries { get; } = new SortedList<string, ZipArchiveEntryViewModel>();
 
         /// <summary>
         /// Gets the Entry.
@@ -83,7 +84,7 @@
                 if (Entry == null)
                     return true;
 
-                return Entry.FullName.EndsWith('\\') || Entry.FullName.EndsWith('/');
+                return Entry.Name == "";
             }
         }
 
@@ -97,10 +98,10 @@
                 if (Entry != null)
                     return Entry.LastWriteTime;
 
-                if (Entries.Count == 0)
+                if (SortedEntries.Count == 0)
                     return DateTimeOffset.MinValue;
 
-                return Entries.Select(m => m.LastWriteTime).Aggregate(DateTimeOffset.MinValue, (m, t) => m > t ? m : t);
+                return SortedEntries.Values.Select(m => m.LastWriteTime).Aggregate(DateTimeOffset.MinValue, (m, t) => m > t ? m : t);
             }
         }
 
@@ -114,10 +115,10 @@
                 if (Entry != null && Entry.Length != 0)
                     return Entry.Length;
 
-                if (Entries.Count == 0)
+                if (SortedEntries.Count == 0)
                     return 0;
 
-                return Entries.Select(v => v.Length).Aggregate(0L, (m, t) => m + t);
+                return SortedEntries.Values.Select(v => v.Length).Aggregate(0L, (m, t) => m + t);
             }
         }
 
@@ -125,6 +126,8 @@
         /// Gets the Name.
         /// </summary>
         public string Name { get; private set; }
+
+        public string SortingName { get => IsDirectory ? $"_{Name}" : Name; }
 
         /// <summary>
         /// Gets the Parent.
@@ -148,6 +151,9 @@
             set { SetProperty(ref willInstall, value); }
         }
 
+        public List<ZipArchiveEntryViewModel> Entries 
+            => new Lazy<List<ZipArchiveEntryViewModel>>(() => new List<ZipArchiveEntryViewModel>(SortedEntries.Values)).Value;
+
         /// <summary>
         /// The SaveBranchAndNode.
         /// </summary>
@@ -159,10 +165,10 @@
         {
             ZipArchiveEntryViewModel parent = this;
 
-            var vm = Entries.Where(e => fullName == e.FullName).SingleOrDefault();
+            var vm = SortedEntries.Values.Where(e => fullName == e.FullName).SingleOrDefault();
             if (vm == null)
             {
-                vm = new ZipArchiveEntryViewModel(Archive, pathParts[0], parent);
+                vm = new ZipArchiveEntryViewModel(Archive, pathParts[0], entry.Name=="", parent);
                 // Entries.Add(vm);
             }
 
@@ -173,7 +179,7 @@
                 return;
             }
 
-            fullName = $"{vm.FullName}/{pathParts[0]}";
+            fullName = $"{vm.FullName}\\{pathParts[0]}";
             vm.SaveBranchAndNode(entry, fullName, pathParts);
         }
     }

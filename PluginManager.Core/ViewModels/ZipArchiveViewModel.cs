@@ -7,6 +7,7 @@ namespace PluginManager.Core.ViewModels
     using global::System.Collections.ObjectModel;
     using global::System.IO.Compression;
     using global::System.Linq;
+    using PluginManager.Core.Utilities;
 
     /// <summary>
     /// Defines the <see cref="ZipArchiveViewModel" />.
@@ -32,7 +33,7 @@ namespace PluginManager.Core.ViewModels
 
             foreach (var entry in archive.Entries)
             {
-                var pathParts = entry.FullName.Split(spliters, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var pathParts = entry.FullNormalName().Split(spliters, StringSplitOptions.RemoveEmptyEntries).ToList();
                 var fullName = pathParts[0];
                 SaveBranchAndNode(entry, fullName, pathParts);
             }
@@ -48,7 +49,7 @@ namespace PluginManager.Core.ViewModels
         /// <summary>
         /// Gets the Entries.
         /// </summary>
-        public ObservableCollection<ZipArchiveEntryViewModel> Entries { get; } = new ObservableCollection<ZipArchiveEntryViewModel>();
+        public SortedList<string, ZipArchiveEntryViewModel> SortedEntries { get; } = new SortedList<string, ZipArchiveEntryViewModel>();
 
         /// <summary>
         /// Gets the FileName.
@@ -68,6 +69,9 @@ namespace PluginManager.Core.ViewModels
         /// </summary>
         public string Path { get; private set; }
 
+        public List<ZipArchiveEntryViewModel> Entries
+            => new Lazy<List<ZipArchiveEntryViewModel>>(() => new List<ZipArchiveEntryViewModel>(SortedEntries.Values)).Value;
+
         /// <summary>
         /// The SaveBranchAndNode.
         /// </summary>
@@ -78,10 +82,10 @@ namespace PluginManager.Core.ViewModels
         {
             ZipArchiveEntryViewModel parent = null;
 
-            var vm = Entries.Where(e => fullName == e.FullName).SingleOrDefault();
+            var vm = SortedEntries.Values.Where(e => fullName == e.FullName).SingleOrDefault();
             if (vm == null)
             {
-                vm = new ZipArchiveEntryViewModel(this, pathParts[0], parent);
+                vm = new ZipArchiveEntryViewModel(this, pathParts[0], entry.Name=="", parent);
                 //Entries.Add(vm);
             }
 
@@ -92,7 +96,7 @@ namespace PluginManager.Core.ViewModels
                 return;
             }
 
-            fullName = $"{vm.FullName}/{pathParts[0]}";
+            fullName = $"{vm.FullName}\\{pathParts[0]}";
             vm.SaveBranchAndNode(entry, fullName, pathParts);
         }
     }
