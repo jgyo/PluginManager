@@ -8,6 +8,7 @@
     using PluginManager.Wpf.Windows;
     using System;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.IO;
     using System.Reflection;
@@ -51,6 +52,7 @@
         /// </summary>
         /// <param name="item">The item<see cref="ZipFileViewModel"/>.</param>
         /// <returns>The <see cref="bool"/>.</returns>
+        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "No benefit.")]
         private bool DeleteZipFile(ZipFileViewModel item)
         {
             try
@@ -85,7 +87,10 @@
                 FilterIndex = 1,
                 InitialDirectory = Locator.SetupViewModel.ZipFilesFolder
             };
+
             var result = dia.ShowDialog();
+            if (result == null || result == false)
+                return;
 
             var fullpath = dia.FileName;
             var filename = Path.GetFileName(fullpath);
@@ -135,7 +140,6 @@
             if (result == null || result.ButtonType == ButtonType.Cancel)
                 return;
 
-            // #Complete
             var vm = sender as ZipFileViewModel;
             Debug.Assert(vm != null);
 

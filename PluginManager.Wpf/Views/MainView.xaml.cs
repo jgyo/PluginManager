@@ -49,19 +49,10 @@
         }
 
         /// <summary>
-        /// Converts a long path name into a simple folder name.
-        /// </summary>
-        /// <param name="folder">The v<see cref="string"/>.</param>
-        private static void ShortenName(ref string folder)
-        {
-            folder = Path.GetFileName(folder);
-        }
-
-        /// <summary>
         /// The DeleteRecord.
         /// </summary>
         /// <param name="item">The item<see cref="ZipFileViewModel"/>.</param>
-        private void DeleteRecord(ZipFileViewModel item)
+        private static void DeleteRecord(ZipFileViewModel item)
         {
             DbCore.Delete(item);
             Locator.MainViewModel.ZipFileFolderCollection.Remove(item);
@@ -72,7 +63,7 @@
         /// </summary>
         /// <param name="item">The item<see cref="ZipFileViewModel"/>.</param>
         /// <returns>The <see cref="bool"/>.</returns>
-        private bool DeleteZipFile(ZipFileViewModel item)
+        private static bool DeleteZipFile(ZipFileViewModel item)
         {
             try
             {
@@ -83,6 +74,15 @@
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Converts a long path name into a simple folder name.
+        /// </summary>
+        /// <param name="folder">The v<see cref="string"/>.</param>
+        private static void ShortenName(ref string folder)
+        {
+            folder = Path.GetFileName(folder);
         }
 
         /// <summary>
@@ -118,17 +118,17 @@
         {
             if (vm != null)
             {
-                vm.DeleteSelectedFoldersRequested  += Vm_DeleteSelectedFoldersRequested;
-                vm.HideSelectedFoldersRequested    += Vm_HideSelectedFoldersRequested;
-                vm.RestoreSelectedItemsRequested   += Vm_RestoreSelectedFoldersRequested;
-                vm.SynchronizeDataBaseRequested    += Vm_SynchronizeDataBaseRequested;
-                vm.OpenSetupRequested              += Vm_OpenSetupRequested;
-                vm.EditSelectedFolderRequested     += Vm_EditSelectedFolderRequested;
+                vm.DeleteSelectedFoldersRequested += Vm_DeleteSelectedFoldersRequested;
+                vm.HideSelectedFoldersRequested += Vm_HideSelectedFoldersRequested;
+                vm.RestoreSelectedItemsRequested += Vm_RestoreSelectedFoldersRequested;
+                vm.SynchronizeDataBaseRequested += Vm_SynchronizeDataBaseRequested;
+                vm.OpenSetupRequested += Vm_OpenSetupRequested;
+                vm.EditSelectedFolderRequested += Vm_EditSelectedFolderRequested;
 
-                vm.EditSelectedZipFileRequested    += Vm_EditZipFileRequested;
-                vm.AddNewZipFileRequested          += Vm_AddNewZipFileRequested;
+                vm.EditSelectedZipFileRequested += Vm_EditZipFileRequested;
+                vm.AddNewZipFileRequested += Vm_AddNewZipFileRequested;
                 vm.DeleteSelectedZipFilesRequested += Vm_DeleteSelectedZipFilesRequested;
-                vm.OpenZipArchiveRequested         += Vm_OpenZipArchiveRequested;
+                vm.OpenZipArchiveRequested += Vm_OpenZipArchiveRequested;
             }
         }
 
