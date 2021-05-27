@@ -2,8 +2,11 @@
 {
     using Ookii.Dialogs.Wpf;
     using PluginManager.Core;
+    using PluginManager.Core.Logging;
     using PluginManager.Core.ViewModels;
+    using PluginManager.Wpf.Windows;
     using System;
+    using System.Diagnostics;
     using System.Drawing;
     using System.IO;
     using System.Reflection;
@@ -114,9 +117,28 @@
         private void Win_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var vm = DataContext as ZipFileViewModel;
-            vm.BrowseZipFileRequested -= Vm_BrowseZipFileRequested;
-            vm.DeleteZipFileRequested -= Vm_DeleteZipFileRequested;
-            vm.DoneEditingRequested   -= Vm_DoneEditingRequested;
+            vm.BrowseZipFileRequested  -= Vm_BrowseZipFileRequested;
+            vm.DeleteZipFileRequested  -= Vm_DeleteZipFileRequested;
+            vm.DoneEditingRequested    -= Vm_DoneEditingRequested;
+            vm.OpenZipArchiveRequested -= Vm_OpenZipArchiveRequested;
+        }
+
+        private void Vm_OpenZipArchiveRequested(object sender, EventArgs e)
+        {
+            var zfr = sender as ZipFileViewModel;
+            Debug.Assert(zfr != null);
+
+            try
+            {
+                var win = new ZipArchiveWindow(zfr);
+                win.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                App.Inform("Exception Encountered", "An exception occured while trying to open the file.");
+                var log = LogProvider.Instance.GetLogFor<ZipFileView>();
+                log.DebugException($"Unable to open {zfr.Filename}", ex);
+            }
         }
 
         /// <summary>
@@ -128,18 +150,20 @@
         {
             if (e.OldValue is ZipFileViewModel vm)
             {
-                vm.BrowseZipFileRequested -= Vm_BrowseZipFileRequested;
-                vm.DeleteZipFileRequested -= Vm_DeleteZipFileRequested;
-                vm.DoneEditingRequested   -= Vm_DoneEditingRequested;
+                vm.BrowseZipFileRequested  -= Vm_BrowseZipFileRequested;
+                vm.DeleteZipFileRequested  -= Vm_DeleteZipFileRequested;
+                vm.DoneEditingRequested    -= Vm_DoneEditingRequested;
+                vm.OpenZipArchiveRequested -= Vm_OpenZipArchiveRequested;
             }
 
             vm = e.NewValue as ZipFileViewModel;
 
             if (vm != null)
             {
-                vm.BrowseZipFileRequested += Vm_BrowseZipFileRequested;
-                vm.DeleteZipFileRequested += Vm_DeleteZipFileRequested;
-                vm.DoneEditingRequested   += Vm_DoneEditingRequested;
+                vm.BrowseZipFileRequested  += Vm_BrowseZipFileRequested;
+                vm.DeleteZipFileRequested  += Vm_DeleteZipFileRequested;
+                vm.DoneEditingRequested    += Vm_DoneEditingRequested;
+                vm.OpenZipArchiveRequested += Vm_OpenZipArchiveRequested;
             }
 
             viewModel = DataContext as ZipFileViewModel;

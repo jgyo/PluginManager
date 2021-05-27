@@ -66,6 +66,8 @@
         /// </summary>
         public event EventHandler DoneEditingRequested;
 
+        public event EventHandler OpenZipArchiveRequested;
+
         /// <summary>
         /// Gets or sets the AddedDate.
         /// </summary>
@@ -242,7 +244,7 @@
 
         private void OpenZipArchive()
         {
-            // #OpenZipArchive
+            OpenZipArchiveRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

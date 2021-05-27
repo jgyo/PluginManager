@@ -140,10 +140,12 @@
                 <Button
                     Width="100"
                     Command="{Binding OpenZipArchiveCommand}"
+                    ToolTip="Open this zip file."
                     Content="Open" />
                 <Button
                     Width="100"
                     Command="{Binding DeleteZipFileCommand}"
+                    ToolTip="Delete this zip file or record."
                     Content="Delete" />
             </DockPanel>
         </GroupBox>
@@ -152,6 +154,7 @@
             Padding="16,8"
             HorizontalAlignment="Right"
             Command="{Binding DoneEditingCommand}"
+            ToolTip="Close this window."
             Content="Done" />
     </Grid>
 </UserControl>
