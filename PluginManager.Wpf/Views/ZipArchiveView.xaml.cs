@@ -75,8 +75,11 @@ namespace PluginManager.Wpf.Views
         {
             var vm = DataContext as ZipArchiveViewModel;
 
-            var installFolder = Locator.SetupViewModel.CommunityFolder;
+            if (vm.Entries.Any(m => m.WillInstall) == false)
+                return;
 
+            var installFolder = Locator.SetupViewModel.CommunityFolder;
+            
             // var wd = App.WaitDialog("Your selected contents are being installed.");
 
             if (vm.AreAnyCheckedEntriesInstalled(installFolder))

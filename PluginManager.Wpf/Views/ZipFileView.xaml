@@ -58,7 +58,7 @@
                 VerticalAlignment="Stretch"
                 Content="{Binding Filename, FallbackValue='Folder Name'}"
                 Style="{DynamicResource NonEditBox}"
-                ToolTip="Use the browse button beside &quot;Zip File Name&quot; to modify." />
+                ToolTip="Use the browse button to modify." />
             <Button
                 Grid.Row="1"
                 Grid.Column="2"
@@ -74,7 +74,8 @@
                 Grid.Row="2"
                 Grid.Column="1"
                 Content="{Binding FilePath, FallbackValue='Folder Name'}"
-                Style="{DynamicResource NonEditBox}" />
+                Style="{DynamicResource NonEditBox}" 
+                ToolTip="Use the browse button beside &quot;Package Name&quot; to modify." />
             <Label
                 Grid.Row="3"
                 Grid.Column="0"
@@ -108,7 +109,7 @@
                 VerticalAlignment="Center"
                 Content="{Binding FileDate, FallbackValue='Zip File Name'}"
                 Style="{DynamicResource NonEditBox}"
-                ToolTip="Use the browse button on the right to modify." />
+                ToolTip="File date of the selected zip file."/>
             <Label
                 Grid.Row="6"
                 Grid.Column="0"
@@ -118,7 +119,8 @@
                 Grid.Row="6"
                 Grid.Column="1"
                 Content="{Binding AddedDate, FallbackValue='12/12/12 12:00:00'}"
-                Style="{DynamicResource NonEditBox}" />
+                Style="{DynamicResource NonEditBox}"
+                ToolTip="Date the selected zip file was added to the database."/>
             <Label
                 Grid.Row="7"
                 Grid.Column="0"
@@ -127,8 +129,11 @@
             <Label
                 Grid.Row="7"
                 Grid.Column="1"
-                Content="{Binding FileSize}"
-                Style="{DynamicResource NonEditBox}" />
+                Style="{DynamicResource NonEditBox}"
+                ToolTip="File size of the selected zip file.">
+                <!-- Must explicitly add a TextBlock for StringFormat to work. -->
+                <TextBlock Text="{Binding FileSize, StringFormat='\{0:n0\}'}" />
+            </Label>
         </Grid>
         <GroupBox
             Grid.Row="2"
