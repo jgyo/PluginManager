@@ -4,6 +4,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AssemblyVersion>1.0.2.21148</AssemblyVersion>
+    <FileVersion>1.0.2.21148</FileVersion>
+    <VersionSuffix>Beta</VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,6 +51,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>AppSettings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
 </Project>

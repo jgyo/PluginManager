@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.Wpf", "Plugin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBuilder", "DataBuilder\DataBuilder.csproj", "{7DC5286E-4170-4C62-8E61-DB92AE098070}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{274C5DA6-8C68-463C-9BA7-646E3AA5BA39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,8 @@ Global
 		{7DC5286E-4170-4C62-8E61-DB92AE098070}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DC5286E-4170-4C62-8E61-DB92AE098070}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DC5286E-4170-4C62-8E61-DB92AE098070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{274C5DA6-8C68-463C-9BA7-646E3AA5BA39}.Debug|Any CPU.ActiveCfg = Debug
+		{274C5DA6-8C68-463C-9BA7-646E3AA5BA39}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

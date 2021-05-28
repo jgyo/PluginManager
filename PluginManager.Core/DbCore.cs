@@ -16,6 +16,8 @@
         /// </summary>
         static DbCore()
         {
+            PmDb.BuildConnectString();
+
             var pvm = Locator.MainViewModel;
 
             using var dbc = new PmDb();
