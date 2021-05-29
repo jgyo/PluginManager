@@ -5,5 +5,5 @@ problems, and restore them on a whim.
 
 View this quick YouTube video introduction to Program Manager:
 
-[![Intro to PM](https://i.imgur.com/FfX3Lqf.png)](https://youtu.be/fn8er06P4O8)
+[![Intro to PM](https://i.imgur.com/FfX3Lqf.png)](https://youtu.be/GPSoS32uoqY)
 
