@@ -27,8 +27,7 @@
                     Content="Browse"
                     DockPanel.Dock="Right" />
                 <TextBox
-                    x:Name="com"
-                    VerticalAlignment="Stretch"
+                    x:Name="community"
                     Style="{DynamicResource TextBoxErrorStyle}"
                     Text="{Binding CommunityFolder, ValidatesOnDataErrors=True}" />
             </DockPanel>
@@ -41,7 +40,10 @@
                     Command="{Binding BrowseForHiddenFolderCommand}"
                     Content="Browse"
                     DockPanel.Dock="Right" />
-                <TextBox Style="{DynamicResource TextBoxErrorStyle}" Text="{Binding HiddenFilesFolder, ValidatesOnDataErrors=True}" />
+                <TextBox
+                    x:Name="hidden"
+                    Style="{DynamicResource TextBoxErrorStyle}"
+                    Text="{Binding HiddenFilesFolder, ValidatesOnDataErrors=True}" />
             </DockPanel>
             <TextBlock Margin="4" Text="Zip Files Folder Path" />
             <DockPanel Margin="4" LastChildFill="True">

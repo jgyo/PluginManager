@@ -315,6 +315,7 @@
                     HorizontalAlignment="Right"
                     Command="{Binding SynchronizeDataBaseCommand}"
                     Content="Synchronize"
+                    IsEnabled="{Binding CanSynchronizeDataBase}"
                     ToolTip="Synchronize database with existing install folders." />
             </Grid>
         </TabItem>

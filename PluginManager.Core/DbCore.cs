@@ -1,7 +1,9 @@
 ﻿namespace PluginManager.Core
 {
+    using global::System;
     using global::System.Collections.Generic;
     using global::System.Diagnostics;
+    using global::System.IO;
     using PluginManager.Core.Logging;
     using PluginManager.Core.ViewModels;
     using PluginManager.Data.Models;
@@ -16,7 +18,10 @@
         /// </summary>
         static DbCore()
         {
-            PmDb.BuildConnectString();
+            PmDb.BuildConnectString(
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "Yoder\\PluginManager"));
 
             var pvm = Locator.MainViewModel;
 

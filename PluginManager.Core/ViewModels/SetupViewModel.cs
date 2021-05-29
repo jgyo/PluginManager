@@ -13,8 +13,10 @@
 
 
 
+
     public class SetupViewModel : ViewModel, IDataErrorInfo
     {
+        private const string WRONGVOLUMEERRORMSG = "The hidden and community folders must be on the same drive.";
         private bool canAcceptChanges = false;
         private string communityFolder;
         private string error = string.Empty;
@@ -42,44 +44,7 @@
             get { return communityFolder; }
             set
             {
-                var path = value ?? "";
-                if (path == string.Empty)
-                {
-                    SetErrors("The community folder path is required");
-                }
-                else if (path.Length > 256)
-                {
-                    SetErrors("The community folder length > 256");
-                }
-                else
-                {
-                    try
-                    {
-                        path = Path.GetFullPath(path);
-                    }
-                    catch (Exception e)
-                    {
-                        SetErrors(e.Message);
-                        SetProperty(ref communityFolder, value);
-                        return;
-                    }
-
-                    if (path.Length > 256)
-                    {
-                        SetErrors("The community folder length > 256");
-                    }
-                    else if (Directory.Exists(path))
-                        if (Path.GetPathRoot(path) == Path.GetPathRoot(HiddenFilesFolder))
-                            SetErrors();
-                        else
-                        {
-                            SetErrors("The hidden and community folders must be on the same drive.", "HiddenFilesFolder");
-                            RaisePropertyChanged("HiddenFilesFolder");
-                        }
-                    else
-                        SetErrors("The given path does not exist");
-                }
-
+                var path = CheckForFolderErrors(value);
                 SetProperty(ref communityFolder, path);
             }
         }
@@ -101,43 +66,73 @@
             get { return hiddenFilesFolder; }
             set
             {
-                var path = value;
-                if (path == string.Empty)
-                {
-                    SetErrors("The hidden files folder path is required");
-                }
-                else if (path.Length > 256)
-                {
-                    SetErrors("The hidden files folder length > 256");
-                }
-                else
-                {
-                    try
-                    {
-                        path = Path.GetFullPath(path);
-                    }
-                    catch (Exception e)
-                    {
-                        SetErrors(e.Message);
-                        SetProperty(ref hiddenFilesFolder, value);
-                        return;
-                    }
-
-                    if (path.Length > 256)
-                    {
-                        SetErrors("The hidden files folder length > 256");
-                    }
-                    else if (Directory.Exists(path))
-                        if (Path.GetPathRoot(path) == Path.GetPathRoot(CommunityFolder))
-                            SetErrors();
-                        else
-                            SetErrors("The hidden and community folders must be on the same drive.");
-                    else
-                        SetErrors("The given does not exist");
-                }
-
+                var path = CheckForFolderErrors(value);
                 SetProperty(ref hiddenFilesFolder, path);
             }
+        }
+
+        private string CheckForFolderErrors(string path, [CallerMemberName] string property = null)
+        {
+            // Clear previous errors if any.
+            SetErrors("", property);
+            var oldValue = path;
+            if (path == string.Empty)
+            {
+                SetErrors("A folder path is required", property);
+            }
+            else if (path.Length > 256)
+            {
+                SetErrors("The hidden files folder length > 256", property);
+            }
+            else
+            {
+                try
+                {
+                    path = Path.GetFullPath(path);
+                }
+                catch (Exception e)
+                {
+                    SetErrors(e.Message);
+                    return oldValue;
+                }
+
+                if (path.Length > 256)
+                {
+                    SetErrors("The folder length > 256");
+                }
+                else if (Directory.Exists(path))
+                    if (Path.GetPathRoot(path) == (property == "HiddenFilesFolder" ? Path.GetPathRoot(CommunityFolder) : Path.GetPathRoot(HiddenFilesFolder)))
+                    {
+                        // SetErrors();
+                        if (property == "HiddenFilesFolder")
+                        {
+                            if (this["CommunityFolder"] == WRONGVOLUMEERRORMSG)
+                            {
+                                SetErrors("", "CommunityFolder");
+                                RaisePropertyChanged("CommunityFolder");
+                            }
+                        }
+                        else
+                        {
+                            if (this["HiddenFilesFolder"] == WRONGVOLUMEERRORMSG)
+                            {
+                                SetErrors("", "HiddenFilesFolder");
+                                RaisePropertyChanged("HiddenFilesFolder");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SetErrors(WRONGVOLUMEERRORMSG, property);
+                    }
+                else
+                {
+                    SetErrors("The given path does not exist", property);
+                    return oldValue;
+                }
+            }
+
+            return path;
         }
 
         public bool LoggingEnabled

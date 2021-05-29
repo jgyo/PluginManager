@@ -4,6 +4,7 @@
     using global::System.Collections.ObjectModel;
     using global::System.Collections.Specialized;
     using global::System.Diagnostics;
+    using global::System.IO;
     using global::System.Windows.Input;
     using PluginManager.Core.Commands;
     using PluginManager.Core.EventHandlers;
@@ -100,6 +101,22 @@
         public bool AreZipFilesSelected
         {
             get { return SelectedZipFilesCollection?.Count > 0; }
+        }
+
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Needed for binding in xaml.")]
+        public bool CanSynchronizeDataBase
+        {
+            get
+            {
+                var setup = Locator.SetupViewModel;
+                var community = setup.CommunityFolder;
+                var hidden = setup.HiddenFilesFolder;
+
+                return !string.IsNullOrEmpty(community) &&
+                    !string.IsNullOrEmpty(hidden) &&
+                    Directory.Exists(community) &&
+                    Directory.Exists(hidden);
+            }
         }
 
         /// <summary>
@@ -280,6 +297,7 @@
         {
             var suvm = Locator.SetupViewModel;
             OpenSetupRequested?.Invoke(this, new ViewModelEventArgs(suvm));
+            RaisePropertyChanged("CanSynchronizeDataBase");
         }
         /// <summary>
         /// Moves selected folders to the Community folder.

@@ -25,6 +25,12 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_CE3C48F791DC44DCB4C4CE0655CA566E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -135,6 +141,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CE3C48F791DC44DCB4C4CE0655CA566E"
+            {
+            "SourcePath" = "8:..\\PluginManager.Data\\pmdb.sqlite"
+            "TargetName" = "8:pmdb.sqlite"
+            "Tag" = "8:"
+            "Folder" = "8:_F15384BDA3344539A1E51BD6FE49847C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:TRUE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -175,6 +201,39 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_DC741EDBF171491B8B87D981A04F2666"
+            {
+            "Name" = "8:#1915"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:AppDataFolder"
+                "Folders"
+                {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_20E7BB351273496B841A7D8A085857A6"
+                    {
+                    "Name" = "8:Yoder"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_84B6AF1316834D909E628596E9FA3998"
+                        "Folders"
+                        {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_F15384BDA3344539A1E51BD6FE49847C"
+                            {
+                            "Name" = "8:PluginManager"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_59D1BF6D02A64D32B037E2C66ADA8DDA"
+                                "Folders"
+                                {
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         "LaunchCondition"
         {
@@ -191,15 +250,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Plugin Manager"
-        "ProductCode" = "8:{F2B77727-C7B9-4F64-9CA7-BEC9050E9943}"
-        "PackageCode" = "8:{17D601D3-F8CB-4716-8EA1-4879B14DBA9F}"
+        "ProductCode" = "8:{E62A5D3F-45EA-4CB7-A53C-76322798A9E5}"
+        "PackageCode" = "8:{C8A481B2-7B18-4FE9-A711-0F4D052672CC}"
         "UpgradeCode" = "8:{A3F6AA49-A9FD-45D9-9539-B2993E1BE98F}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.17"
         "Manufacturer" = "8:Gil Yoder Programming"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/jgyo/PluginManager/wiki"
