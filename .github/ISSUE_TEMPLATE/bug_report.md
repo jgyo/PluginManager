@@ -10,6 +10,9 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+**Program Version**
+Specify the program version in which the bug was found. (Please don't write, "Latest Release.")
+
 **To Reproduce**
 Itemized steps to reproduce the behavior:
 
