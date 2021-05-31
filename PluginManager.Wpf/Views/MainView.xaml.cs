@@ -519,6 +519,9 @@
 
             var temp = new List<FolderViewModel>();
 
+            // Look for folders that are listed in FolderCollection but
+            // don't exist in either the community folder or the hidden
+            // folder, and add those to temp.
             foreach (var folder in Locator.MainViewModel.FolderCollection)
             {
                 if (allNames.Contains(folder.FolderName))
@@ -527,14 +530,18 @@
                 temp.Add(folder);
             }
 
+            // Remome the outdated records from FolderCollection.
             foreach (var folder in temp)
             {
                 Locator.MainViewModel.FolderCollection.Remove(folder);
             }
 
+            // Delete the outdated records from the database.
             DbCore.Delete(temp);
             temp.Clear();
 
+            // Correct hidden folder statuses if they are no longer
+            // hidden.
             foreach (var item in hiddenFolderNames)
             {
                 var folder = Locator.MainViewModel.FolderCollection.Where(m => m.FolderName == item).FirstOrDefault();
@@ -545,6 +552,7 @@
                 temp.Add(folder);
             }
 
+            // Correct unhidden folder statuses if they are now hidden.
             foreach (var item in communityFolderNames)
             {
                 var folder = Locator.MainViewModel.FolderCollection.Where(m => m.FolderName == item).FirstOrDefault();
@@ -558,9 +566,10 @@
             DbCore.Update(temp);
             temp.Clear();
 
+            // Add new community folders to temp
             foreach (var item in communityFolderNames.Where(m => !Locator.MainViewModel.FolderCollection.Any(v => v.FolderName == m)))
             {
-                var di = new DirectoryInfo(Path.Combine(Locator.SetupViewModel.HiddenFilesFolder, item));
+                var di = new DirectoryInfo(Path.Combine(Locator.SetupViewModel.CommunityFolder, item));
                 var vm = new FolderViewModel()
                 {
                     FolderName = item,
@@ -571,6 +580,7 @@
                 temp.Add(vm);
             }
 
+            // Add new hidden folders to temp
             foreach (var item in hiddenFolderNames.Where(m => !Locator.MainViewModel.FolderCollection.Any(v => v.FolderName == m)))
             {
                 var di = new DirectoryInfo(Path.Combine(Locator.SetupViewModel.HiddenFilesFolder, item));
@@ -584,10 +594,23 @@
                 temp.Add(vm);
             }
 
+            // Add new folders to the database.
             DbCore.Add(temp);
+            // Add new folders to FolderCollection.
             foreach (var item in temp)
             {
                 Locator.MainViewModel.FolderCollection.Add(item);
+            }
+
+            // Fix InstallDate field error from PluginManager 1.0.17 Beta
+            var ErroneousDate = DateTimeOffset.Parse("12/31/1600 6:00:00 PM").DateTime;
+            foreach (var item in Locator.MainViewModel.FolderCollection
+                .Where(m => m.InstallDate == ErroneousDate))
+            {
+                var path = item.IsHidden ? Locator.SetupViewModel.HiddenFilesFolder : Locator.SetupViewModel.CommunityFolder;
+                var di = new DirectoryInfo(Path.Combine(path, item.FolderName));
+                item.InstallDate = di.CreationTime;
+                DbCore.Update(item);
             }
         }
 
