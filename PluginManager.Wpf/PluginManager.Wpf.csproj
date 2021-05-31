@@ -4,8 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>1.0.19.21151</AssemblyVersion>
-    <FileVersion>1.0.19.21151</FileVersion>
+    <AssemblyVersion>1.0.21.21151</AssemblyVersion>
+    <FileVersion>1.0.21.21151</FileVersion>
     <VersionSuffix>Beta</VersionSuffix>
   </PropertyGroup>
 
