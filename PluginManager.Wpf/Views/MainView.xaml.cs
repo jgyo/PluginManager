@@ -283,7 +283,8 @@
 
             // #Switch
             var option = win.RadioButtons[0].Checked ? 1 : win.RadioButtons[1].Checked ? 2 : 3;
-            foreach (var item in vm.SelectedZipFilesCollection)
+            var selectedZips = new List<ZipFileViewModel>(vm.SelectedZipFilesCollection);
+            foreach (var item in selectedZips)
             {
                 switch (option)
                 {
