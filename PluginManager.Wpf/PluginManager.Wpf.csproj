@@ -4,9 +4,20 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>1.0.22.21152</AssemblyVersion>
-    <FileVersion>1.0.22.21152</FileVersion>
-    <VersionSuffix>Beta</VersionSuffix>
+    <AssemblyVersion>1.0.34.21152</AssemblyVersion>
+    <FileVersion>1.0.34.21152</FileVersion>
+      <InformationalVersion>1.0.22-Beta</InformationalVersion>
+    <Copyright>2021 by Gil Yoder</Copyright>
+    <Authors>Gil Yoder</Authors>
+    <Company>Gil Yoder Software</Company>
+    <Product>Plugin Manager</Product>
+    <Copyright>2021 by Gil Yoder</Copyright>
+    <PackageProjectUrl>https://github.com/jgyo/PluginManager</PackageProjectUrl>
+    <PackageIcon>plugin.ico</PackageIcon>
+    <PackageIconUrl />
+    <NeutralLanguage>en</NeutralLanguage>
+    <Description>A utility to help MSFS users manage third party add-ons.</Description>
+    <PackageLicenseFile>LICENSE.rtf</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +28,14 @@
     <None Remove="Resources\qmark.ico" />
     <None Remove="Resources\setup.ico" />
     <None Remove="Resources\zip-file.ico" />
+    <None Include="..\LICENSE.rtf">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="Resources\plugin.ico">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

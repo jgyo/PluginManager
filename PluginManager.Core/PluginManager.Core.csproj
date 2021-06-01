@@ -2,8 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>1.0.19.21152</AssemblyVersion>
-    <FileVersion>1.0.19.21152</FileVersion>
+    <AssemblyVersion>1.0.24.21152</AssemblyVersion>
+    <FileVersion>1.0.24.21152</FileVersion>
+    <Authors>Gil Yoder</Authors>
+    <Company>Gil Yoder Software</Company>
+    <Copyright>2021 by Gil Yoder</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
