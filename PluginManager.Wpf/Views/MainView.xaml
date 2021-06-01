@@ -164,250 +164,76 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <TabControl>
-        <TabItem Header="Folders">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="83*" />
-                    <ColumnDefinition Width="711*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Button
-                    Grid.Column="1"
-                    Margin="8"
-                    HorizontalAlignment="Right"
-                    Command="{Binding OpenSetupCommand}"
-                    Content="Setup"
-                    Style="{DynamicResource SetupButton}"
-                    ToolTip="Setup program resources." />
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="8,8,8,8"
-                    HorizontalAlignment="Left"
-                    FontSize="18"
-                    Text="Installed (or Hidden) MSFS Folder Folders" />
-                <DataGrid
-                    Name="folderControl"
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    Margin="8,8,8,8"
-                    AutoGenerateColumns="False"
-                    CanUserAddRows="False"
-                    CellStyle="{DynamicResource HidableCellStyle}"
-                    ItemsSource="{Binding FolderCollection}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Binding="{Binding FolderId}"
-                            Header="Id"
-                            IsReadOnly="True" />
-                        <DataGridTemplateColumn Header="Hidden">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <TextBlock
-                                            x:Name="TrueBox"
-                                            HorizontalAlignment="Center"
-                                            FontWeight="Bold"
-                                            Foreground="Red"
-                                            Text="Yes" />
-                                        <TextBlock
-                                            x:Name="FalseBox"
-                                            HorizontalAlignment="Center"
-                                            Text="No"
-                                            Visibility="Hidden" />
-                                    </Grid>
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding IsHidden}" Value="True">
-                                            <Setter TargetName="TrueBox" Property="Visibility" Value="Visible" />
-                                            <Setter TargetName="FalseBox" Property="Visibility" Value="Hidden" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsHidden}" Value="False">
-                                            <Setter TargetName="TrueBox" Property="Visibility" Value="Hidden" />
-                                            <Setter TargetName="FalseBox" Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn
-                            Binding="{Binding FolderName}"
-                            Header="Folder Name"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding InstallDate}"
-                            Header="Install Date"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding PackageId}"
-                            Header="Package Id"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding Package.AddonName}"
-                            Header="Product Name"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding Package.Version}"
-                            Header="Version"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding Package.Filename}"
-                            Header="Zip File Name"
-                            IsReadOnly="True" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <GroupBox
-                    Grid.Row="2"
-                    Grid.ColumnSpan="2"
-                    Margin="8,8,0,8"
-                    HorizontalAlignment="Left"
-                    BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}"
-                    Header="Selected Items Options"
-                    IsEnabled="{Binding AreFoldersSelected}">
-                    <Grid HorizontalAlignment="Left">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <Button
-                            Width="100"
-                            Margin="4"
-                            Command="{Binding DeleteSelectedFoldersCommand}"
-                            Content="Delete"
-                            ToolTip="Delete the selected folders." />
-                        <Button
-                            Grid.Column="1"
-                            Width="100"
-                            Margin="4"
-                            Command="{Binding HideSelectedFoldersCommand}"
-                            Content="Hide"
-                            ToolTip="Hide folders in selected items." />
-                        <Button
-                            Grid.Column="2"
-                            Width="100"
-                            Margin="4"
-                            Command="{Binding RestoreSelectedFoldersCommand}"
-                            Content="Restore"
-                            ToolTip="Restore hidden folders in selected items." />
-                        <Button
-                            Grid.Column="3"
-                            Width="100"
-                            Margin="4"
-                            Command="{Binding EditSelectedFolderCommand}"
-                            Content="Edit"
-                            IsEnabled="{Binding IsOneFolderSelected}"
-                            ToolTip="Edit the selected item." />
-                    </Grid>
-                </GroupBox>
-                <Button
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Margin="8"
-                    Padding="16,8"
-                    HorizontalAlignment="Right"
+    <DockPanel Margin="0,0,0,2">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem
                     Command="{Binding SynchronizeDataBaseCommand}"
-                    Content="Synchronize"
-                    IsEnabled="{Binding CanSynchronizeDataBase}"
-                    ToolTip="Synchronize database with existing install folders." />
-            </Grid>
-        </TabItem>
-        <TabItem Header="Packages">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="4*" />
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Button
-                    Grid.Column="1"
-                    Margin="8"
-                    HorizontalAlignment="Right"
-                    Command="{Binding OpenSetupCommand}"
-                    Content="Setup"
-                    Style="{DynamicResource SetupButton}"
-                    ToolTip="Setup program resources." />
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="8,8,8,8"
-                    HorizontalAlignment="Left"
-                    FontSize="18"
-                    Text="Zip File Records" />
-                <DataGrid
-                    Name="zipfilesControl"
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    Margin="8,8,8,8"
-                    AutoGenerateColumns="False"
-                    CanUserAddRows="False"
-                    ItemsSource="{Binding ZipFileFolderCollection}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Binding="{Binding PackageId}"
-                            Header="Id"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding Filename}"
-                            Header="Package Name"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding AddonName}"
-                            Header="Product Name"
-                            IsReadOnly="False" />
-                        <DataGridTextColumn
-                            Binding="{Binding Version}"
-                            Header="Version"
-                            IsReadOnly="False" />
-                        <DataGridTextColumn
-                            Binding="{Binding FileDate}"
-                            Header="File Date"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding AddedDate}"
-                            Header="Added Date"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding FilePath}"
-                            Header="File Path"
-                            IsReadOnly="True" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <GridSplitter
-                    Grid.Row="2"
-                    Grid.ColumnSpan="2"
-                    Height="5"
-                    Margin="8,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    Background="LightGray" />
-                <Grid
-                    Grid.Row="2"
-                    Grid.ColumnSpan="2"
-                    Margin="8">
+                    Header="_Synchronize"
+                    IsEnabled="{Binding CanSynchronizeDataBase}" />
+                <MenuItem Command="{Binding AddNewZipFileCommand}" Header="Add _Zip File" />
+                <MenuItem Command="{Binding OpenSetupCommand}" Header="Set_up" />
+                <Separator />
+                <MenuItem Click="ExitMenuItemClick" Header="E_xit" />
+            </MenuItem>
+            <MenuItem Header="_Logging">
+                <MenuItem
+                    x:Name="LogEnabled"
+                    Click="LogEnabledMenuItemClick"
+                    Header="Lo_gging Enabled"
+                    IsCheckable="True" />
+                <MenuItem Header="_View Log" IsEnabled="False" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem
+                    x:Name="Docs"
+                    Click="Docs_Click"
+                    Header="_Documentation" />
+                <MenuItem
+                    x:Name="Support"
+                    Click="Support_Click"
+                    Header="Su_pport" />
+                <Separator />
+                <MenuItem
+                    x:Name="About"
+                    Click="About_Click"
+                    Header="_About" />
+            </MenuItem>
+        </Menu>
+        <TabControl>
+            <TabItem Header="Folders">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="83*" />
+                        <ColumnDefinition Width="711*" />
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Margin="0,0,0,8" Text="Selected Package Folders" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="8,8,8,8"
+                        HorizontalAlignment="Left"
+                        FontSize="18"
+                        Text="Installed (or Hidden) MSFS Folder Folders" />
                     <DataGrid
+                        Name="folderControl"
                         Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="8,8,8,8"
                         AutoGenerateColumns="False"
                         CanUserAddRows="False"
-                        CanUserDeleteRows="False"
-                        IsReadOnly="True"
-                        ItemsSource="{Binding Path=SelectedZipFile.Folders}">
+                        CellStyle="{DynamicResource HidableCellStyle}"
+                        ItemsSource="{Binding FolderCollection}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding FolderId}" Header="Id" />
+                            <DataGridTextColumn
+                                Binding="{Binding FolderId}"
+                                Header="Id"
+                                IsReadOnly="True" />
                             <DataGridTemplateColumn Header="Hidden">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -437,63 +263,258 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Binding="{Binding FolderName}" Header="Folder Name" />
-                            <DataGridTextColumn Binding="{Binding InstallDate}" Header="Install Date" />
+                            <DataGridTextColumn
+                                Binding="{Binding FolderName}"
+                                Header="Folder Name"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding InstallDate}"
+                                Header="Install Date"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding PackageId}"
+                                Header="Package Id"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding Package.AddonName}"
+                                Header="Product Name"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding Package.Version}"
+                                Header="Version"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding Package.Filename}"
+                                Header="Zip File Name"
+                                IsReadOnly="True" />
                         </DataGrid.Columns>
                     </DataGrid>
-                </Grid>
-                <GroupBox
-                    Grid.Row="4"
-                    Grid.ColumnSpan="2"
-                    Margin="8,8,0,8"
-                    HorizontalAlignment="Left"
-                    BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}"
-                    Header="Selected Zip File Record Options"
-                    IsEnabled="{Binding AreZipFilesSelected}">
-                    <Grid HorizontalAlignment="Left">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+                    <GroupBox
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Margin="8,8,0,8"
+                        HorizontalAlignment="Left"
+                        BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}"
+                        Header="Selected Items Options"
+                        IsEnabled="{Binding AreFoldersSelected}">
+                        <Grid HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
 
-                        <Button
-                            Grid.Column="0"
-                            Width="100"
-                            Margin="4"
-                            Command="{Binding OpenZipArchiveCommand}"
-                            Content="Open"
-                            IsEnabled="{Binding IsOneZipFileSelected}"
-                            ToolTip="Open the selected zip file." />
-                        <Button
-                            Grid.Column="1"
-                            Width="100"
-                            Margin="4"
-                            Command="{Binding DeleteSelectedZipFileCommand}"
-                            Content="Delete"
-                            IsEnabled="{Binding AreZipFilesSelected}"
-                            ToolTip="Delete the selected zip file and/or zip file record." />
-                        <Button
-                            Grid.Column="2"
-                            Width="100"
-                            Margin="4"
-                            Command="{Binding EditSelectedZipFileCommand}"
-                            Content="Edit"
-                            IsEnabled="{Binding IsOneZipFileSelected}"
-                            ToolTip="Edit the selected zip file record." />
+                            <Button
+                                Width="100"
+                                Margin="4"
+                                Command="{Binding DeleteSelectedFoldersCommand}"
+                                Content="Delete"
+                                ToolTip="Delete the selected folders." />
+                            <Button
+                                Grid.Column="1"
+                                Width="100"
+                                Margin="4"
+                                Command="{Binding HideSelectedFoldersCommand}"
+                                Content="Hide"
+                                ToolTip="Hide folders in selected items." />
+                            <Button
+                                Grid.Column="2"
+                                Width="100"
+                                Margin="4"
+                                Command="{Binding RestoreSelectedFoldersCommand}"
+                                Content="Restore"
+                                ToolTip="Restore hidden folders in selected items." />
+                            <Button
+                                Grid.Column="3"
+                                Width="100"
+                                Margin="4"
+                                Command="{Binding EditSelectedFolderCommand}"
+                                Content="Edit"
+                                IsEnabled="{Binding IsOneFolderSelected}"
+                                ToolTip="Edit the selected item." />
+                        </Grid>
+                    </GroupBox>
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="8"
+                        Padding="16,8"
+                        HorizontalAlignment="Right"
+                        Command="{Binding SynchronizeDataBaseCommand}"
+                        Content="Synchronize"
+                        IsEnabled="{Binding CanSynchronizeDataBase}"
+                        ToolTip="Synchronize database with existing install folders." />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Packages">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="4*" />
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="8,8,8,8"
+                        HorizontalAlignment="Left"
+                        FontSize="18"
+                        Text="Zip File Records" />
+                    <DataGrid
+                        Name="zipfilesControl"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="8,8,8,8"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        ItemsSource="{Binding ZipFileFolderCollection}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Binding="{Binding PackageId}"
+                                Header="Id"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding Filename}"
+                                Header="Package Name"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding AddonName}"
+                                Header="Product Name"
+                                IsReadOnly="False" />
+                            <DataGridTextColumn
+                                Binding="{Binding Version}"
+                                Header="Version"
+                                IsReadOnly="False" />
+                            <DataGridTextColumn
+                                Binding="{Binding FileDate}"
+                                Header="File Date"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding AddedDate}"
+                                Header="Added Date"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding FilePath}"
+                                Header="File Path"
+                                IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GridSplitter
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Height="5"
+                        Margin="8,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="LightGray" />
+                    <Grid
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Margin="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Margin="0,0,0,8" Text="Selected Package Folders" />
+                        <DataGrid
+                            Grid.Row="1"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="False"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding Path=SelectedZipFile.Folders}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding FolderId}" Header="Id" />
+                                <DataGridTemplateColumn Header="Hidden">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock
+                                                    x:Name="TrueBox"
+                                                    HorizontalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Foreground="Red"
+                                                    Text="Yes" />
+                                                <TextBlock
+                                                    x:Name="FalseBox"
+                                                    HorizontalAlignment="Center"
+                                                    Text="No"
+                                                    Visibility="Hidden" />
+                                            </Grid>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                                                    <Setter TargetName="TrueBox" Property="Visibility" Value="Visible" />
+                                                    <Setter TargetName="FalseBox" Property="Visibility" Value="Hidden" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsHidden}" Value="False">
+                                                    <Setter TargetName="TrueBox" Property="Visibility" Value="Hidden" />
+                                                    <Setter TargetName="FalseBox" Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Binding="{Binding FolderName}" Header="Folder Name" />
+                                <DataGridTextColumn Binding="{Binding InstallDate}" Header="Install Date" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </Grid>
-                </GroupBox>
-                <Button
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Margin="0,0,8,0"
-                    Padding="16,8"
-                    HorizontalAlignment="Right"
-                    Command="{Binding AddNewZipFileCommand}"
-                    Content="Add New"
-                    ToolTip="Browse to find a new zip file and add a new record for it." />
-            </Grid>
-        </TabItem>
-    </TabControl>
+                    <GroupBox
+                        Grid.Row="4"
+                        Grid.ColumnSpan="2"
+                        Margin="8,8,0,8"
+                        HorizontalAlignment="Left"
+                        BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}"
+                        Header="Selected Zip File Record Options"
+                        IsEnabled="{Binding AreZipFilesSelected}">
+                        <Grid HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Button
+                                Grid.Column="0"
+                                Width="100"
+                                Margin="4"
+                                Command="{Binding OpenZipArchiveCommand}"
+                                Content="Open"
+                                IsEnabled="{Binding IsOneZipFileSelected}"
+                                ToolTip="Open the selected zip file." />
+                            <Button
+                                Grid.Column="1"
+                                Width="100"
+                                Margin="4"
+                                Command="{Binding DeleteSelectedZipFileCommand}"
+                                Content="Delete"
+                                IsEnabled="{Binding AreZipFilesSelected}"
+                                ToolTip="Delete the selected zip file and/or zip file record." />
+                            <Button
+                                Grid.Column="2"
+                                Width="100"
+                                Margin="4"
+                                Command="{Binding EditSelectedZipFileCommand}"
+                                Content="Edit"
+                                IsEnabled="{Binding IsOneZipFileSelected}"
+                                ToolTip="Edit the selected zip file record." />
+                        </Grid>
+                    </GroupBox>
+                    <Button
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Margin="0,0,8,0"
+                        Padding="16,8"
+                        HorizontalAlignment="Right"
+                        Command="{Binding AddNewZipFileCommand}"
+                        Content="Add New"
+                        ToolTip="Browse to find a new zip file and add a new record for it." />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
 </UserControl>

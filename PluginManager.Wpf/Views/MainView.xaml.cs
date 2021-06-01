@@ -46,6 +46,8 @@
 
                 this.DataContext = vm;
             }
+
+            LogEnabled.IsChecked = LogProvider.Instance.LoggingEnabled;
         }
 
         /// <summary>
@@ -638,6 +640,34 @@
             {
                 vm.SelectedZipFilesCollection.Remove(item as ZipFileViewModel);
             }
+        }
+
+        private void ExitMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            Window.GetWindow(this).Close();
+        }
+
+        private void LogEnabledMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            var l = !LogProvider.Instance.LoggingEnabled;
+            LogEnabled.IsChecked = l;
+            LogProvider.Instance.LoggingEnabled = l;
+        }
+
+        private void Docs_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/jgyo/PluginManager/wiki") { CreateNoWindow = true });
+        }
+
+        private void Support_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/jgyo/PluginManager/discussions/categories/q-a") { CreateNoWindow = true });
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new AboutWindow();
+            win.ShowDialog();
         }
     }
 }

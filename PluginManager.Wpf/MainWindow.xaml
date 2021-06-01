@@ -8,7 +8,7 @@
     xmlns:views="clr-namespace:PluginManager.Wpf.Views"
     Title="Plugin Manager"
     Width="800"
-    Height="450"
+    Height="500"
     Icon="Resources\plugin.ico"
     mc:Ignorable="d">
     <Grid>
