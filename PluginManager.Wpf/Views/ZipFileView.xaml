@@ -46,7 +46,7 @@
             <Label
                 Grid.Row="0"
                 Grid.Column="1"
-                Content="{Binding PackageId, FallbackValue=100}" />
+                Content="{Binding PackageId}" />
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
@@ -56,7 +56,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 VerticalAlignment="Stretch"
-                Content="{Binding Filename, FallbackValue='Folder Name'}"
+                Content="{Binding Filename}"
                 Style="{DynamicResource NonEditBox}"
                 ToolTip="Use the browse button to modify." />
             <Button
@@ -74,7 +74,7 @@
             <Label
                 Grid.Row="2"
                 Grid.Column="1"
-                Content="{Binding FilePath, FallbackValue='Folder Name'}"
+                Content="{Binding FilePath}"
                 Style="{DynamicResource NonEditBox}"
                 ToolTip="Use the browse button beside &quot;Package Name&quot; to modify." />
             <Label
@@ -99,7 +99,7 @@
                 Width="150"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Text="{Binding Version, FallbackValue='Version'}" />
+                Text="{Binding Version}" />
             <Label
                 Grid.Row="5"
                 Grid.Column="0"
@@ -108,7 +108,7 @@
                 Grid.Row="5"
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                Content="{Binding FileDate, FallbackValue='Zip File Name'}"
+                Content="{Binding FileDate}"
                 Style="{DynamicResource NonEditBox}"
                 ToolTip="File date of the selected zip file." />
             <Label
@@ -119,7 +119,7 @@
             <Label
                 Grid.Row="6"
                 Grid.Column="1"
-                Content="{Binding AddedDate, FallbackValue='12/12/12 12:00:00'}"
+                Content="{Binding AddedDate}"
                 Style="{DynamicResource NonEditBox}"
                 ToolTip="Date the selected zip file was added to the database." />
             <Label

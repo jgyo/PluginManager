@@ -22,21 +22,21 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{Binding ProgramTitle, FallbackValue='Product'}" />
-                <Label Grid.Column="1" Content="{Binding InfoVersion, FallbackValue='Ver'}" />
+                <Label Grid.Column="0" Content="{Binding ProgramTitle}" />
+                <Label Grid.Column="1" Content="{Binding InfoVersion}" />
             </Grid>
             <Label
                 HorizontalAlignment="Center"
-                Content="{Binding Copyright, FallbackValue='copy'}"
+                Content="{Binding Copyright}"
                 FontSize="14" />
             <Label
                 HorizontalAlignment="Center"
-                Content="{Binding Description, FallbackValue='Description'}"
+                Content="{Binding Description}"
                 FontSize="14" />
             <TextBlock
                 HorizontalAlignment="Center"
                 Margin="0 10"
-                Text="{Binding CompanyName, FallbackValue='Company'}"
+                Text="{Binding CompanyName}"
                 FontSize="14" />
             <Grid HorizontalAlignment="Center" TextBlock.FontSize="14">
                 <Grid.ColumnDefinitions>

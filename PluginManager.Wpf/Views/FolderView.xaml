@@ -132,7 +132,7 @@
             <Label
                 Grid.Row="0"
                 Grid.Column="1"
-                Content="{Binding FolderId, FallbackValue=100}" />
+                Content="{Binding FolderId}" />
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
@@ -141,7 +141,7 @@
             <Label
                 Grid.Row="1"
                 Grid.Column="1"
-                Content="{Binding FolderName, FallbackValue='Folder Name'}"
+                Content="{Binding FolderName}"
                 Style="{DynamicResource NonEditBox}"
                 ToolTip="Use the browse button beside &quot;Zip File Name&quot; to modify." />
             <Label
@@ -152,7 +152,7 @@
             <Label
                 Grid.Row="2"
                 Grid.Column="1"
-                Content="{Binding InstallDate, FallbackValue='12/12/12 12:00:00'}"
+                Content="{Binding InstallDate}"
                 Style="{DynamicResource NonEditBox}" />
             <Label
                 Grid.Row="3"
@@ -198,7 +198,7 @@
             <Label
                 Grid.Row="5"
                 Grid.Column="1"
-                Content="{Binding Package.AddonName, FallbackValue='Folder Name'}"
+                Content="{Binding Package.AddonName}"
                 Style="{DynamicResource NonEditBox}" />
             <Label
                 Grid.Row="6"
@@ -210,7 +210,7 @@
                 Grid.Column="1"
                 Width="150"
                 HorizontalAlignment="Left"
-                Content="{Binding Package.Version, FallbackValue='Version'}"
+                Content="{Binding Package.Version}"
                 Style="{DynamicResource NonEditBox}" />
         </Grid>
         <GroupBox
