@@ -205,7 +205,7 @@
         /// <returns>The <see cref="bool"/>.</returns>
         public static bool Initialize()
         {
-            LogProvider.Instance.GetLogFor<DbCore>().Info("DbCore Initialized.");
+            FileLogProvider.Instance.GetLogFor<DbCore>().Info("DbCore Initialized.");
             return true;
         }
 

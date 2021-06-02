@@ -47,7 +47,7 @@
                 this.DataContext = vm;
             }
 
-            LogEnabled.IsChecked = LogProvider.Instance.LoggingEnabled;
+            LogEnabled.IsChecked = FileLogProvider.Instance.LoggingEnabled;
         }
 
         /// <summary>
@@ -430,7 +430,7 @@
             catch (Exception ex)
             {
                 App.Inform("Exception Encountered", "An exception occured while trying to open the file.");
-                var log = LogProvider.Instance.GetLogFor<MainView>();
+                var log = FileLogProvider.Instance.GetLogFor<MainView>();
                 log.DebugException($"Unable to open {zfr.Filename}", ex);
             }
         }
@@ -649,9 +649,9 @@
 
         private void LogEnabledMenuItemClick(object sender, RoutedEventArgs e)
         {
-            var l = !LogProvider.Instance.LoggingEnabled;
+            var l = !FileLogProvider.Instance.LoggingEnabled;
             LogEnabled.IsChecked = l;
-            LogProvider.Instance.LoggingEnabled = l;
+            FileLogProvider.Instance.LoggingEnabled = l;
         }
 
         private void Docs_Click(object sender, RoutedEventArgs e)

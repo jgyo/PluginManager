@@ -54,10 +54,10 @@
 
             AppSettings.Default.Save();
 
-            LogProvider.Instance.LoggingEnabled = setup.LoggingEnabled;
-            LogProvider.Instance.LogLevel = setup.LoggingLevel;
+            FileLogProvider.Instance.LoggingEnabled = setup.LoggingEnabled;
+            FileLogProvider.Instance.LogLevel = setup.LoggingLevel;
 
-            LogProvider.Instance.GetLogFor<SetupView>().Info("SetupViewModel saved.");
+            FileLogProvider.Instance.GetLogFor<SetupView>().Info("SetupViewModel saved.");
 
             setup.AcceptChangesRequested -= Setup_AcceptChangesRequested;
             setup.BrowseForFolderRequested -= Setup_BrowseForFolderRequested;

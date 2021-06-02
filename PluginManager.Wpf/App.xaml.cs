@@ -25,10 +25,10 @@
             vm.LoggingLevel = (LogLevel)AppSettings.Default.LogLevel;
             vm.LoggingEnabled = AppSettings.Default.LoggingEnabled;
 
-            LogProvider.Instance.LogLevel = vm.LoggingLevel;
-            LogProvider.Instance.LoggingEnabled = vm.LoggingEnabled;
+            FileLogProvider.Instance.LogLevel = vm.LoggingLevel;
+            FileLogProvider.Instance.LoggingEnabled = vm.LoggingEnabled;
 
-            var log = LogProvider.Instance.GetLogFor<App>();
+            var log = FileLogProvider.Instance.GetLogFor<App>();
             log.Info("Wpf.App logging started.");
             log.Info("SetupViewModel initialized.");
 

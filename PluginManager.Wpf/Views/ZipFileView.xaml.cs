@@ -197,7 +197,7 @@
             catch (Exception ex)
             {
                 App.Inform("Exception Encountered", "An exception occured while trying to open the file.");
-                var log = LogProvider.Instance.GetLogFor<ZipFileView>();
+                var log = FileLogProvider.Instance.GetLogFor<ZipFileView>();
                 log.DebugException($"Unable to open {zfr.Filename}", ex);
             }
         }

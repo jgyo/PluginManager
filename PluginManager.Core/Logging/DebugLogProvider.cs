@@ -3,9 +3,9 @@
     using global::System.Collections.Generic;
 
     /// <summary>
-    /// Defines the <see cref="LogProvider" />.
+    /// Defines the <see cref="DebugLogProvider" />.
     /// </summary>
-    public class LogProvider : ILogProvider
+    public class DebugLogProvider : ILogProvider
     {
         /// <summary>
         /// Defines the logs.
@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets the Instance.
         /// </summary>
-        public static LogProvider Instance { get; } = new LogProvider();
+        public static DebugLogProvider Instance { get; } = new DebugLogProvider();
 
         /// <summary>
         /// Gets or sets a value indicating whether LoggingEnabled.
@@ -78,7 +78,7 @@
             if (logs.ContainsKey(name))
                 return logs[name];
 
-            ILog log = LoggingEnabled ? new Log(name, LogLevel) : (ILog)new DisabledLog();
+            ILog log = LoggingEnabled ? new DebugLog(name, LogLevel) : (ILog)new DisabledLog();
             logs.Add(name, log);
 
             return log;

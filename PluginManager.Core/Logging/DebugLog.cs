@@ -4,9 +4,9 @@
     using global::System.Diagnostics;
 
     /// <summary>
-    /// Defines the <see cref="Log" />.
+    /// Defines the <see cref="DebugLog" />.
     /// </summary>
-    public class Log : ILog
+    public class DebugLog : ILog
     {
         /// <summary>
         /// Defines the logLevel.
@@ -19,11 +19,11 @@
         private readonly string name;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Log"/> class.
+        /// Initializes a new instance of the <see cref="DebugLog"/> class.
         /// </summary>
         /// <param name="name">The name<see cref="string"/>.</param>
         /// <param name="logLevel">The logLevel<see cref="LogLevel"/>.</param>
-        public Log(string name, LogLevel logLevel)
+        public DebugLog(string name, LogLevel logLevel)
         {
             this.name = name;
             this.logLevel = logLevel;

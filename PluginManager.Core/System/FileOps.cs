@@ -14,7 +14,7 @@
         /// </summary>
         static FileOps()
         {
-            LogProvider.Instance.GetLogFor<FileOps>().Debug("FileOps initialized.");
+            FileLogProvider.Instance.GetLogFor<FileOps>().Debug("FileOps initialized.");
         }
 
         /// <summary>
@@ -25,7 +25,7 @@
         public static void Delete(string folderName, string folderPath)
         {
             var path = Path.Combine(folderPath, folderName);
-            var log = LogProvider.Instance.GetLogFor<FileOps>();
+            var log = FileLogProvider.Instance.GetLogFor<FileOps>();
 
             if (Directory.Exists(path))
             {
@@ -54,7 +54,7 @@
         /// <returns>True if the folder was hidden. Otherwise false.</returns>
         public static bool Hide(string folderName, string communityFolder, string hiddenFolder)
         {
-            var log = LogProvider.Instance.GetLogFor<FileOps>();
+            var log = FileLogProvider.Instance.GetLogFor<FileOps>();
 
             try
             {
@@ -81,7 +81,7 @@
         /// <returns>The <see cref="bool"/>.</returns>
         public static bool Restore(string folderName, string communityFolder, string hiddenFolder)
         {
-            var log = LogProvider.Instance.GetLogFor<FileOps>();
+            var log = FileLogProvider.Instance.GetLogFor<FileOps>();
 
             try
             {
