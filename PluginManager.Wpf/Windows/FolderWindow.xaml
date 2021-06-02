@@ -15,6 +15,8 @@
     Icon="\Resources\Folder.ico"
     mc:Ignorable="d">
     <Grid>
+        <Image Source="/Resources/2021-01-03_16-15-43.png" Stretch="UniformToFill" />
+        <Grid Background="#A0FFFFFF" />
         <views:FolderView />
     </Grid>
 </Window>

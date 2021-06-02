@@ -37,8 +37,16 @@
 
         private void SetupView_Loaded(object sender, RoutedEventArgs e)
         {
-            var win = Window.GetWindow(this);
-            win.Closing += Win_Closing;
+            try
+            {
+                // The window does not exist in the design window
+                var win = Window.GetWindow(this);
+                win.Closing += Win_Closing;
+            }
+            catch (System.Exception)
+            {
+                return;
+            }
         }
 
         private void Win_Closing(object sender, CancelEventArgs e)

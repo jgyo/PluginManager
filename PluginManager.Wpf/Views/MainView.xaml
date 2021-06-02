@@ -163,6 +163,82 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="BorderBrush" Value="#7FD5DFE5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupBox}">
+                        <Grid SnapsToDevicePixels="true">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="6" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="6" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                x:Name="Header"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                Padding="3,1,3,0"
+                                TextBlock.Foreground="White">
+                                <ContentPresenter
+                                    ContentSource="Header"
+                                    RecognizesAccessKey="True"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Grid.RowSpan="3"
+                                Grid.ColumnSpan="4"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                                <Border.OpacityMask>
+                                    <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="7">
+                                        <Binding ElementName="Header" Path="ActualWidth" />
+                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                    </MultiBinding>
+                                </Border.OpacityMask>
+                                <Border
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="3">
+                                    <Border
+                                        BorderBrush="Transparent"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="2" />
+                                </Border>
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Grid.RowSpan="3"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4" />
+                            <ContentPresenter
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2"
+                                Margin="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <DockPanel Margin="0,0,0,2">
         <Menu DockPanel.Dock="Top">
@@ -200,8 +276,8 @@
                     Header="_About" />
             </MenuItem>
         </Menu>
-        <TabControl>
-            <TabItem Header="Folders">
+        <TabControl Background="Transparent">
+            <TabItem Background="Transparent" Header="Folders">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="83*" />
@@ -219,6 +295,8 @@
                         Margin="8,8,8,8"
                         HorizontalAlignment="Left"
                         FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="White"
                         Text="Installed (or Hidden) MSFS Folder Folders" />
                     <DataGrid
                         Name="folderControl"
@@ -294,7 +372,6 @@
                         Grid.ColumnSpan="2"
                         Margin="8,8,0,8"
                         HorizontalAlignment="Left"
-                        BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}"
                         Header="Selected Items Options"
                         IsEnabled="{Binding AreFoldersSelected}">
                         <Grid HorizontalAlignment="Left">
@@ -347,7 +424,7 @@
                         ToolTip="Synchronize database with existing install folders." />
                 </Grid>
             </TabItem>
-            <TabItem Header="Packages">
+            <TabItem Background="Transparent" Header="Packages">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -362,6 +439,8 @@
                         Margin="8,8,8,8"
                         HorizontalAlignment="Left"
                         FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="White"
                         Text="Zip File Records" />
                     <DataGrid
                         Name="zipfilesControl"
@@ -405,11 +484,11 @@
                     <GridSplitter
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
-                        Height="5"
+                        Height="4"
                         Margin="8,0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
-                        Background="LightGray" />
+                        Background="#33D3D3D3" />
                     <Grid
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
@@ -418,7 +497,10 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <TextBlock Margin="0,0,0,8" Text="Selected Package Folders" />
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Foreground="White"
+                            Text="Selected Package Folders" />
                         <DataGrid
                             Grid.Row="1"
                             AutoGenerateColumns="False"
@@ -467,7 +549,6 @@
                         Grid.ColumnSpan="2"
                         Margin="8,8,0,8"
                         HorizontalAlignment="Left"
-                        BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}"
                         Header="Selected Zip File Record Options"
                         IsEnabled="{Binding AreZipFilesSelected}">
                         <Grid HorizontalAlignment="Left">

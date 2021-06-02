@@ -7,15 +7,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:PluginManager.Wpf.ViewModels"
     Title="About Plugin Manager"
-    d:DesignHeight="232"
-    d:DesignWidth="406"
+    Height="232"
+    Width="406"
     ResizeMode="NoResize"
-    SizeToContent="WidthAndHeight"
     mc:Ignorable="d">
     <Window.DataContext>
         <vm:AboutViewModel />
     </Window.DataContext>
     <Grid>
+        <Image Source="/Resources/2021-01-03_16-15-43.png" Stretch="UniformToFill" />
+        <Grid  Background="#A0FFFFFF" />
         <StackPanel Margin="10,0,10,20">
             <Grid HorizontalAlignment="Center" TextBlock.FontSize="24">
                 <Grid.ColumnDefinitions>

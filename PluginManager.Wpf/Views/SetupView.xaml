@@ -72,7 +72,7 @@
 
             <TextBlock
                 Margin="4"
-                Text="Please provide the specified paths above. The community folder path, and hidden folder path are required, and must be on the same volume. The zip files path is optional, but recommended. Changes to logging require a restart to take effect."
+                Text="Please provide the specified paths above. The community folder path, and hidden folder path are required, and must be on the same volume. The zip files path is optional, but recommended."
                 TextWrapping="Wrap" />
             <DockPanel Margin="4" LastChildFill="False">
                 <Button
@@ -82,7 +82,6 @@
                     DockPanel.Dock="Right"
                     IsEnabled="{Binding CanAcceptChanges}" />
             </DockPanel>
-            <TextBlock Text="{Binding Error}" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -4,8 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>1.0.51.21152</AssemblyVersion>
-    <FileVersion>1.0.51.21152</FileVersion>
+    <AssemblyVersion>1.0.61.21153</AssemblyVersion>
+    <FileVersion>1.0.61.21153</FileVersion>
       <InformationalVersion>1.0.22-Beta</InformationalVersion>
     <Copyright>2021 by Gil Yoder</Copyright>
     <Authors>Gil Yoder</Authors>
@@ -21,6 +21,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="2021-01-03_16-15-43.png" />
+    <None Remove="Resources\2021-01-03_16-15-43.png" />
     <None Remove="Resources\folder-directory-file-arrow-upload-up-document-512.png" />
     <None Remove="Resources\folder.ico" />
     <None Remove="Resources\open-file-folder-emoji.png" />
@@ -48,6 +50,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="2021-01-03_16-15-43.png" />
+    <Resource Include="Resources\2021-01-03_16-15-43.png" />
     <Resource Include="Resources\folder.ico" />
     <Resource Include="Resources\open-file-folder-emoji.png" />
     <Resource Include="Resources\plugin.ico" />

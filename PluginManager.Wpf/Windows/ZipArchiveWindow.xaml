@@ -12,6 +12,8 @@
     Icon="\Resources\zip-file.ico"
     mc:Ignorable="d">
     <Grid>
+        <Image Source="/Resources/2021-01-03_16-15-43.png" Stretch="UniformToFill"  />
+        <Grid  Background="#A0FFFFFF" />
         <views:ZipArchiveView x:Name="view" />
     </Grid>
 </Window>

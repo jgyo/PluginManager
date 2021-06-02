@@ -21,7 +21,16 @@ namespace PluginManager.Wpf.ViewModels
 
         public AboutViewModel()
         {
-            var assembly = Application.Current.MainWindow.GetType().Assembly;
+            Assembly assembly;
+
+            try
+            {
+                assembly = Application.Current.MainWindow.GetType().Assembly;
+            }
+            catch (Exception)
+            {
+                return;
+            }
 
             foreach (var item in assembly.CustomAttributes)
             {

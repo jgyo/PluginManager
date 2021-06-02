@@ -12,6 +12,7 @@
     Icon="Resources\plugin.ico"
     mc:Ignorable="d">
     <Grid>
+        <Image Source="/2021-01-03_16-15-43.png" Stretch="UniformToFill" />
         <views:MainView />
     </Grid>
 </Window>
