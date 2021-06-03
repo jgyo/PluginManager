@@ -5,7 +5,7 @@ As of version 1.0.23-Beta Plugin Mananger has a new look.
 
 Until we can go through and update all of our images, you will see the old UI in our documentation, but the documentation will still be valid in most cases.
 
-This old YouTube video instroduction should still help to give you up and running:
+This old YouTube video instroduction should still help to get you up and running:
 
 [Video Intro to Plugin Manager](https://youtu.be/GPSoS32uoqY)
 
