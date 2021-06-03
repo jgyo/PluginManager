@@ -16,3 +16,5 @@ Or you can read our [Getting Started](https://github.com/jgyo/PluginManager/wiki
 1. Add a check for updates option.
 2. Add a download or info link for zip file records.
 3. Support for profiles.
+4. Make 7zip files work.
+5. Get plugin names manifest.json files.
