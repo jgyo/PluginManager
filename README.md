@@ -1,11 +1,13 @@
 # Plugin Manager
-Plugin Mananger is a new utility to help manage addons to Microsoft Flight Simulator
-2020. With it users can easily install new plugins, hide plugins that are causing
-problems, and restore them on a whim.
+As of version 1.0.23-Beta Plugin Mananger has a new look.
 
-View this quick YouTube video introduction to Plugin Manager and/or view our
-[Getting Started](https://github.com/jgyo/PluginManager/wiki/Getting-Started) page
-for help to get up and running:
+![Imgur](https://i.imgur.com/a5y1Kyg.png)
 
-[![Intro to PM](https://i.imgur.com/FfX3Lqf.png)](https://youtu.be/GPSoS32uoqY)
+Until we can go through and update all of our images, you will see the old UI in our documentation, but the documentation will still be valid in most cases.
+
+This old YouTube video instroduction should still help to give you up and running:
+
+[Video Intro to Plugin Manager](https://youtu.be/GPSoS32uoqY)
+
+Or you can read our [Getting Started](https://github.com/jgyo/PluginManager/wiki/Getting-Started) page from our [Wiki.](https://github.com/jgyo/PluginManager/wiki
 
