@@ -9,5 +9,5 @@ This old YouTube video instroduction should still help to give you up and runnin
 
 [Video Intro to Plugin Manager](https://youtu.be/GPSoS32uoqY)
 
-Or you can read our [Getting Started](https://github.com/jgyo/PluginManager/wiki/Getting-Started) page from our [Wiki.](https://github.com/jgyo/PluginManager/wiki
+Or you can read our [Getting Started](https://github.com/jgyo/PluginManager/wiki/Getting-Started) page from our [Wiki.](https://github.com/jgyo/PluginManager/wiki)
 
