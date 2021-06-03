@@ -669,5 +669,11 @@
             var win = new AboutWindow();
             win.ShowDialog();
         }
+
+        private void ViewLog_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new LogWindow();
+            win.ShowDialog();
+        }
     }
 }

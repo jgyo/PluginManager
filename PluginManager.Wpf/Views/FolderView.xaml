@@ -218,6 +218,7 @@
             Margin="4,4,0,0"
             HorizontalAlignment="Left"
             BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}"
+            Foreground="Black"
             Header="Folder Options">
             <DockPanel LastChildFill="False">
                 <Button

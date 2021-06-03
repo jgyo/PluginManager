@@ -193,7 +193,16 @@
         {
             Debug.Assert(vm != null);
             Debug.Assert(vm.PackageId != 0);
+
             using var dbc = new PmDb();
+            foreach (var item in vm.Folders)
+            {
+                item.PackageId = null;
+                var folderEnt = dbc.Find<Folder>(item.FolderId);
+                folderEnt.PackageId = null;
+                dbc.Update(folderEnt);
+            }
+
             var ent = dbc.Find<ZipFile>(vm.PackageId);
             dbc.ZipFiles.Remove(ent);
             dbc.SaveChanges();

@@ -6,7 +6,11 @@
     using PluginManager.Core.ViewModels;
     using PluginManager.Wpf.ViewModels;
     using PluginManager.Wpf.Windows;
+    using System;
+    using System.Reflection;
+    using System.Threading.Tasks;
     using System.Windows;
+    using System.Windows.Threading;
 
     /// <summary>
     /// Interaction logic for App.xaml.
@@ -56,13 +60,18 @@
             return td.ShowDialog().ButtonType == ButtonType.Yes;
         }
 
+        /// <summary>
+        /// The WaitDialog.
+        /// </summary>
+        /// <param name="description">The description<see cref="string"/>.</param>
+        /// <returns>The <see cref="WaitWindow"/>.</returns>
         public static WaitWindow WaitDialog(string description)
         {
             return new WaitWindow()
             {
                 DataContext = new WaitWindowViewModel()
                 {
-                    WindowTitle= "Working",
+                    WindowTitle = "Working",
                     Text = "Please wait.",
                     Description = description,
                     IsIndeterminate = true
@@ -84,6 +93,85 @@
             td.MainIcon = TaskDialogIcon.Information;
             td.Buttons.Add(new TaskDialogButton("Okay") { ButtonType = ButtonType.Ok });
             td.Show();
+        }
+
+        /// <summary>
+        /// The OnStartup.
+        /// </summary>
+        /// <param name="e">The e<see cref="StartupEventArgs"/>.</param>
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            SetupExceptionAhandling();
+        }
+
+        /// <summary>
+        /// The App_DispatcherUnhandledException.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="DispatcherUnhandledExceptionEventArgs"/>.</param>
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            LogUnhandledException(e.Exception, "App.DispatcherUnhandledException");
+        }
+
+        /// <summary>
+        /// The CurrentDomain_UnhandledException.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="UnhandledExceptionEventArgs"/>.</param>
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            LogUnhandledException(e.ExceptionObject as Exception, "AppDomain.CurrentDomain.UnhandledException");
+        }
+
+        /// <summary>
+        /// The LogUnhandledException.
+        /// </summary>
+        /// <param name="e">The e<see cref="Exception"/>.</param>
+        /// <param name="source">The source<see cref="string"/>.</param>
+        private void LogUnhandledException(Exception e, string source)
+        {
+            var message = $"Unhandled exception ({source})";
+            var log = FileLogProvider.Instance.GetLogFor<App>();
+
+            try
+            {
+                AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+                var assembly = Application.Current.MainWindow.GetType().Assembly;
+                var version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+                message = $"Unhandled exception in {assemblyName.Name} {version}";
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex, "Exception in LogUnhandledException");
+            }
+            finally
+            {
+                log.Error(e, message);
+                if (e.InnerException != null)
+                    log.Error(e.InnerException, "Inner Exception");
+            }
+        }
+
+        /// <summary>
+        /// The SetupExceptionAhandling.
+        /// </summary>
+        private void SetupExceptionAhandling()
+        {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+        }
+
+        /// <summary>
+        /// The TaskScheduler_UnobservedTaskException.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="UnobservedTaskExceptionEventArgs"/>.</param>
+        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            LogUnhandledException(e.Exception, "TaskScheduler.UnobservedTaskException");
         }
     }
 }

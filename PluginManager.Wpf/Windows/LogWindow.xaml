@@ -1,0 +1,47 @@
+﻿<Window
+    x:Class="PluginManager.Wpf.Windows.LogWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModels="clr-namespace:PluginManager.Wpf.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PluginManager.Wpf.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Plugin Manager Log"
+    Width="800"
+    Height="450"
+    Icon="/Resources/file-log.ico"
+    mc:Ignorable="d">
+    <Window.DataContext>
+        <ViewModels:LogViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Image
+            Grid.RowSpan="2"
+            Source="/Resources/2021-01-03_16-15-43.png"
+            Stretch="UniformToFill" />
+        <TextBox
+            Margin="8,8,8,0"
+            AcceptsReturn="True"
+            Background="#AAFFFFFF"
+            Text="{Binding LogText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <DockPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="8"
+            HorizontalAlignment="Right">
+            <Button
+                Width="60"
+                Command="{Binding SaveLogCommand}"
+                Content="Save"
+                IsEnabled="{Binding IsModified}" />
+            <Button
+                Width="60"
+                Click="DoneButtonClick"
+                Content="Done" />
+        </DockPanel>
+    </Grid>
+</Window>
