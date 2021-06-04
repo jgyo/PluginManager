@@ -33,7 +33,7 @@ namespace PluginManager.Core.ViewModels
 
             foreach (var entry in archive.Entries)
             {
-                var pathParts = entry.FullNormalName().Split(spliters, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var pathParts = entry.FullName.Split(spliters, StringSplitOptions.RemoveEmptyEntries).ToList();
                 var fullName = pathParts[0];
                 SaveBranchAndNode(entry, fullName, pathParts);
             }

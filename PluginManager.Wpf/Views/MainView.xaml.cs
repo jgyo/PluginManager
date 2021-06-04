@@ -429,7 +429,7 @@
             }
             catch (Exception ex)
             {
-                App.Inform("Exception Encountered", "An exception occured while trying to open the file.");
+                App.Inform("Exception Encountered", "An exception occured while trying to open the file. The zip file format may not be recognized.");
                 var log = FileLogProvider.Instance.GetLogFor<MainView>();
                 log.DebugException($"Unable to open {zfr.Filename}", ex);
             }

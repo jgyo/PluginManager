@@ -74,8 +74,9 @@ namespace PluginManager.Wpf.Views
         private void InstallButtonClick(object sender, RoutedEventArgs e)
         {
             var vm = DataContext as ZipArchiveViewModel;
+            var directory = vm.SelectedDirectory;
 
-            if (vm.Entries.Any(m => m.WillInstall) == false)
+            if (directory.Entries.Any(m => m.WillInstall) == false)
                 return;
 
             var installFolder = Locator.SetupViewModel.CommunityFolder;
