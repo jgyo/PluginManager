@@ -19,9 +19,9 @@ namespace PluginManager.Core.Utilities
         public static bool IsInstalled(this ZipArchiveEntryViewModel entry, string path)
         {
             if (entry.IsDirectory)
-                return Directory.Exists(Path.Combine(path, entry.FullNormalName()));
+                return Directory.Exists(Path.Combine(path, entry.Name));
 
-            return File.Exists(Path.Combine(path, entry.FullNormalName()));
+            return File.Exists(Path.Combine(path, entry.Name));
         }
 
         public static bool AreAnyCheckedEntriesInstalled(this ZipArchiveViewModel vm, string path)
@@ -37,25 +37,35 @@ namespace PluginManager.Core.Utilities
             return vm.SortedEntries.Values.Where(e => e.WillInstall).Any(e => e.IsInstalled(path));
         }
 
-        public static void InstallCheckedEntries(this ZipArchiveViewModel vm, string path, bool overwrite = false)
+        public static IEnumerable<string> InstallCheckedEntries(this ZipArchiveViewModel vm, string path, bool overwrite = false)
         {
             if (vm.SelectedDirectory is ZipArchiveEntryViewModel)
             {
-                (vm.SelectedDirectory as ZipArchiveEntryViewModel).InstallCheckedEntries(path, overwrite);
-                return;
+                foreach(var item in (vm.SelectedDirectory as ZipArchiveEntryViewModel).InstallCheckedEntries(path, overwrite))
+                {
+                    yield return item;
+                }
+
+                yield break;
             }
 
             if (overwrite == false)
                 Debug.Assert(vm.AreAnyCheckedEntriesInstalled(path) == false);
 
+            var installedFolders = new List<Tuple<int, string, DateTime>>();
             foreach (var entry in vm.SortedEntries.Values.Where(e => e.WillInstall))
             {
                 entry.InstallEntry(path, overwrite);
-                entry.InstallEntries(path, overwrite);
+                if (entry.IsDirectory)
+                {
+                    yield return entry.Name;
+                    var newpath = Path.Combine(path, entry.Name);
+                    entry.InstallEntries(newpath, overwrite);
+                }
             }
         }
 
-        public static void InstallCheckedEntries(this ZipArchiveEntryViewModel vm, string path, bool overwrite = false)
+        public static IEnumerable<string> InstallCheckedEntries(this ZipArchiveEntryViewModel vm, string path, bool overwrite = false)
         {
             if (overwrite == false)
                 Debug.Assert(vm.AreAnyCheckedEntriesInstalled(path) == false);
@@ -63,13 +73,18 @@ namespace PluginManager.Core.Utilities
             foreach (var entry in vm.SortedEntries.Values.Where(e => e.WillInstall))
             {
                 entry.InstallEntry(path, overwrite);
-                entry.InstallEntries(path, overwrite);
+                if (entry.IsDirectory)
+                {
+                    yield return entry.Name;
+                    var newpath = Path.Combine(path, entry.Name);
+                    entry.InstallEntries(newpath, overwrite);
+                }
             }
         }
 
         public static void InstallEntry(this ZipArchiveEntryViewModel vm, string path, bool overwrite = false)
         {
-            string fullName = Path.Combine(path, vm.FullName);
+            string fullName = Path.Combine(path, vm.Name);
             if (vm.IsDirectory)
             {
                 if (overwrite && Directory.Exists(fullName))
@@ -89,7 +104,11 @@ namespace PluginManager.Core.Utilities
             foreach (var entry in vm.SortedEntries.Values)
             {
                 entry.InstallEntry(path, overwrite);
-                entry.InstallEntries(path, overwrite);
+                if (entry.IsDirectory)
+                {
+                    var newpath = Path.Combine(path, entry.Name);
+                    entry.InstallEntries(newpath, overwrite);
+                }
             }
         }
 

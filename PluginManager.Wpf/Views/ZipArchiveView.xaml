@@ -60,13 +60,8 @@
             IsReadOnly="False"
             ItemsSource="{Binding SelectedDirectory.Entries}"
             MouseDoubleClick="DataGrid_MouseDoubleClick"
-            SelectionMode="Single"
-            SelectionUnit="FullRow">
+            SelectionUnit="FullRow" SelectionChanged="DataGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn
-                    Binding="{Binding WillInstall}"
-                    Header="Install"
-                    IsReadOnly="False" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -176,6 +176,11 @@
             }
         }
 
+        public void RaiseFoldersChangedEvent()
+        {
+            RaisePropertyChanged("Folders");
+        }
+
         public ICommand OpenZipArchiveCommand => new Command(OpenZipArchive);
 
         /// <summary>

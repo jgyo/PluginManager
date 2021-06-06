@@ -16,7 +16,7 @@
         {
             InitializeComponent();
 
-            var archive = new ZipArchiveViewModel(zfr.Filename, zfr.FilePath);
+            var archive = new ZipArchiveViewModel(zfr.Filename, zfr.FilePath, zfr.PackageId);
             view.DataContext = archive;
         }
     }

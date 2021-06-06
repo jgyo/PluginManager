@@ -336,6 +336,10 @@
             var vm = e.ViewModel as ZipFileViewModel;
             var win = new ZipFileWindow(vm);
             win.ShowDialog();
+
+            // Raise SelectedZipFile.Folders changed event in case folders were added
+            vm.RaiseFoldersChangedEvent();
+
             var dc = Locator.MainViewModel;
             dc.ZipFileViewModelClosed(vm);
         }
@@ -426,6 +430,9 @@
             {
                 var win = new ZipArchiveWindow(zfr);
                 win.ShowDialog();
+
+                // Raise SelectedZipFile.Folders chanbged event in case folders were added
+                vm.SelectedZipFile?.RaiseFoldersChangedEvent();
             }
             catch (Exception ex)
             {

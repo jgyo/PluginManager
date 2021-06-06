@@ -21,12 +21,14 @@ namespace PluginManager.Core.ViewModels
         /// </summary>
         /// <param name="fileName">The fileName<see cref="string"/>.</param>
         /// <param name="path">The path<see cref="string"/>.</param>
-        public ZipArchiveViewModel(string fileName, string path)
+        public ZipArchiveViewModel(string fileName, string path, long packageId)
         {
             SelectedDirectory = this;
 
             FileName = fileName;
             Path = global::System.IO.Path.GetFullPath(path);
+            PackageId = packageId;
+
             var archive = ZipFile.Open(FullPath, ZipArchiveMode.Read);
 
             var spliters = new[] {'\\', '/'};
@@ -55,6 +57,8 @@ namespace PluginManager.Core.ViewModels
         /// Gets the FileName.
         /// </summary>
         public string FileName { get; private set; }
+
+        public long PackageId { get; private set; }
 
         /// <summary>
         /// Gets the FullPath.
