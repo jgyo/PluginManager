@@ -87,7 +87,6 @@
             {
                 vm.DeleteScheduled = true;
                 FileOps.Delete(vm.FolderName, vm.IsHidden ? su.HiddenFilesFolder : su.CommunityFolder);
-                DbCore.Delete(vm);
 
                 var win = Window.GetWindow(this);
                 Debug.Assert(win != null);

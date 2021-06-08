@@ -74,11 +74,11 @@
 
             if (exception == null)
             {
-                File.AppendAllText(filePath, $"{logLevel} ({name}): {messageFunc()}\n");
+                File.AppendAllText(filePath, string.Format($"{logLevel} ({name}): {messageFunc()}\n", formatParameters));
                 return true;
             }
 
-            File.AppendAllText(filePath, $"{logLevel} ({name}): {messageFunc()} {Environment.NewLine}{exception.Message}\n");
+            File.AppendAllText(filePath, string.Format($"{logLevel} ({name}): {messageFunc()} {Environment.NewLine}{exception.Message}\n", formatParameters));
             return true;
         }
     }

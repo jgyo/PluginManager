@@ -132,7 +132,7 @@
         /// <param name="source">The source<see cref="string"/>.</param>
         private void LogUnhandledException(Exception e, string source)
         {
-            var message = $"Unhandled exception ({source})";
+            var message = $"Unhandled exception ({source}).\n{{0}}";
             var log = FileLogProvider.Instance.GetLogFor<App>();
 
             try
@@ -140,17 +140,17 @@
                 AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
                 var assembly = Application.Current.MainWindow.GetType().Assembly;
                 var version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-                message = $"Unhandled exception in {assemblyName.Name} {version}";
+                message = $"Unhandled exception in {assemblyName.Name} {version}.\n{{0}}";
             }
             catch (Exception ex)
             {
-                log.Error(ex, "Exception in LogUnhandledException");
+                log.Error(ex, "Exception in LogUnhandledException.");
             }
             finally
             {
-                log.Error(e, message);
+                log.Error(e, message, e.StackTrace);
                 if (e.InnerException != null)
-                    log.Error(e.InnerException, "Inner Exception");
+                    log.Error(e.InnerException, "Inner Exception\n{0}", e.InnerException.StackTrace);
             }
         }
 
