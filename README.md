@@ -11,10 +11,15 @@ This old YouTube video instroduction should still help to get you up and running
 
 Or you can read our [Getting Started](https://github.com/jgyo/PluginManager/wiki/Getting-Started) page from our [Wiki.](https://github.com/jgyo/PluginManager/wiki)
 
+This YouTube link will give a brief demo of the program:
+
+[Video Demo of Plugin Manager](https://www.youtube.com/watch?v=_Ay93wXM214)
+
 ## Road Map
 
 1. Add a check for updates option.
 2. Add a download or info link for zip file records.
 3. Support for profiles.
 4. Make 7zip files work.
-5. Get plugin names fromn manifest.json files.
+5. Get plugin names from manifest.json files.
+6. Add a check for updates link in main menu.
