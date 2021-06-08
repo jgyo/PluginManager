@@ -1,9 +1,8 @@
 # Plugin Manager
-As of version 1.0.23-Beta Plugin Mananger has a new look.
+We have released our first "official" package, [Plugin Manager 1.0.30.](https://github.com/jgyo/PluginManager/releases/tag/v.1.0.30)
+Check it out now, if you are still using one of the beta versions.
 
-![Imgur](https://i.imgur.com/a5y1Kyg.png)
-
-Until we can go through and update all of our images, you will see the old UI in our documentation, but the documentation will still be valid in most cases.
+![Snag_4333e1d9](https://user-images.githubusercontent.com/2886615/121266803-c451db00-c880-11eb-9833-b31bcbf3d0ce.png)
 
 This old YouTube video instroduction should still help to get you up and running:
 
@@ -22,4 +21,4 @@ This YouTube link will give a brief demo of the program:
 3. Support for profiles.
 4. Make 7zip files work.
 5. Get plugin names from manifest.json files.
-6. Add a check for updates link in main menu.
+6. Provide a way to update existing folder records automatically from zip file contents.
