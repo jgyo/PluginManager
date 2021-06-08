@@ -436,7 +436,7 @@
             }
             catch (Exception ex)
             {
-                App.Inform("Exception Encountered", "An exception occured while trying to open the file. The zip file format may not be recognized.");
+                App.Inform("Exception Encountered", "An exception occurred while trying to open the file. The zip file format may not be recognized.");
                 var log = FileLogProvider.Instance.GetLogFor<MainView>();
                 log.DebugException($"Unable to open {zfr.Filename}", ex);
             }
@@ -473,7 +473,7 @@
                 folderNames += item.FolderName + Environment.NewLine;
             }
 
-            var proceed = App.LastChance("Restore Folders Request", $"Restoring Selected Folders", $"This operation will move these (this) {selectedToRestore.Count} folder(s) from the hiddent directory to the community directory:" +
+            var proceed = App.LastChance("Restore Folders Request", $"Restoring Selected Folders", $"This operation will move these (this) {selectedToRestore.Count} folder(s) from the hidden directory to the community directory:" +
                 folderNames +
                 Environment.NewLine +
                 "Is this what you want to do?");
