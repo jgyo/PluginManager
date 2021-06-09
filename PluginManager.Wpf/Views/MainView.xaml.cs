@@ -8,6 +8,7 @@
     using PluginManager.Core.System;
     using PluginManager.Core.ViewModels;
     using PluginManager.Core.ViewModels.DesignTime;
+    using PluginManager.Wpf.Utilities;
     using PluginManager.Wpf.Windows;
     using System;
     using System.Collections.Generic;
@@ -319,6 +320,7 @@
         /// <param name="e">The e<see cref="ViewModelEventArgs"/>.</param>
         private void Vm_EditSelectedFolderRequested(object sender, ViewModelEventArgs e)
         {
+            WpfHelper.SetWindowSettings(Window.GetWindow(this));
             var vm = e.ViewModel as FolderViewModel;
             var win = new FolderWindow(vm);
             win.ShowDialog();
@@ -333,6 +335,7 @@
         /// <param name="e">The e<see cref="ViewModelEventArgs"/>.</param>
         private void Vm_EditZipFileRequested(object sender, ViewModelEventArgs e)
         {
+            WpfHelper.SetWindowSettings(Window.GetWindow(this));
             var vm = e.ViewModel as ZipFileViewModel;
             var win = new ZipFileWindow(vm);
             win.ShowDialog();
@@ -409,6 +412,7 @@
         /// <param name="e">The e<see cref="ViewModelEventArgs"/>.</param>
         private void Vm_OpenSetupRequested(object sender, ViewModelEventArgs e)
         {
+            WpfHelper.SetWindowSettings(Window.GetWindow(this));
             var win = new SetupWindow();
             win.ShowDialog();
         }
@@ -428,6 +432,7 @@
 
             try
             {
+                WpfHelper.SetWindowSettings(Window.GetWindow(this));
                 var win = new ZipArchiveWindow(zfr);
                 win.ShowDialog();
 
@@ -673,12 +678,14 @@
 
         private void About_Click(object sender, RoutedEventArgs e)
         {
+            WpfHelper.SetWindowSettings(Window.GetWindow(this));
             var win = new AboutWindow();
             win.ShowDialog();
         }
 
         private void ViewLog_Click(object sender, RoutedEventArgs e)
         {
+            WpfHelper.SetWindowSettings(Window.GetWindow(this));
             var win = new LogWindow();
             win.ShowDialog();
         }

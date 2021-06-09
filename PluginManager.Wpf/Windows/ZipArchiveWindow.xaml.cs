@@ -1,6 +1,7 @@
 ﻿namespace PluginManager.Wpf.Windows
 {
     using PluginManager.Core.ViewModels;
+    using PluginManager.Wpf.Utilities;
     using System.Windows;
 
     /// <summary>
@@ -15,6 +16,7 @@
         public ZipArchiveWindow(Core.ViewModels.ZipFileViewModel zfr)
         {
             InitializeComponent();
+            WpfHelper.PositionChildWindow(this);
 
             var archive = new ZipArchiveViewModel(zfr.Filename, zfr.FilePath, zfr.PackageId);
             view.DataContext = archive;

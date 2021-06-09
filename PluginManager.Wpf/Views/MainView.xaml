@@ -181,9 +181,9 @@
                     x:Name="LogEnabled"
                     Click="LogEnabledMenuItemClick"
                     Header="Lo_gging Enabled"
-                    IsChecked="{Binding SetupViewModel.LoggingEnabled}"
-                    IsCheckable="True" />
-                <MenuItem Header="_View Log" Click="ViewLog_Click" />
+                    IsCheckable="True"
+                    IsChecked="{Binding SetupViewModel.LoggingEnabled}" />
+                <MenuItem Click="ViewLog_Click" Header="_View Log" />
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem

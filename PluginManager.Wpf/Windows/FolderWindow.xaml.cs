@@ -2,6 +2,7 @@
 {
     using PluginManager.Core;
     using PluginManager.Core.ViewModels;
+    using PluginManager.Wpf.Utilities;
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
@@ -19,6 +20,8 @@
         public FolderWindow(FolderViewModel vm = null)
         {
             InitializeComponent();
+
+            WpfHelper.PositionChildWindow(this);
 
             if (vm == null)
             {

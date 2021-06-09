@@ -5,6 +5,7 @@
     using PluginManager.Core;
     using PluginManager.Core.Logging;
     using PluginManager.Core.ViewModels;
+    using PluginManager.Wpf.Utilities;
     using PluginManager.Wpf.Windows;
     using System;
     using System.Diagnostics;
@@ -191,6 +192,7 @@
 
             try
             {
+                WpfHelper.SetWindowSettings(Window.GetWindow(this));
                 var win = new ZipArchiveWindow(zfr);
                 win.ShowDialog();
             }

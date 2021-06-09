@@ -1,5 +1,6 @@
 ﻿namespace PluginManager.Wpf.Windows
 {
+    using PluginManager.Wpf.Utilities;
     using PluginManager.Wpf.ViewModels;
     using System.ComponentModel;
     using System.Windows;
@@ -15,6 +16,7 @@
         public LogWindow()
         {
             InitializeComponent();
+            WpfHelper.PositionChildWindow(this);
         }
 
         /// <summary>

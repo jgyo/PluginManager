@@ -1,31 +1,26 @@
-﻿using PluginManager.Core;
-using PluginManager.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
-namespace PluginManager.Wpf.Windows
+﻿namespace PluginManager.Wpf.Windows
 {
+    using PluginManager.Core;
+    using PluginManager.Core.ViewModels;
+    using PluginManager.Wpf.Utilities;
+    using System;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Windows;
+
     /// <summary>
-    /// Interaction logic for ZipFileWindow.xaml
+    /// Interaction logic for ZipFileWindow.xaml.
     /// </summary>
     public partial class ZipFileWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZipFileWindow"/> class.
+        /// </summary>
+        /// <param name="vm">The vm<see cref="ZipFileViewModel"/>.</param>
         public ZipFileWindow(ZipFileViewModel vm)
         {
             InitializeComponent();
+            WpfHelper.PositionChildWindow(this);
             if (vm == null)
             {
                 vm = Locator.GetZipFileViewModel();
@@ -35,12 +30,15 @@ namespace PluginManager.Wpf.Windows
                 vm.Filename = "Arphaxhad.zip";
                 vm.FilePath = "d:\\Downloads\\";
                 vm.FileSize = 100000;
-                   
+
             }
             this.DataContext = vm;
         }
 
-
+        /// <summary>
+        /// The OnClosing.
+        /// </summary>
+        /// <param name="e">The e<see cref="CancelEventArgs"/>.</param>
         protected override void OnClosing(CancelEventArgs e)
         {
             var vm = this.DataContext as ZipFileViewModel;

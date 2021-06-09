@@ -23,6 +23,12 @@
         /// </summary>
         private static WindowState windowState;
 
+        public static void CenterChildWindow(Window childWindow)
+        {
+            childWindow.Top = WindowTop + (WindowHeight / 2) - (childWindow.Height / 2);
+            childWindow.Left = WindowLeft + (WindowWidth / 2) - (childWindow.Width / 2);
+        }
+
         /// <summary>
         /// Defines the windowTop.
         /// </summary>
@@ -44,7 +50,8 @@
         public static double WindowLeft { get => windowLeft; set => windowLeft = value; }
 
         /// <summary>
-        /// Gets the WindowState.
+        /// Gets or sets the WindowState
+        /// Gets the WindowState..
         /// </summary>
         public static WindowState WindowState { get => windowState; set => windowState = value; }
 
@@ -89,16 +96,14 @@
         /// </summary>
         public static void MoveWindowIntoView()
         {
-            if (windowTop + (windowHeight / 2) >
-                 SystemParameters.VirtualScreenHeight)
+            if (windowTop + (windowHeight / 2) > SystemParameters.VirtualScreenHeight)
             {
                 windowTop =
                   SystemParameters.VirtualScreenHeight -
                   windowHeight;
             }
 
-            if (windowLeft + (windowWidth / 2) >
-                     SystemParameters.VirtualScreenWidth)
+            if (windowLeft + (windowWidth / 2) > SystemParameters.VirtualScreenWidth)
             {
                 windowLeft =
                   SystemParameters.VirtualScreenWidth -
@@ -117,6 +122,19 @@
         }
 
         /// <summary>
+        /// The PositionChildWindow.
+        /// </summary>
+        /// <param name="window">The window<see cref="Window"/>.</param>
+        public static void PositionChildWindow(Window window)
+        {
+            var mainWindowOnRight = WindowLeft + (WindowWidth / 2) > SystemParameters.VirtualScreenWidth / 2;
+            var mainWindowOnBottom = WindowTop + (WindowHeight / 2) > SystemParameters.VirtualScreenHeight / 2;
+
+            window.Top = WindowTop + (mainWindowOnBottom ? -50 : 50);
+            window.Left = WindowLeft + (mainWindowOnRight ? -90 : 90);
+        }
+
+        /// <summary>
         /// The SaveWindowSettings.
         /// </summary>
         public static void SaveWindowSettings()
@@ -131,6 +149,20 @@
             AppSettings.Default.WindowState = WindowState;
 
             AppSettings.Default.Save();
+        }
+
+        /// <summary>
+        /// The SetWindowSettings.
+        /// </summary>
+        /// <param name="window">The window<see cref="Window"/>.</param>
+        public static void SetWindowSettings(Window window)
+        {
+
+            WindowHeight = window.Height;
+            WindowWidth = window.Width;
+            WindowTop = window.Top;
+            WindowLeft = window.Left;
+            WindowState = window.WindowState;
         }
 
         /// <summary>

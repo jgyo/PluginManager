@@ -26,11 +26,7 @@
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            WpfHelper.WindowHeight = this.Height;
-            WpfHelper.WindowWidth = this.Width;
-            WpfHelper.WindowTop = this.Top;
-            WpfHelper.WindowLeft = this.Left;
-            WpfHelper.WindowState = this.WindowState;
+            WpfHelper.SetWindowSettings(this);
 
             WpfHelper.SaveWindowSettings();
 

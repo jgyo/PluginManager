@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PluginManager.Wpf.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace PluginManager.Wpf
         public AboutWindow()
         {
             InitializeComponent();
+            WpfHelper.CenterChildWindow(this);
         }
     }
 }

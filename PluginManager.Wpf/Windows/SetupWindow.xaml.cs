@@ -1,5 +1,6 @@
 ﻿namespace PluginManager.Wpf.Windows
 {
+    using PluginManager.Wpf.Utilities;
     using System.Windows;
 
     /// <summary>
@@ -13,6 +14,7 @@
         public SetupWindow()
         {
             InitializeComponent();
+            WpfHelper.PositionChildWindow(this);
         }
     }
 }
