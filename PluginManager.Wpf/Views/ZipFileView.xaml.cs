@@ -42,7 +42,7 @@
         /// <param name="item">The item<see cref="ZipFileViewModel"/>.</param>
         private void DeleteRecord(ZipFileViewModel item)
         {
-            DbCore.Delete(item);
+            // DbCore.Delete(item);
             Locator.MainViewModel.ZipFileFolderCollection.Remove(item);
             Window.GetWindow(this).Close();
         }

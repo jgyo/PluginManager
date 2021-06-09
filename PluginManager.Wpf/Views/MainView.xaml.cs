@@ -657,7 +657,7 @@
         private void LogEnabledMenuItemClick(object sender, RoutedEventArgs e)
         {
             var l = !FileLogProvider.Instance.LoggingEnabled;
-            LogEnabled.IsChecked = l;
+            Debug.Assert(l == Locator.SetupViewModel.LoggingEnabled);
             FileLogProvider.Instance.LoggingEnabled = l;
         }
 

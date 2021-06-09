@@ -24,21 +24,21 @@
         /// </summary>
         public MainViewModel()
         {
-            SelectedFoldersCollection.CollectionChanged  += SelectedFoldersCollection_CollectionChanged;
+            SelectedFoldersCollection.CollectionChanged += SelectedFoldersCollection_CollectionChanged;
             SelectedZipFilesCollection.CollectionChanged += SelectedZipFilesCollection_CollectionChanged;
 
-            OpenSetupCommand               = new Command(OpenSetup);
+            OpenSetupCommand = new Command(OpenSetup);
 
-            DeleteSelectedFoldersCommand   = new Command(DeleteSelectedFolders);
-            EditSelectedFolderCommand      = new Command(EditSelectedFolder);
-            HideSelectedFoldersCommand     = new Command(HideSelectedFolders);
-            RestoreSelectedFoldersCommand  = new Command(RestoreSelectedFolders);
-            SynchronizeDataBaseCommand     = new Command(SynchronizeDataBase);
+            DeleteSelectedFoldersCommand = new Command(DeleteSelectedFolders);
+            EditSelectedFolderCommand = new Command(EditSelectedFolder);
+            HideSelectedFoldersCommand = new Command(HideSelectedFolders);
+            RestoreSelectedFoldersCommand = new Command(RestoreSelectedFolders);
+            SynchronizeDataBaseCommand = new Command(SynchronizeDataBase);
 
-            OpenZipArchiveCommand          = new Command(OpenZipArchive);
-            DeleteSelectedZipFileCommand   = new Command(DeleteSelectedZipFiles);
-            EditSelectedZipFileCommand     = new Command(EditSelectedZipFile);
-            AddNewZipFileCommand           = new Command(AddNewZipFile);
+            OpenZipArchiveCommand = new Command(OpenZipArchive);
+            DeleteSelectedZipFileCommand = new Command(DeleteSelectedZipFiles);
+            EditSelectedZipFileCommand = new Command(EditSelectedZipFile);
+            AddNewZipFileCommand = new Command(AddNewZipFile);
         }
 
         /// <summary>
@@ -86,6 +86,8 @@
         public event EventHandler SynchronizeDataBaseRequested;
 
         public ICommand AddNewZipFileCommand { get; }
+
+        public SetupViewModel SetupViewModel => Locator.SetupViewModel;
 
         /// <summary>
         /// Gets a value indicating whether folders are selected.
@@ -290,6 +292,7 @@
         {
             OpenZipArchiveRequested?.Invoke(this, EventArgs.Empty);
         }
+
         /// <summary>
         /// Opens the setup window.
         /// </summary>
@@ -299,6 +302,7 @@
             OpenSetupRequested?.Invoke(this, new ViewModelEventArgs(suvm));
             RaisePropertyChanged("CanSynchronizeDataBase");
         }
+
         /// <summary>
         /// Moves selected folders to the Community folder.
         /// </summary>

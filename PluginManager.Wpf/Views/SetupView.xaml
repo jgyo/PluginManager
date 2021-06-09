@@ -65,7 +65,6 @@
                 <ComboBox
                     Width="100"
                     Margin="4"
-                    IsEnabled="{Binding LoggingEnabled}"
                     ItemsSource="{Binding Source={ext:EnumBindingSource {x:Type log:LogLevel}}}"
                     SelectedItem="{Binding LoggingLevel}" />
             </DockPanel>
