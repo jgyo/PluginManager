@@ -10,7 +10,7 @@
     Height="232"
     Width="406"
     ResizeMode="NoResize"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Icon="/Resources/plugin.ico">
     <Window.DataContext>
         <vm:AboutViewModel />
     </Window.DataContext>
