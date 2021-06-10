@@ -28,6 +28,22 @@
             this.WindowState = WpfHelper.WindowState;
         }
 
+        /// <summary>
+        /// The OnClosing.
+        /// </summary>
+        /// <param name="e">The e<see cref="CancelEventArgs"/>.</param>
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            WpfHelper.SetWindowSettings(this);
+            WpfHelper.SaveWindowSettings();
+
+            base.OnClosing(e);
+        }
+
+        /// <summary>
+        /// The OnContentRendered.
+        /// </summary>
+        /// <param name="e">The e<see cref="EventArgs"/>.</param>
         protected override void OnContentRendered(EventArgs e)
         {
             base.OnContentRendered(e);
@@ -46,15 +62,6 @@
                     win.ShowDialog();
                 }
             }
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            WpfHelper.SetWindowSettings(this);
-
-            WpfHelper.SaveWindowSettings();
-
-            base.OnClosing(e);
         }
     }
 }
