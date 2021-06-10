@@ -194,6 +194,10 @@
                     x:Name="Support"
                     Click="Support_Click"
                     Header="Su_pport" />
+                <MenuItem
+                    x:Name="Update"
+                    Click="Update_Click"
+                    Header="Check for _Update" />
                 <Separator />
                 <MenuItem
                     x:Name="About"

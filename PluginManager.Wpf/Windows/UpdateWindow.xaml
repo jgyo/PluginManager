@@ -1,0 +1,85 @@
+﻿<Window
+    x:Class="PluginManager.Wpf.Windows.UpdateWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PluginManager.Wpf.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vman="clr-namespace:VersionManagement;assembly=VersionManagement"
+    Title="Update Exists"
+    Width="400"
+    Height="225"
+    d:DataContext="{d:DesignInstance Type=vman:VersionCheck,
+                                     IsDesignTimeCreatable=False}"
+    Icon="/Resources/plugin.ico"
+    ResizeMode="NoResize"
+    mc:Ignorable="d">
+    <Grid>
+        <Image
+            OpacityMask="#70000000"
+            Source="/Resources/2021-01-03_16-15-43.png"
+            Stretch="UniformToFill" />
+        <StackPanel Margin="8,8,8,8">
+            <Label
+                Content="An update exists for Plugin Manager"
+                FontSize="20"
+                FontWeight="Bold" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Content="Current Version:" />
+                <Label Grid.Column="1" Content="{Binding CurrentVersion}" />
+                <Label Grid.Row="1" Content="Latest Version:" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Content="{Binding LatestVersionInfo.Version}" />
+                <Label Grid.Row="2" Content="Download Site:" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="1">
+                    <Label.Content>
+                        <TextBlock Text="{Binding LatestVersionDownloadUrl}" TextWrapping="WrapWithOverflow" />
+                    </Label.Content>
+                </Label>
+                <Grid
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        x:Name="Copy"
+                        Width="100"
+                        VerticalAlignment="Center"
+                        Content="Copy URL" Click="Copy_Click" />
+                    <Button
+                        x:Name="Open"
+                        Grid.Column="1"
+                        Width="100"
+                        VerticalAlignment="Center"
+                        Content="Open URL" Click="Open_Click" />
+                    <Button
+                        x:Name="Done"
+                        Grid.Column="2"
+                        Width="100"
+                        VerticalAlignment="Center"
+                        Content="Done"
+                        IsDefault="True" Click="Done_Click" />
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,8 +1,12 @@
 ﻿namespace PluginManager.Wpf
 {
     using PluginManager.Wpf.Utilities;
+    using PluginManager.Wpf.Windows;
+    using System;
     using System.ComponentModel;
+    using System.Reflection;
     using System.Windows;
+    using VersionManagement;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
@@ -22,6 +26,26 @@
             this.Top = WpfHelper.WindowTop;
             this.Left = WpfHelper.WindowLeft;
             this.WindowState = WpfHelper.WindowState;
+        }
+
+        protected override void OnContentRendered(EventArgs e)
+        {
+            base.OnContentRendered(e);
+
+            if (AppSettings.Default.VersionAutoCheck)
+            {
+                var version = Application.Current.MainWindow.GetType()
+                    .Assembly
+                    .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                    .InformationalVersion;
+                var verCheck = new VersionCheck(version, AppSettings.Default.PackageUrl);
+                if (verCheck.DoesUpdateExist && (AppSettings.Default.IncludePrereleaseVersions || verCheck.LastestVersionIsPrerelease == false))
+                {
+                    var win = new UpdateWindow(verCheck);
+                    WpfHelper.SetWindowSettings(this);
+                    win.ShowDialog();
+                }
+            }
         }
 
         protected override void OnClosing(CancelEventArgs e)

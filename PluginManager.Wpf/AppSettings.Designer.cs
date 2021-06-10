@@ -154,5 +154,38 @@ namespace PluginManager.Wpf {
                 this["WindowState"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool VersionAutoCheck {
+            get {
+                return ((bool)(this["VersionAutoCheck"]));
+            }
+            set {
+                this["VersionAutoCheck"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/jgyo/PluginManager")]
+        public string PackageUrl {
+            get {
+                return ((string)(this["PackageUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IncludePrereleaseVersions {
+            get {
+                return ((bool)(this["IncludePrereleaseVersions"]));
+            }
+            set {
+                this["IncludePrereleaseVersions"] = value;
+            }
+        }
     }
 }

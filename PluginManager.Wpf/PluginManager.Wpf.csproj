@@ -4,8 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>1.1.0.21160</AssemblyVersion>
-    <FileVersion>1.1.0.21160</FileVersion>
+    <AssemblyVersion>1.1.13.21161</AssemblyVersion>
+    <FileVersion>1.1.13.21161</FileVersion>
       <InformationalVersion>1.1.0</InformationalVersion>
     <Copyright>2021 by Gil Yoder</Copyright>
     <Authors>Gil Yoder</Authors>
@@ -47,6 +47,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PluginManager.Data\PluginManager.Data.csproj" />
     <ProjectReference Include="..\PluginManager.Core\PluginManager.Core.csproj" />
+    <ProjectReference Include="..\VersionManagement\VersionManagement.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginManager.Wpf", "Plugin
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{274C5DA6-8C68-463C-9BA7-646E3AA5BA39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionManagement", "VersionManagement\VersionManagement.csproj", "{EC4B5BEB-7717-4096-98E2-EA268C4EEF68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{888F018A-A9D0-44A5-9BA7-978DD1917CC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{274C5DA6-8C68-463C-9BA7-646E3AA5BA39}.Debug|Any CPU.ActiveCfg = Debug
 		{274C5DA6-8C68-463C-9BA7-646E3AA5BA39}.Release|Any CPU.ActiveCfg = Release
+		{EC4B5BEB-7717-4096-98E2-EA268C4EEF68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC4B5BEB-7717-4096-98E2-EA268C4EEF68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC4B5BEB-7717-4096-98E2-EA268C4EEF68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC4B5BEB-7717-4096-98E2-EA268C4EEF68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

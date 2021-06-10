@@ -68,10 +68,18 @@
                     ItemsSource="{Binding Source={ext:EnumBindingSource {x:Type log:LogLevel}}}"
                     SelectedItem="{Binding LoggingLevel}" />
             </DockPanel>
+            <DockPanel Margin="4" LastChildFill="False">
+                <CheckBox Margin="4"
+                          Content="Check for updates when program starts"
+                          IsChecked="{Binding CheckForUpdates}" />
+                <CheckBox Margin="4"
+                          Content="Include prerelease versions in check"
+                          IsChecked="{Binding IncludePrereleaseVersions}" />
+            </DockPanel>
 
             <TextBlock
                 Margin="4"
-                Text="Please provide the specified paths above. The community folder path, and hidden folder path are required, and must be on the same volume. The zip files path is optional, but recommended."
+                Text="Please provide the information specified above. The community folder path, and hidden folder path are required, and must be on the same volume. The zip files path is optional, but recommended."
                 TextWrapping="Wrap" />
             <DockPanel Margin="4" LastChildFill="False">
                 <Button

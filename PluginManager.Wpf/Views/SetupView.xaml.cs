@@ -59,6 +59,8 @@
             AppSettings.Default.ZipFilesFolder = setup.ZipFilesFolder;
             AppSettings.Default.LoggingEnabled = setup.LoggingEnabled;
             AppSettings.Default.LogLevel = (int)setup.LoggingLevel;
+            AppSettings.Default.VersionAutoCheck = setup.CheckForUpdates;
+            AppSettings.Default.IncludePrereleaseVersions = setup.IncludePrereleaseVersions;
 
             AppSettings.Default.Save();
 

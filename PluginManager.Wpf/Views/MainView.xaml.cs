@@ -20,6 +20,7 @@
     using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
+    using VersionManagement;
 
     /// <summary>
     /// Interaction logic for MainView.xaml.
@@ -688,6 +689,26 @@
             WpfHelper.SetWindowSettings(Window.GetWindow(this));
             var win = new LogWindow();
             win.ShowDialog();
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            var version = Application.Current.MainWindow.GetType()
+                    .Assembly
+                    .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                    .InformationalVersion;
+            var verCheck = new VersionCheck(version, AppSettings.Default.PackageUrl);
+            if (verCheck.DoesUpdateExist && (AppSettings.Default.IncludePrereleaseVersions || verCheck.LastestVersionIsPrerelease == false))
+            {
+                var myWindow = Window.GetWindow(this);
+                var win = new UpdateWindow(verCheck);
+                WpfHelper.SetWindowSettings(myWindow);
+                win.ShowDialog();
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show($"You have the latest version of Plugin Manager, version {version}", "Version Check");
+            }
         }
     }
 }

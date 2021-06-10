@@ -28,6 +28,8 @@
             vm.HiddenFilesFolder = AppSettings.Default.HiddenFilesFolder;
             vm.LoggingLevel = (LogLevel)AppSettings.Default.LogLevel;
             vm.LoggingEnabled = AppSettings.Default.LoggingEnabled;
+            vm.CheckForUpdates = AppSettings.Default.VersionAutoCheck;
+            vm.IncludePrereleaseVersions = AppSettings.Default.IncludePrereleaseVersions;
 
             FileLogProvider.Instance.LogLevel = vm.LoggingLevel;
             FileLogProvider.Instance.LoggingEnabled = vm.LoggingEnabled;

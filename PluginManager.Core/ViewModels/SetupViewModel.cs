@@ -11,9 +11,6 @@
     using PluginManager.Core.EventHandlers;
     using PluginManager.Core.Logging;
 
-
-
-
     public class SetupViewModel : ViewModel, IDataErrorInfo
     {
         private const string WRONGVOLUMEERRORMSG = "The hidden and community folders must be on the same drive.";
@@ -25,6 +22,8 @@
         private bool loggingEnabled;
         private LogLevel loggingLevel;
         private string zipFilesFolder;
+        private bool checkForUpdates;
+        private bool includePrereleaseVersions;
 
         public event EventHandler<ViewModelEventArgs> AcceptChangesRequested;
         public event EventHandler<BrowserEventArgs> BrowseForFolderRequested;
@@ -190,6 +189,9 @@
                 SetProperty(ref zipFilesFolder, path);
             }
         }
+
+        public bool CheckForUpdates { get => checkForUpdates; set => SetProperty(ref checkForUpdates, value); }
+        public bool IncludePrereleaseVersions { get => includePrereleaseVersions; set => SetProperty(ref includePrereleaseVersions, value); }
 
         /// <summary>
         /// Gets the error message for the property with the given name.
