@@ -4,7 +4,7 @@ Check it out now, if you are still using one of the beta versions.
 
 ![Snag_4333e1d9](https://user-images.githubusercontent.com/2886615/121266803-c451db00-c880-11eb-9833-b31bcbf3d0ce.png)
 
-This old YouTube video instroduction should still help to get you up and running:
+This old YouTube video introduction should still help to get you up and running:
 
 [Video Intro to Plugin Manager](https://youtu.be/GPSoS32uoqY)
 
@@ -16,9 +16,13 @@ This YouTube link will give a brief demo of the program:
 
 ## Road Map
 
-1. Add a check for updates option.
-2. Add a download or info link for zip file records.
-3. Support for profiles.
-4. Make 7zip files work.
-5. Get plugin names from manifest.json files.
-6. Provide a way to update existing folder records automatically from zip file contents.
+
+1. Add a download or info link for zip file records.
+1. Support for profiles.
+1. Make 7zip files work.
+1. Get plugin names from manifest.json files.
+1. Provide a way to update existing folder records automatically from zip file contents.
+
+[**Plugin Manager Change Log**][1]
+
+  [1]: https://github.com/jgyo/PluginManager/wiki/Release-Notes
