@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>1.1.2.21161</AssemblyVersion>
-    <FileVersion>1.1.2.21161</FileVersion>
+    <AssemblyVersion>1.1.4.21162</AssemblyVersion>
+    <FileVersion>1.1.4.21162</FileVersion>
     <Authors>Gil Yoder</Authors>
     <Company>Gil Yoder Software</Company>
     <Copyright>2021 by Gil Yoder</Copyright>
