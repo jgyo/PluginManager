@@ -9,7 +9,7 @@
     /// <summary>
     /// Defines the <see cref="ZipArchiveEntryViewModel" />.
     /// </summary>
-    public class ZipArchiveEntryViewModel : ViewModel, IArchiveDirectoryEntry
+    public class ZipArchiveEntryViewModel : ViewModel, IArchiveDirectoryEntry, IArchiveEntryViewModel
     {
         /// <summary>
         /// Defines the willInstall.
@@ -35,36 +35,19 @@
         }
 
         /// <summary>
-        /// Gets the Archive.
+        /// Gets the Parent Archive.
         /// </summary>
         public ZipArchiveViewModel Archive { get; }
 
         /// <summary>
-        /// Gets the CompressedLength.
+        /// Gets the child Entries.
         /// </summary>
-        public long CompressedLength
-        {
-            get
-            {
-                if (Entry != null && Entry.CompressedLength != 0)
-                    return Entry.CompressedLength;
-
-                if (SortedEntries.Count == 0)
-                    return 0;
-
-                return SortedEntries.Values.Select(v => v.CompressedLength).Aggregate(0L, (t, n) => t + n);
-            }
-        }
-
-        /// <summary>
-        /// Gets the Entries.
-        /// </summary>
-        public SortedList<string, ZipArchiveEntryViewModel> SortedEntries { get; } = new SortedList<string, ZipArchiveEntryViewModel>();
+        public SortedList<string, IArchiveEntryViewModel> SortedEntries { get; } = new SortedList<string, IArchiveEntryViewModel>();
 
         /// <summary>
         /// Gets the Entry.
         /// </summary>
-        public ZipArchiveEntry Entry { get; set; }
+        public IArchiveEntry Entry { get; set; }
 
         /// <summary>
         /// Gets the FullName.
@@ -151,8 +134,8 @@
             set { SetProperty(ref willInstall, value); }
         }
 
-        public List<ZipArchiveEntryViewModel> Entries 
-            => new Lazy<List<ZipArchiveEntryViewModel>>(() => new List<ZipArchiveEntryViewModel>(SortedEntries.Values)).Value;
+        public List<IArchiveEntryViewModel> Entries 
+            => new Lazy<List<IArchiveEntryViewModel>>(() => new List<IArchiveEntryViewModel>(SortedEntries.Values)).Value;
 
         /// <summary>
         /// The SaveBranchAndNode.
@@ -161,7 +144,7 @@
         /// <param name="entry">The entry<see cref="ZipArchiveEntry"/>.</param>
         /// <param name="fullName">The fullName<see cref="string"/>.</param>
         /// <param name="pathParts">The pathParts<see cref="List{string}"/>.</param>
-        internal void SaveBranchAndNode(ZipArchiveEntry entry, string fullName, List<string> pathParts)
+        public void SaveBranchAndNode(IArchiveEntry entry, string fullName, List<string> pathParts)
         {
             ZipArchiveEntryViewModel parent = this;
 

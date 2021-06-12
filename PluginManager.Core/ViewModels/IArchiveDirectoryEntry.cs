@@ -7,7 +7,7 @@ namespace PluginManager.Core.ViewModels
 
     public interface IArchiveDirectoryEntry
     {
-        List<ZipArchiveEntryViewModel> Entries { get; }
+        List<IArchiveEntryViewModel> Entries { get; }
         string FullName { get; }
     }
 }

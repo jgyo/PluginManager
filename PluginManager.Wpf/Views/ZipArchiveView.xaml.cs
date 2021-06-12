@@ -40,12 +40,12 @@
             if (grid.SelectedItem == null)
                 return;
 
-            var temp = grid.SelectedItem as ZipArchiveEntryViewModel;
+            var temp = grid.SelectedItem as IArchiveEntryViewModel;
             if (temp.SortedEntries?.Count == 0)
                 return;
 
             var vm = DataContext as ZipArchiveViewModel;
-            vm.SelectedDirectory = temp;
+            vm.SelectedDirectory = (IArchiveDirectoryEntry)temp;
         }
 
         /// <summary>
@@ -57,12 +57,12 @@
         {
             foreach (var item in e.AddedItems)
             {
-                (item as ZipArchiveEntryViewModel).WillInstall = true;
+                (item as IArchiveEntryViewModel).WillInstall = true;
             }
 
             foreach (var item in e.RemovedItems)
             {
-                (item as ZipArchiveEntryViewModel).WillInstall = false;
+                (item as IArchiveEntryViewModel).WillInstall = false;
             }
         }
 
@@ -158,7 +158,7 @@
             if (vm.Equals(vm.SelectedDirectory))
                 return;
 
-            var entry = vm.SelectedDirectory as ZipArchiveEntryViewModel;
+            var entry = vm.SelectedDirectory as IArchiveEntryViewModel;
             if (entry.Parent == null)
             {
                 vm.SelectedDirectory = vm;

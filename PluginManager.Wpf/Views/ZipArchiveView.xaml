@@ -83,10 +83,6 @@
                     Header="Length"
                     IsReadOnly="True" />
                 <DataGridTextColumn
-                    Binding="{Binding CompressedLength, StringFormat='\{0:n0\}'}"
-                    Header="Comressed Length"
-                    IsReadOnly="True" />
-                <DataGridTextColumn
                     Binding="{Binding LastWriteTime}"
                     Header="Last Written"
                     IsReadOnly="True" />

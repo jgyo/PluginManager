@@ -12,11 +12,11 @@ namespace PluginManager.Core.Utilities
 {
     public static class ZipArchiveExtensions
     {
-        public static string FullNormalName(this ZipArchiveEntryViewModel entry)
+        public static string FullNormalName(this IArchiveEntryViewModel entry)
         {
             return entry.FullName.Trim('/').Replace('/', '\\');
         }
-        public static bool IsInstalled(this ZipArchiveEntryViewModel entry, string path)
+        public static bool IsInstalled(this IArchiveEntryViewModel entry, string path)
         {
             if (entry.IsDirectory)
                 return Directory.Exists(Path.Combine(path, entry.Name));
@@ -26,22 +26,22 @@ namespace PluginManager.Core.Utilities
 
         public static bool AreAnyCheckedEntriesInstalled(this ZipArchiveViewModel vm, string path)
         {
-            if (vm.SelectedDirectory is ZipArchiveEntryViewModel)
-                return (vm.SelectedDirectory as ZipArchiveEntryViewModel).AreAnyCheckedEntriesInstalled(path);
+            if (vm.SelectedDirectory is IArchiveEntryViewModel)
+                return (vm.SelectedDirectory as IArchiveEntryViewModel).AreAnyCheckedEntriesInstalled(path);
 
             return vm.SortedEntries.Values.Where(e => e.WillInstall).Any(e => e.IsInstalled(path));
         }
 
-        public static bool AreAnyCheckedEntriesInstalled(this ZipArchiveEntryViewModel vm, string path)
+        public static bool AreAnyCheckedEntriesInstalled(this IArchiveEntryViewModel vm, string path)
         {
             return vm.SortedEntries.Values.Where(e => e.WillInstall).Any(e => e.IsInstalled(path));
         }
 
         public static IEnumerable<string> InstallCheckedEntries(this ZipArchiveViewModel vm, string path, bool overwrite = false)
         {
-            if (vm.SelectedDirectory is ZipArchiveEntryViewModel)
+            if (vm.SelectedDirectory is IArchiveEntryViewModel)
             {
-                foreach(var item in (vm.SelectedDirectory as ZipArchiveEntryViewModel).InstallCheckedEntries(path, overwrite))
+                foreach(var item in (vm.SelectedDirectory as IArchiveEntryViewModel).InstallCheckedEntries(path, overwrite))
                 {
                     yield return item;
                 }
@@ -65,7 +65,7 @@ namespace PluginManager.Core.Utilities
             }
         }
 
-        public static IEnumerable<string> InstallCheckedEntries(this ZipArchiveEntryViewModel vm, string path, bool overwrite = false)
+        public static IEnumerable<string> InstallCheckedEntries(this IArchiveEntryViewModel vm, string path, bool overwrite = false)
         {
             if (overwrite == false)
                 Debug.Assert(vm.AreAnyCheckedEntriesInstalled(path) == false);
@@ -82,7 +82,7 @@ namespace PluginManager.Core.Utilities
             }
         }
 
-        public static void InstallEntry(this ZipArchiveEntryViewModel vm, string path, bool overwrite = false)
+        public static void InstallEntry(this IArchiveEntryViewModel vm, string path, bool overwrite = false)
         {
             string fullName = Path.Combine(path, vm.Name);
             if (vm.IsDirectory)
@@ -96,7 +96,7 @@ namespace PluginManager.Core.Utilities
 
             vm.Entry.ExtractToFile(fullName, overwrite);
         }
-        public static void InstallEntries(this ZipArchiveEntryViewModel vm, string path, bool overwrite = false)
+        public static void InstallEntries(this IArchiveEntryViewModel vm, string path, bool overwrite = false)
         {
             if (overwrite == false)
                 Debug.Assert(vm.AreAnyCheckedEntriesInstalled(path) == false);

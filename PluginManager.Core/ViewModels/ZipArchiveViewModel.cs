@@ -37,7 +37,8 @@ namespace PluginManager.Core.ViewModels
             {
                 var pathParts = entry.FullName.Split(spliters, StringSplitOptions.RemoveEmptyEntries).ToList();
                 var fullName = pathParts[0];
-                SaveBranchAndNode(entry, fullName, pathParts);
+                var e = new MyZipArchiveEntry(entry);
+                SaveBranchAndNode(e, fullName, pathParts);
             }
         }
 
@@ -73,8 +74,8 @@ namespace PluginManager.Core.ViewModels
         /// </summary>
         public string Path { get; private set; }
 
-        public List<ZipArchiveEntryViewModel> Entries
-            => new Lazy<List<ZipArchiveEntryViewModel>>(() => new List<ZipArchiveEntryViewModel>(SortedEntries.Values)).Value;
+        public List<IArchiveEntryViewModel> Entries
+            => new Lazy<List<IArchiveEntryViewModel>>(() => new List<IArchiveEntryViewModel>(SortedEntries.Values)).Value;
 
         /// <summary>
         /// The SaveBranchAndNode.
@@ -82,7 +83,7 @@ namespace PluginManager.Core.ViewModels
         /// <param name="entry">The entry<see cref="ZipArchiveEntry"/>.</param>
         /// <param name="fullName">The fullName<see cref="string"/>.</param>
         /// <param name="pathParts">The pathParts<see cref="List{string}"/>.</param>
-        private void SaveBranchAndNode(ZipArchiveEntry entry, string fullName, List<string> pathParts)
+        private void SaveBranchAndNode(IArchiveEntry entry, string fullName, List<string> pathParts)
         {
             ZipArchiveEntryViewModel parent = null;
 
