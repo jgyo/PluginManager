@@ -18,7 +18,16 @@
             InitializeComponent();
             WpfHelper.PositionChildWindow(this);
 
-            var archive = new ZipArchiveViewModel(zfr.Filename, zfr.FilePath, zfr.PackageId);
+            IArchiveViewModel archive;
+            if (zfr.Filename.ToLower().EndsWith(".7z"))
+            {
+                archive = new SevenZipArchiveViewModel(zfr.Filename, zfr.FilePath, zfr.PackageId);
+            }
+            else
+            {
+                archive = new ZipArchiveViewModel(zfr.Filename, zfr.FilePath, zfr.PackageId);
+            }
+
             view.DataContext = archive;
         }
     }

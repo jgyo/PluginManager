@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:PluginManager.Core.ViewModels;assembly=PluginManager.Core"
-    d:DataContext="{d:DesignInstance Type=vm:ZipArchiveViewModel,
+    d:DataContext="{d:DesignInstance Type=vm:IArchiveViewModel,
                                      IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -60,7 +60,8 @@
             IsReadOnly="False"
             ItemsSource="{Binding SelectedDirectory.Entries}"
             MouseDoubleClick="DataGrid_MouseDoubleClick"
-            SelectionUnit="FullRow" SelectionChanged="DataGrid_SelectionChanged">
+            SelectionChanged="DataGrid_SelectionChanged"
+            SelectionUnit="FullRow">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>

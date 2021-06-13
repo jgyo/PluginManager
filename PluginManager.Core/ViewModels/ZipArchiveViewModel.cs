@@ -12,7 +12,7 @@ namespace PluginManager.Core.ViewModels
     /// <summary>
     /// Defines the <see cref="ZipArchiveViewModel" />.
     /// </summary>
-    public class ZipArchiveViewModel : ViewModel, IArchiveDirectoryEntry
+    public class ZipArchiveViewModel : ViewModel, IArchiveDirectoryEntry, IArchiveViewModel
     {
         private IArchiveDirectoryEntry selectedDirectory;
 
@@ -42,24 +42,15 @@ namespace PluginManager.Core.ViewModels
             }
         }
 
-        public IArchiveDirectoryEntry SelectedDirectory
-        {
-            get => selectedDirectory; set => SetProperty(ref selectedDirectory, value);
-        }
-
-        public string FullName { get => "{Root}"; }
-
-        /// <summary>
-        /// Gets the Entries.
-        /// </summary>
-        public SortedList<string, ZipArchiveEntryViewModel> SortedEntries { get; } = new SortedList<string, ZipArchiveEntryViewModel>();
+        public List<IArchiveEntryViewModel> Entries
+            => new Lazy<List<IArchiveEntryViewModel>>(() => new List<IArchiveEntryViewModel>(SortedEntries.Values)).Value;
 
         /// <summary>
         /// Gets the FileName.
         /// </summary>
         public string FileName { get; private set; }
 
-        public long PackageId { get; private set; }
+        public string FullName { get => "{Root}"; }
 
         /// <summary>
         /// Gets the FullPath.
@@ -69,14 +60,21 @@ namespace PluginManager.Core.ViewModels
             get { return global::System.IO.Path.Combine(Path, FileName); }
         }
 
+        public long PackageId { get; private set; }
+
         /// <summary>
         /// Gets the Path.
         /// </summary>
         public string Path { get; private set; }
 
-        public List<IArchiveEntryViewModel> Entries
-            => new Lazy<List<IArchiveEntryViewModel>>(() => new List<IArchiveEntryViewModel>(SortedEntries.Values)).Value;
-
+        public IArchiveDirectoryEntry SelectedDirectory
+        {
+            get => selectedDirectory; set => SetProperty(ref selectedDirectory, value);
+        }
+        /// <summary>
+        /// Gets the Entries.
+        /// </summary>
+        public SortedList<string, IArchiveEntryViewModel> SortedEntries { get; } = new SortedList<string, IArchiveEntryViewModel>();
         /// <summary>
         /// The SaveBranchAndNode.
         /// </summary>
