@@ -22,6 +22,8 @@
         public ZipArchiveView()
         {
             InitializeComponent();
+
+            InstallButton.IsEnabled = Directory.Exists(Locator.SetupViewModel.CommunityFolder);
         }
 
         /// <summary>
@@ -41,10 +43,10 @@
                 return;
 
             var temp = grid.SelectedItem as IArchiveEntryViewModel;
-            if (temp.SortedEntries?.Count == 0)
+            if (temp.SortedEntries == null || temp.SortedEntries.Count == 0)
                 return;
 
-            var vm = DataContext as ZipArchiveViewModel;
+            var vm = DataContext as IArchiveViewModel;
             vm.SelectedDirectory = (IArchiveDirectoryEntry)temp;
         }
 
@@ -83,13 +85,14 @@
         /// <param name="e">The e<see cref="RoutedEventArgs"/>.</param>
         private void InstallButtonClick(object sender, RoutedEventArgs e)
         {
-            var vm = DataContext as ZipArchiveViewModel;
+            var vm = DataContext as IArchiveViewModel;
             var directory = vm.SelectedDirectory;
 
             if (directory.Entries.Any(m => m.WillInstall) == false)
                 return;
 
             var installFolder = Locator.SetupViewModel.CommunityFolder;
+            Debug.Assert(string.IsNullOrEmpty(installFolder) == false);
 
             // var wd = App.WaitDialog("Your selected contents are being installed.");
             IEnumerable<string> installedFolders;
@@ -154,18 +157,18 @@
         /// <param name="e">The e<see cref="RoutedEventArgs"/>.</param>
         private void UpButtonClick(object sender, RoutedEventArgs e)
         {
-            var vm = DataContext as ZipArchiveViewModel;
+            var vm = DataContext as IArchiveViewModel;
             if (vm.Equals(vm.SelectedDirectory))
                 return;
 
             var entry = vm.SelectedDirectory as IArchiveEntryViewModel;
             if (entry.Parent == null)
             {
-                vm.SelectedDirectory = vm;
+                vm.SelectedDirectory = (IArchiveDirectoryEntry)vm;
                 return;
             }
 
-            vm.SelectedDirectory = entry.Parent;
+            vm.SelectedDirectory = (IArchiveDirectoryEntry)entry.Parent;
         }
     }
 }

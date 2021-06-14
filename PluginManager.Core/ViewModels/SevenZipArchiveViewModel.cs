@@ -1,10 +1,7 @@
-﻿
-
-namespace PluginManager.Core.ViewModels
+﻿namespace PluginManager.Core.ViewModels
 {
     using global::System;
     using global::System.Collections.Generic;
-    using global::System.Linq;
 
     /// <summary>
     /// Defines the <see cref="SevenZipArchiveViewModel" />.
@@ -26,19 +23,16 @@ namespace PluginManager.Core.ViewModels
         {
             SelectedDirectory = this;
             FileName = filename;
+            // Path to zip file
             Path = global::System.IO.Path.GetFullPath(filePath);
             PackageId = packageId;
 
             var archive = SevenZipArchive.Open(FullPath);
-
-            var spliters = new[] {'\\', '/'};
+            SourcePath = archive.ExtractedFiles;
 
             foreach (var entry in archive.Entries)
             {
-                var pathParts = entry.FullName.Split(spliters, StringSplitOptions.RemoveEmptyEntries).ToList();
-                var name = pathParts[0];
-                var e = new SevenZipArchiveEntry(entry.FullName);
-                SaveBranchAndNode(e, name, pathParts);
+                SaveBranchAndNode(entry);
             }
         }
 
@@ -86,20 +80,18 @@ namespace PluginManager.Core.ViewModels
         public SortedList<string, IArchiveEntryViewModel> SortedEntries { get; } = new SortedList<string, IArchiveEntryViewModel>();
 
         /// <summary>
+        /// Gets or sets the SourcePath.
+        /// </summary>
+        public string SourcePath { get; internal set; }
+
+        /// <summary>
         /// The SaveBranchAndNode.
         /// </summary>
         /// <param name="entry">The entry<see cref="IArchiveEntry"/>.</param>
-        /// <param name="name">The name<see cref="string"/>.</param>
-        /// <param name="pathParts">The pathParts<see cref="object"/>.</param>
-        private void SaveBranchAndNode(IArchiveEntry entry, string fullname, List<string> pathParts)
+        private void SaveBranchAndNode(IArchiveEntry entry)
         {
-            SevenZipArchiveEntryViewModel parent = null;
-
-            var vm = SortedEntries.Values.Where(e => fullname == e.FullName).SingleOrDefault();
-            if(vm == null)
-            {
-                vm = new SevenZipArchiveEntryViewModel(this, pathParts[0], parent);
-            }
+            var vm = new SevenZipArchiveEntryViewModel(this, entry);
+            SortedEntries.Add(entry.IsDirectory ? $"_{entry.Name}" : entry.Name, vm);
         }
     }
 }

@@ -98,7 +98,10 @@
                 BorderBrush="{StaticResource GroupPanel.Static.BorderBrush}"
                 BorderThickness="1"
                 Header="Checked Items Option">
-                <Button Click="InstallButtonClick" Content="Install" />
+                <Button
+                    x:Name="InstallButton"
+                    Click="InstallButtonClick"
+                    Content="Install" />
             </GroupBox>
             <Button
                 Margin="4,4,4,4"

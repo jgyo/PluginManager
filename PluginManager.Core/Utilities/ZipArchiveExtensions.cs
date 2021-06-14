@@ -24,7 +24,7 @@ namespace PluginManager.Core.Utilities
             return File.Exists(Path.Combine(path, entry.Name));
         }
 
-        public static bool AreAnyCheckedEntriesInstalled(this ZipArchiveViewModel vm, string path)
+        public static bool AreAnyCheckedEntriesInstalled(this IArchiveViewModel vm, string path)
         {
             if (vm.SelectedDirectory is IArchiveEntryViewModel)
                 return (vm.SelectedDirectory as IArchiveEntryViewModel).AreAnyCheckedEntriesInstalled(path);
@@ -37,7 +37,7 @@ namespace PluginManager.Core.Utilities
             return vm.SortedEntries.Values.Where(e => e.WillInstall).Any(e => e.IsInstalled(path));
         }
 
-        public static IEnumerable<string> InstallCheckedEntries(this ZipArchiveViewModel vm, string path, bool overwrite = false)
+        public static IEnumerable<string> InstallCheckedEntries(this IArchiveViewModel vm, string path, bool overwrite = false)
         {
             if (vm.SelectedDirectory is IArchiveEntryViewModel)
             {

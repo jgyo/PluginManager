@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PluginManager.Core.ViewModels
+﻿namespace PluginManager.Core.ViewModels
 {
+    using global::System;
+    using global::System.Collections.Generic;
+
     /// <summary>
     /// Defines the <see cref="IArchiveEntryViewModel" />.
     /// </summary>
@@ -19,7 +19,8 @@ namespace PluginManager.Core.ViewModels
         string FullName { get; }
 
         /// <summary>
-        /// Gets a value indicating whether IsDirectory.
+        /// Gets the IsDirectory
+        /// Gets a value indicating whether IsDirectory..
         /// </summary>
         bool IsDirectory { get; }
 
@@ -31,7 +32,7 @@ namespace PluginManager.Core.ViewModels
         /// <summary>
         /// Gets the Length.
         /// </summary>
-        long Length { get; }
+        long? Length { get; }
 
         /// <summary>
         /// Gets the Name.
@@ -39,15 +40,20 @@ namespace PluginManager.Core.ViewModels
         string Name { get; }
 
         /// <summary>
+        /// Gets the Parent.
+        /// </summary>
+        IArchiveEntryViewModel Parent { get; }
+
+        /// <summary>
         /// Gets the SortedEntries.
         /// </summary>
         SortedList<string, IArchiveEntryViewModel> SortedEntries { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether WillInstall.
+        /// Gets or sets the WillInstall
+        /// Gets or sets a value indicating whether WillInstall..
         /// </summary>
         bool WillInstall { get; set; }
-        ZipArchiveEntryViewModel Parent { get; }
 
         /// <summary>
         /// The SaveBranchAndNode.

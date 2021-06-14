@@ -1,6 +1,4 @@
-﻿
-
-namespace PluginManager.Core.ViewModels
+﻿namespace PluginManager.Core.ViewModels
 {
     using global::System.Collections.Generic;
     using global::System.Collections.ObjectModel;
@@ -16,12 +14,16 @@ namespace PluginManager.Core.ViewModels
         /// Defines the Entries.
         /// </summary>
         public ReadOnlyCollection<SevenZipArchiveEntry> Entries;
-        private string tempPath;
 
         /// <summary>
         /// Defines the entries.
         /// </summary>
-        private List<SevenZipArchiveEntry> entries = new List<SevenZipArchiveEntry>();
+        private List<SevenZipArchiveEntry> entries = new();
+
+        /// <summary>
+        /// Defines the extractedFiles.
+        /// </summary>
+        private string extractedFiles;
 
         /// <summary>
         /// Defines the path.
@@ -34,24 +36,45 @@ namespace PluginManager.Core.ViewModels
         /// <param name="path">The path<see cref="string"/>.</param>
         private SevenZipArchive(string path)
         {
+            // full path to zip file
             this.path = path;
             Entries = new ReadOnlyCollection<SevenZipArchiveEntry>(entries);
-            this.tempPath = Path.GetTempPath() + "pluginManager";
-            if(Directory.Exists(tempPath))
+            // Extracted files path
+            this.extractedFiles = Path.GetTempPath() + "pluginManager";
+            if (Directory.Exists(extractedFiles))
             {
-                Directory.Delete(tempPath, true);
+                Directory.Delete(extractedFiles, true);
             }
 
-            var pi = new ProcessStartInfo("7z.exe", $"x -o{tempPath} \"{path}\"");
+            var pi = new ProcessStartInfo("7z.exe", $"x -o{extractedFiles} \"{path}\"");
             pi.CreateNoWindow = true;
-            pi.UseShellExecute = true;
+            pi.UseShellExecute = false;
 
             using (var pr = Process.Start(pi))
             {
                 pr.WaitForExit();
             }
 
+            var dirNames = Directory.GetDirectories(extractedFiles);
+            var fileNames = Directory.GetFiles(extractedFiles);
+
+            foreach (var item in dirNames)
+            {
+                var di = new DirectoryInfo(Path.Combine(extractedFiles, item));
+                entries.Add(new SevenZipArchiveEntry(di));
+            }
+
+            foreach (var item in fileNames)
+            {
+                var fi = new FileInfo(Path.Combine(extractedFiles, item));
+                entries.Add(new SevenZipArchiveEntry(fi));
+            }
         }
+
+        /// <summary>
+        /// Gets the ExtractedFiles.
+        /// </summary>
+        public string ExtractedFiles { get => extractedFiles; }
 
         /// <summary>
         /// The Open.

@@ -2,7 +2,6 @@
 {
     using global::System;
     using global::System.Collections.Generic;
-    using global::System.Collections.ObjectModel;
     using global::System.IO.Compression;
     using global::System.Linq;
 
@@ -21,6 +20,7 @@
         /// </summary>
         /// <param name="archive">The archive<see cref="ZipArchiveViewModel"/>.</param>
         /// <param name="name">The name<see cref="string"/>.</param>
+        /// <param name="isDirectory">The isDirectory<see cref="bool"/>.</param>
         /// <param name="parent">The parent<see cref="ZipArchiveEntryViewModel"/>.</param>
         public ZipArchiveEntryViewModel(ZipArchiveViewModel archive, string name, bool isDirectory, ZipArchiveEntryViewModel parent = null)
         {
@@ -35,17 +35,18 @@
         }
 
         /// <summary>
-        /// Gets the Parent Archive.
+        /// Gets the Parent Archive..
         /// </summary>
         public ZipArchiveViewModel Archive { get; }
 
         /// <summary>
-        /// Gets the child Entries.
+        /// Gets the Entries.
         /// </summary>
-        public SortedList<string, IArchiveEntryViewModel> SortedEntries { get; } = new SortedList<string, IArchiveEntryViewModel>();
+        public List<IArchiveEntryViewModel> Entries => new Lazy<List<IArchiveEntryViewModel>>(() => new List<IArchiveEntryViewModel>(SortedEntries.Values)).Value;
 
         /// <summary>
-        /// Gets the Entry.
+        /// Gets or sets the Entry
+        /// Gets the Entry..
         /// </summary>
         public IArchiveEntry Entry { get; set; }
 
@@ -91,7 +92,7 @@
         /// <summary>
         /// Gets the Length.
         /// </summary>
-        public long Length
+        public long? Length
         {
             get
             {
@@ -101,7 +102,7 @@
                 if (SortedEntries.Count == 0)
                     return 0;
 
-                return SortedEntries.Values.Select(v => v.Length).Aggregate(0L, (m, t) => m + t);
+                return SortedEntries.Values.Select(v => v.Length).Aggregate(0L, (m, t) => (long)(m + t));
             }
         }
 
@@ -110,12 +111,10 @@
         /// </summary>
         public string Name { get; private set; }
 
-        public string SortingName { get => IsDirectory ? $"_{Name}" : Name; }
-
         /// <summary>
         /// Gets the Parent.
         /// </summary>
-        public ZipArchiveEntryViewModel Parent { get; }
+        public IArchiveEntryViewModel Parent { get; }
 
         /// <summary>
         /// Gets the RelativePath.
@@ -126,6 +125,16 @@
         }
 
         /// <summary>
+        /// Gets the child Entries..
+        /// </summary>
+        public SortedList<string, IArchiveEntryViewModel> SortedEntries { get; } = new SortedList<string, IArchiveEntryViewModel>();
+
+        /// <summary>
+        /// Gets the SortingName.
+        /// </summary>
+        public string SortingName { get => IsDirectory ? $"_{Name}" : Name; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether WillInstall.
         /// </summary>
         public bool WillInstall
@@ -134,13 +143,9 @@
             set { SetProperty(ref willInstall, value); }
         }
 
-        public List<IArchiveEntryViewModel> Entries 
-            => new Lazy<List<IArchiveEntryViewModel>>(() => new List<IArchiveEntryViewModel>(SortedEntries.Values)).Value;
-
         /// <summary>
         /// The SaveBranchAndNode.
         /// </summary>
-        /// <param name="zipArchiveViewModel">The zipArchiveViewModel<see cref="ZipArchiveViewModel"/>.</param>
         /// <param name="entry">The entry<see cref="ZipArchiveEntry"/>.</param>
         /// <param name="fullName">The fullName<see cref="string"/>.</param>
         /// <param name="pathParts">The pathParts<see cref="List{string}"/>.</param>
@@ -151,7 +156,7 @@
             var vm = SortedEntries.Values.Where(e => fullName == e.FullName).SingleOrDefault();
             if (vm == null)
             {
-                vm = new ZipArchiveEntryViewModel(Archive, pathParts[0], entry.Name=="", parent);
+                vm = new ZipArchiveEntryViewModel(Archive, pathParts[0], entry.Name == "", parent);
                 // Entries.Add(vm);
             }
 

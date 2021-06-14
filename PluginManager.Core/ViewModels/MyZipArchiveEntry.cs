@@ -23,6 +23,11 @@
         }
 
         /// <summary>
+        /// Gets a value indicating whether IsDirectory.
+        /// </summary>
+        public bool IsDirectory => throw new NotImplementedException();
+
+        /// <summary>
         /// Gets the LastWriteTime.
         /// </summary>
         public DateTimeOffset LastWriteTime => entry.LastWriteTime;

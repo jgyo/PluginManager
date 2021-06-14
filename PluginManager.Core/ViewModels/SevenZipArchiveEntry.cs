@@ -19,30 +19,22 @@
         private FileInfo fileInfo;
 
         /// <summary>
-        /// Defines the fullPath.
+        /// Initializes a new instance of the <see cref="SevenZipArchiveEntry"/> class.
         /// </summary>
-        private string fullPath;
+        /// <param name="di">The di<see cref="DirectoryInfo"/>.</param>
+        public SevenZipArchiveEntry(DirectoryInfo di)
+        {
+            directoryInfo = di;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SevenZipArchiveEntry"/> class.
         /// </summary>
-        /// <param name="path">The path<see cref="string"/>.</param>
-        public SevenZipArchiveEntry(string path)
+        /// <param name="fi">The fi<see cref="FileInfo"/>.</param>
+        public SevenZipArchiveEntry(FileInfo fi)
         {
-            this.fullPath = path;
-            if (Directory.Exists(path))
-            {
-                directoryInfo = new DirectoryInfo(fullPath);
-                return;
-            }
-
-            fileInfo = new FileInfo(fullPath);
+            fileInfo = fi;
         }
-
-        /// <summary>
-        /// Gets the FullName.
-        /// </summary>
-        public string FullName { get => fullPath; }
 
         /// <summary>
         /// Gets a value indicating whether IsDirectory.
@@ -122,4 +114,3 @@
         }
     }
 }
-
