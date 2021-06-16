@@ -18,17 +18,17 @@
         /// <summary>
         /// Defines the entries.
         /// </summary>
-        private List<SevenZipArchiveEntry> entries = new();
+        private readonly List<SevenZipArchiveEntry> entries = new();
 
         /// <summary>
         /// Defines the extractedFiles.
         /// </summary>
-        private string extractedFiles;
+        private readonly string extractedFiles;
 
         /// <summary>
         /// Defines the path.
         /// </summary>
-        private string path;
+        //private readonly string path;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="SevenZipArchive"/> class from being created.
@@ -36,8 +36,6 @@
         /// <param name="path">The path<see cref="string"/>.</param>
         private SevenZipArchive(string path)
         {
-            // full path to zip file
-            this.path = path;
             Entries = new ReadOnlyCollection<SevenZipArchiveEntry>(entries);
             // Extracted files path
             this.extractedFiles = Path.GetTempPath() + "pluginManager";
@@ -46,9 +44,11 @@
                 Directory.Delete(extractedFiles, true);
             }
 
-            var pi = new ProcessStartInfo("7z.exe", $"x -o{extractedFiles} \"{path}\"");
-            pi.CreateNoWindow = true;
-            pi.UseShellExecute = false;
+            var pi = new ProcessStartInfo("7z.exe", $"x -o{extractedFiles} \"{path}\"")
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false
+            };
 
             using (var pr = Process.Start(pi))
             {
@@ -72,12 +72,12 @@
         }
 
         /// <summary>
-        /// Gets the ExtractedFiles.
+        /// Gets the Extracted Files path.
         /// </summary>
         public string ExtractedFiles { get => extractedFiles; }
 
         /// <summary>
-        /// The Open.
+        /// Open a seven zip archive.
         /// </summary>
         /// <param name="path">The path<see cref="string"/>.</param>
         /// <returns>The <see cref="SevenZipArchive"/>.</returns>

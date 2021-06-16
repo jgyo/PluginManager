@@ -11,7 +11,7 @@
         /// <summary>
         /// Defines the entry.
         /// </summary>
-        private ZipArchiveEntry entry;
+        private readonly ZipArchiveEntry entry;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MyZipArchiveEntry"/> class.

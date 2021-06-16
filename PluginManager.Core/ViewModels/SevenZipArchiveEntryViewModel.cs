@@ -12,7 +12,7 @@
         /// <summary>
         /// Defines the archiveRoot.
         /// </summary>
-        private SevenZipArchiveViewModel archiveRoot;
+        private readonly SevenZipArchiveViewModel archiveRoot;
 
         /// <summary>
         /// Defines the entries.

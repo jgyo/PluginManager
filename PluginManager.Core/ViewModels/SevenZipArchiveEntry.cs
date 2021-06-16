@@ -11,12 +11,12 @@
         /// <summary>
         /// Defines the directoryInfo.
         /// </summary>
-        private DirectoryInfo directoryInfo;
+        private readonly DirectoryInfo directoryInfo;
 
         /// <summary>
         /// Defines the fileInfo.
         /// </summary>
-        private FileInfo fileInfo;
+        private readonly FileInfo fileInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SevenZipArchiveEntry"/> class.
@@ -57,7 +57,7 @@
         public string Name { get => IsDirectory ? directoryInfo.Name : fileInfo.Name; }
 
         /// <summary>
-        /// The ExtractToFile.
+        /// Extract To File.
         /// </summary>
         /// <param name="destination">The destination<see cref="string"/>.</param>
         /// <param name="overwrite">The overwrite<see cref="bool"/>.</param>
@@ -72,28 +72,6 @@
                 throw new ArgumentException("destination is a zero-length string, contains only white space, or contains one or more invalid characters", nameof(destination));
             }
 
-            if (IsDirectory)
-            {
-                var dirname = Path.Combine(destination, directoryInfo.Name);
-                if (overwrite == false && Directory.Exists(dirname))
-                {
-                    throw new IOException("Destination directory already exists.");
-                }
-
-                if (Directory.Exists(dirname) == false)
-                {
-                    Directory.CreateDirectory(dirname);
-                }
-
-                foreach (var item in directoryInfo.GetDirectories())
-                {
-                    ExtractToFile(dirname, overwrite);
-                }
-
-                return;
-            }
-
-            // if destination is a file
             var filename = Path.Combine(destination, fileInfo.Name);
             fileInfo.CopyTo(filename, overwrite);
         }
@@ -103,7 +81,7 @@
         /// </summary>
         /// <param name="destination">The destination<see cref="string"/>.</param>
         /// <returns>The <see cref="bool"/>.</returns>
-        private bool IsInvalidPath(string destination)
+        private static bool IsInvalidPath(string destination)
         {
             foreach (var item in Path.GetInvalidPathChars())
             {

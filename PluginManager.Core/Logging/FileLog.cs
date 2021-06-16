@@ -21,7 +21,7 @@
         /// <summary>
         /// Defines the filePath.
         /// </summary>
-        private static string filePath;
+        private static readonly string filePath;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileLog"/> class.

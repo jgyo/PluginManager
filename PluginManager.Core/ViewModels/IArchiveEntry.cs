@@ -1,5 +1,7 @@
 ﻿namespace PluginManager.Core.ViewModels
 {
+    using global::System;
+
     /// <summary>
     /// Defines the <see cref="IArchiveEntry" />.
     /// </summary>
