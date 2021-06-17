@@ -266,6 +266,8 @@
             var st = a.GetManifestResourceStream("PluginManager.Wpf.Resources.qmark.ico");
             var qmark = new Icon(st);
 
+            st.Dispose();
+
             var win = new TaskDialog()
             {
                 WindowTitle = "Delete Requested",
@@ -274,16 +276,36 @@
                 CustomMainIcon = qmark
             };
 
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete zip files." });
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete database records." });
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Delete both records and files.", Checked = true });
-            win.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
-            win.Buttons.Add(new TaskDialogButton(ButtonType.Ok));
+            var rb1 = new TaskDialogRadioButton() { Text = "Only delete zip files." };
+            var rb2 = new TaskDialogRadioButton() { Text = "Only delete database records." };
+            var rb3 = new TaskDialogRadioButton() { Text = "Delete both records and files.", Checked = true };
+            var btn1 = new TaskDialogButton(ButtonType.Cancel);
+            var btn2 = new TaskDialogButton(ButtonType.Ok);
+
+            qmark.Dispose();
+            win.RadioButtons.Add(rb1);
+            win.RadioButtons.Add(rb2);
+            win.RadioButtons.Add(rb3);
+            win.Buttons.Add(btn1);
+            win.Buttons.Add(btn2);
 
             var result = win.ShowDialog();
 
+            win.Dispose();
+            rb1.Dispose();
+            rb2.Dispose();
+            rb3.Dispose();
+            btn1.Dispose();
+            btn2.Dispose();
+
+            
             if (result == null || result.ButtonType == ButtonType.Cancel)
+            {
+                result.Dispose();
                 return;
+            }
+
+            result.Dispose();
 
             // #Switch
             var option = win.RadioButtons[0].Checked ? 1 : win.RadioButtons[1].Checked ? 2 : 3;
@@ -669,12 +691,12 @@
 
         private void Docs_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/jgyo/PluginManager/wiki") { CreateNoWindow = true });
+            _ = Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/jgyo/PluginManager/wiki") { CreateNoWindow = true });
         }
 
         private void Support_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/jgyo/PluginManager/discussions/categories/q-a") { CreateNoWindow = true });
+            _ = Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/jgyo/PluginManager/discussions/categories/q-a") { CreateNoWindow = true });
         }
 
         private void About_Click(object sender, RoutedEventArgs e)

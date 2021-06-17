@@ -54,12 +54,19 @@
                     .Assembly
                     .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                     .InformationalVersion;
-                var verCheck = new VersionCheck(version, AppSettings.Default.PackageUrl);
-                if (verCheck.DoesUpdateExist && (AppSettings.Default.IncludePrereleaseVersions || verCheck.LastestVersionIsPrerelease == false))
+                try
                 {
-                    var win = new UpdateWindow(verCheck);
-                    WpfHelper.SetWindowSettings(this);
-                    win.ShowDialog();
+                    var verCheck = new VersionCheck(version, AppSettings.Default.PackageUrl);
+                    if (verCheck.DoesUpdateExist && (AppSettings.Default.IncludePrereleaseVersions || verCheck.LastestVersionIsPrerelease == false))
+                    {
+                        var win = new UpdateWindow(verCheck);
+                        WpfHelper.SetWindowSettings(this);
+                        win.ShowDialog();
+                    }
+                }
+                catch
+                {
+                    // Ignore exceptions here.
                 }
             }
         }

@@ -57,9 +57,22 @@
             td.MainInstruction = heading;
             td.Content = content;
             td.MainIcon = warning ? TaskDialogIcon.Warning : TaskDialogIcon.Information;
-            td.Buttons.Add(new TaskDialogButton("Yes") { ButtonType = ButtonType.Yes });
-            td.Buttons.Add(new TaskDialogButton("No") { ButtonType = ButtonType.No });
-            return td.ShowDialog().ButtonType == ButtonType.Yes;
+
+            var bt1 =new TaskDialogButton("Yes") { ButtonType = ButtonType.Yes };
+            var bt2 =new TaskDialogButton("No") { ButtonType = ButtonType.No };
+
+            td.Buttons.Add(bt1);
+            td.Buttons.Add(bt2);
+
+            var d = td.ShowDialog();
+
+            var result = d.ButtonType == ButtonType.Yes;
+
+            bt1.Dispose();
+            bt2.Dispose();
+            d.Dispose();
+
+            return result;
         }
 
         /// <summary>
@@ -93,8 +106,11 @@
             td.WindowTitle = title;
             td.Content = content;
             td.MainIcon = TaskDialogIcon.Information;
-            td.Buttons.Add(new TaskDialogButton("Okay") { ButtonType = ButtonType.Ok });
-            td.Show();
+            var btn = new TaskDialogButton("Okay") { ButtonType = ButtonType.Ok };
+            td.Buttons.Add(btn);
+            _ = td.Show();
+
+            btn.Dispose();
         }
 
         /// <summary>
@@ -132,7 +148,7 @@
         /// </summary>
         /// <param name="e">The e<see cref="Exception"/>.</param>
         /// <param name="source">The source<see cref="string"/>.</param>
-        private void LogUnhandledException(Exception e, string source)
+        private static void LogUnhandledException(Exception e, string source)
         {
             var message = $"Unhandled exception ({source}).\n{{0}}";
             var log = FileLogProvider.Instance.GetLogFor<App>();

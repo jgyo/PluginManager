@@ -122,6 +122,8 @@
             var st = a.GetManifestResourceStream("PluginManager.Wpf.Resources.qmark.ico");
             var qmark = new Icon(st);
 
+            st.Dispose();
+
             var win = new TaskDialog()
             {
                 WindowTitle = "Delete Requested",
@@ -129,17 +131,36 @@
                 CustomMainIcon = qmark
             };
 
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete the zip file." });
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Only delete the database record." });
-            win.RadioButtons.Add(new TaskDialogRadioButton() { Text = "Delete both record and file.", Checked = true });
-            win.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
-            win.Buttons.Add(new TaskDialogButton(ButtonType.Ok));
+            var rb1 =new TaskDialogRadioButton() { Text = "Only delete the zip file." };
+            var rb2 =new TaskDialogRadioButton() { Text = "Only delete the database record." };
+            var rb3 =new TaskDialogRadioButton() { Text = "Delete both record and file.", Checked = true };
+            var bt1 =new TaskDialogButton(ButtonType.Cancel);
+            var bt2 =new TaskDialogButton(ButtonType.Ok);
+
+            win.RadioButtons.Add(rb1);
+            win.RadioButtons.Add(rb2);
+            win.RadioButtons.Add(rb3);
+            win.Buttons.Add(bt1);
+            win.Buttons.Add(bt2);
             win.Content = "What do you want to delete?";
 
             var result = win.ShowDialog();
 
+            qmark.Dispose();
+            win.Dispose();
+            rb1.Dispose();
+            rb2.Dispose();
+            rb3.Dispose();
+            bt1.Dispose();
+            bt2.Dispose();
+
             if (result == null || result.ButtonType == ButtonType.Cancel)
+            {
+                result.Dispose();
                 return;
+            }
+
+            result.Dispose();
 
             var vm = sender as ZipFileViewModel;
             Debug.Assert(vm != null);
