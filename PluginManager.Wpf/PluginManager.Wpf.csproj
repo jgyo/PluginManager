@@ -4,8 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>1.1.46.21167</AssemblyVersion>
-    <FileVersion>1.1.46.21167</FileVersion>
+    <AssemblyVersion>1.1.50.21174</AssemblyVersion>
+    <FileVersion>1.1.50.21174</FileVersion>
       <InformationalVersion>1.1.2-Beta</InformationalVersion>
     <Copyright>2021 by Gil Yoder</Copyright>
     <Authors>Gil Yoder</Authors>

@@ -8,6 +8,7 @@
     /// </summary>
     public class SevenZipArchiveEntry : IArchiveEntry
     {
+
         /// <summary>
         /// Defines the directoryInfo.
         /// </summary>
@@ -56,6 +57,23 @@
         /// </summary>
         public string Name { get => IsDirectory ? directoryInfo.Name : fileInfo.Name; }
 
+        public string ArchivePath
+        {
+            get
+            {
+                string fullName;
+                if (IsDirectory)
+                {
+                    fullName = directoryInfo.FullName;
+                }
+                else
+                {
+                    fullName = fileInfo.FullName;
+                }
+
+                return fullName;
+            }
+        }
         /// <summary>
         /// Extract To File.
         /// </summary>

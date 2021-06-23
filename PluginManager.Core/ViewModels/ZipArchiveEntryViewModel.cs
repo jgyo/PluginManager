@@ -55,7 +55,7 @@
         /// </summary>
         public string FullName
         {
-            get { return $"{RelativePath}{Name}"; }
+            get { return $"{RelativePath}{Name}"; } // #FullName
         }
 
         /// <summary>
@@ -121,7 +121,7 @@
         /// </summary>
         public string RelativePath
         {
-            get { return Parent == null ? "" : Parent.FullName + "\\"; }
+            get { return Parent == null ? "\\" : Parent.FullName + "\\"; }
         }
 
         /// <summary>

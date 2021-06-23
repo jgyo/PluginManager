@@ -21,14 +21,9 @@
         private readonly List<SevenZipArchiveEntry> entries = new();
 
         /// <summary>
-        /// Defines the extractedFiles.
+        /// Temporary path for the extracted files.
         /// </summary>
         private readonly string extractedFiles;
-
-        /// <summary>
-        /// Defines the path.
-        /// </summary>
-        //private readonly string path;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="SevenZipArchive"/> class from being created.

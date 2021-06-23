@@ -69,7 +69,15 @@
         /// <summary>
         /// Gets the FullName.
         /// </summary>
-        public string FullName => archiveRoot.FullName == "{root}" ? Entry.Name : $"{archiveRoot}\\{Entry.Name}";
+        /// // #FullName
+        public string FullName
+        {
+            get
+            {
+                var entry = Entry as SevenZipArchiveEntry;
+                return archiveRoot.FullName == "{root}" ? entry.Name : $"{entry.ArchivePath.Replace(archiveRoot.SourcePath, "")}";
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether IsDirectory.

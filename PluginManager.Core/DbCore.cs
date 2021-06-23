@@ -183,6 +183,7 @@
             }
 
             dbc.SaveChanges();
+            dbc.Dispose();
         }
 
         /// <summary>
