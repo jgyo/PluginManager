@@ -40,6 +40,8 @@ namespace PluginManager.Core.ViewModels
                 var e = new MyZipArchiveEntry(entry);
                 SaveBranchAndNode(e, fullName, pathParts);
             }
+
+            archive.Dispose();
         }
 
         public List<IArchiveEntryViewModel> Entries
@@ -85,7 +87,7 @@ namespace PluginManager.Core.ViewModels
         {
             ZipArchiveEntryViewModel parent = null;
 
-            var vm = SortedEntries.Values.Where(e => fullName == e.FullName).SingleOrDefault();
+            var vm = SortedEntries.Values.Where(e => "\\" + fullName == e.FullName).SingleOrDefault();
             if (vm == null)
             {
                 vm = new ZipArchiveEntryViewModel(this, pathParts[0], entry.Name=="", parent);
