@@ -1,16 +1,17 @@
 # Plugin Manager
-We have released our first "official" package, [Plugin Manager 1.0.30.](https://github.com/jgyo/PluginManager/releases/tag/v.1.0.30)
-Check it out now, if you are still using one of the beta versions.
+The latest official release version of Plugin Manager is now [1.1.4.](https://github.com/jgyo/PluginManager/releases/tag/v.1.1.4) It contains a number of bug fixes plus a few new features.
 
-![Snag_4333e1d9](https://user-images.githubusercontent.com/2886615/121266803-c451db00-c880-11eb-9833-b31bcbf3d0ce.png)
+One of the new features we want to highlight is its ability to check its version against what has been newly released. You can configure the program to check for new versions every time it starts in the Setup window, or have it check manually in the Help menu.
 
-This old YouTube video introduction should still help to get you up and running:
+![Imgur](https://i.imgur.com/VARx4UK.png)
 
-[Video Intro to Plugin Manager](https://youtu.be/GPSoS32uoqY)
+When a new version is available, you will see a response window like this:
 
-Or you can read our [Getting Started](https://github.com/jgyo/PluginManager/wiki/Getting-Started) page from our [Wiki.](https://github.com/jgyo/PluginManager/wiki)
+![Imgur](https://i.imgur.com/l7PTJxv.png)
 
-This YouTube link will give a brief demo of the program:
+From there, it is easy to open a browser to the download page for the newer version.
+
+This YouTube link will give a brief demo of some of the program's features:
 
 [Video Demo of Plugin Manager](https://www.youtube.com/watch?v=_Ay93wXM214)
 
@@ -19,7 +20,6 @@ This YouTube link will give a brief demo of the program:
 
 1. Add a download or info link for zip file records.
 1. Support for profiles.
-1. Make 7zip files work.
 1. Get plugin names from manifest.json files.
 1. Provide a way to update existing folder records automatically from zip file contents.
 
