@@ -266,8 +266,6 @@
             var st = a.GetManifestResourceStream("PluginManager.Wpf.Resources.qmark.ico");
             var qmark = new Icon(st);
 
-            st.Dispose();
-
             var win = new TaskDialog()
             {
                 WindowTitle = "Delete Requested",
@@ -282,7 +280,6 @@
             var btn1 = new TaskDialogButton(ButtonType.Cancel);
             var btn2 = new TaskDialogButton(ButtonType.Ok);
 
-            qmark.Dispose();
             win.RadioButtons.Add(rb1);
             win.RadioButtons.Add(rb2);
             win.RadioButtons.Add(rb3);
@@ -292,13 +289,15 @@
             var result = win.ShowDialog();
 
             win.Dispose();
+            qmark.Dispose();
             rb1.Dispose();
             rb2.Dispose();
             rb3.Dispose();
             btn1.Dispose();
             btn2.Dispose();
+            st.Dispose();
 
-            
+
             if (result == null || result.ButtonType == ButtonType.Cancel)
             {
                 result.Dispose();
